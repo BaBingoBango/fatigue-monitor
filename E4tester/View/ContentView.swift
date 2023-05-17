@@ -16,27 +16,32 @@ struct ContentView: View {
         case dashboard
         case profile
     }
+
     
     var body: some View {
-        if modelData.loggedIn {
-            TabView(selection: $selection) {
-                DashboardView()
-                    .tabItem {
-                        Label("Dashboard", systemImage: "heart.text.square")
-                    }
-                    .tag(Tab.dashboard)
-                
-                ProfileView()
-                    .tabItem {
-                        Label("Profile", systemImage: "person")
-                    }
-                    .tag(Tab.profile)
-            }
-        } else if !modelData.nameEntered {
-            LoginView()
-        } else {
-            LoginDetailView()
+//        if modelData.loggedIn {
+        TabView(selection: $selection) {
+            DashboardView()
+                .tabItem {
+                    Label("Dashboard", systemImage: "heart.text.square")
+                }
+                .tag(Tab.dashboard)
+            
+            ProfileView()
+                .tabItem {
+                    Label("Profile", systemImage: "person")
+                }
+                .tag(Tab.profile)
         }
+        .onAppear {
+            FirestoreManager.connect()
+            FirestoreManager.getUserGroupId()
+        }
+//        } else if !modelData.nameEntered {
+//            LoginView()
+//        } else {
+//            LoginDetailView()
+//        }
     }
 }
 

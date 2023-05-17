@@ -22,7 +22,9 @@ struct InfoView: View {
         HStack{
             ZStack{
                 
-                Circle().fill(Color.white).shadow(radius: 3)
+                Circle()
+                    .fill(DarkMode.isDarkMode() ? Color(white: 0.05) : .white)
+                    .shadow(radius: 3)
                 
                 HStack{
                     Text("\(self.modelData.heartRate)")
@@ -53,7 +55,9 @@ struct InfoView: View {
             
             ZStack{
                 
-                Circle().fill(Color.white).shadow(radius: 3)
+                Circle()
+                    .fill(DarkMode.isDarkMode() ? Color(white: 0.05) : .white)
+                    .shadow(radius: 3)
                 
                 VStack (spacing: 0){
                     HStack(alignment: .bottom, spacing: 3){

@@ -4,11 +4,20 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct DPMApp: App {
     @Environment(\.scenePhase) var scenePhase
     @StateObject private var modelData = ModelData()
+    
+    @AppStorage("userOnboarded") var userOnboarded: Bool = false
+    @State var showOnboarding: Bool = true
+    
+
+    
+    // Firebase
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
         print("EmpaticaAPI initialized")
@@ -16,6 +25,8 @@ struct DPMApp: App {
         askNotificationPermission()
         cancelRegularNotification()
         registerRegularNotification()
+        
+        
     }
     
     func resetFatigueLevel(){
@@ -28,19 +39,26 @@ struct DPMApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(modelData)
-                .onAppear {
-                    ModelData.load { result in
-                        switch result {
-                        case .failure(let error):
-                            fatalError(error.localizedDescription)
-                        case .success(let user):
-                            modelData.user = user
-                            
+            
+            if userOnboarded {
+                ContentView()
+                    .environmentObject(modelData)
+                    .onAppear {
+                        ModelData.load { result in
+                            switch result {
+                            case .failure(let error):
+                                fatalError(error.localizedDescription)
+                            case .success(let user):
+                                modelData.user = user
+                            }
                         }
                     }
-                }
+            }
+            else {
+                OnboardingView(userOnboarded: $userOnboarded)
+                    .environmentObject(modelData)
+            }
+            
         }
         .onChange(of: scenePhase) { newScenePhase in
             switch newScenePhase {
@@ -63,4 +81,25 @@ struct DPMApp: App {
             }
         }
     }
+}
+
+/// Connects to Firebase on app launch
+///
+/// ### Usage
+/// ```
+/// struct YourApp: App {
+///     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+///     // stuff...
+/// }
+/// ```
+///
+/// ### Author & Version
+/// Provided by Firebase, as of May 16, 2023.
+///
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
 }

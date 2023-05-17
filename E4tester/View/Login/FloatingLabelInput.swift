@@ -3,6 +3,7 @@
 //  E4tester
 //
 //  Created by Waley Zheng on 7/20/22.
+//  Modified by Seung-Gu Lee on 5/16/23.
 //  Copyright © 2022 Felipe Castro. All rights reserved.
 //
 
@@ -11,10 +12,18 @@ import SwiftUI
 struct FloatingLabelInput: View {
     var label: String
     @Binding var text: String
+    var numberPad: Bool = false
+    
+    init(label: String, text: Binding<String>, numberPad: Bool) {
+        self.label = label
+        self._text = text
+        self.numberPad = numberPad
+    }
     
     init(label: String, text: Binding<String>) {
         self.label = label
         self._text = text
+        self.numberPad = false
     }
     
     var body: some View {
@@ -27,14 +36,16 @@ struct FloatingLabelInput: View {
                 .animation(.easeIn(duration: 0.1))
             TextField("", text: self.$text)
                 .font(Font.headline.weight(.medium))
+                .keyboardType(numberPad ? .numberPad : .default)
                 .offset(x: 0,
                         y: self.text.isEmpty ? 0 : 3)
         }
         .padding()
         .frame(maxWidth: .infinity)
         .frame(width: 330, height: 60)
-        .background(Color.white)
+        .background(DarkMode.isDarkMode() ? Color(white: 0.1) : .white)
         .cornerRadius(10.0)
         .shadow(color:Color.black.opacity(0.08), radius: 60)
     }
 }
+

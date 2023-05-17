@@ -3,6 +3,7 @@
 //  E4tester
 //
 //  Created by Waley Zheng on 7/20/22.
+//  Modified by Seung-Gu Lee on 5/16/23.
 //  Copyright © 2022 Felipe Castro. All rights reserved.
 //
 
@@ -26,7 +27,7 @@ struct LoginView: View {
             } label: {
                 Text("Log In / Sign Up")
                     .fontWeight(.bold)
-                    .foregroundColor(Color.white)
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .frame(width: 180, height: 15)
                     .padding()
