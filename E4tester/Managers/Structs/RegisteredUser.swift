@@ -14,7 +14,7 @@ struct RegisteredUser: Identifiable {
     var age: Int
     var groupId: String
     var deviceId: String = UIDevice.current.identifierForVendor?.uuidString ?? ""
-    let id = UIDevice.current.identifierForVendor?.uuidString ?? ""
+    let id = UUID().uuidString // Identifiable
 }
 
 class RegisteredUserArr: ObservableObject {
@@ -25,6 +25,18 @@ class RegisteredUserArr: ObservableObject {
         for i in arr {
             names.append(i.firstName + " " + i.lastName)
         }
+        updateLocalStorage()
+        
         return names
+    }
+    
+    func updateLocalStorage() {
+        var groupFirstNames: [String: String] = [:] // id: first name
+        
+        for user in arr {
+            groupFirstNames[user.deviceId] = user.firstName
+        }
+        
+        UserDefaults.standard.set(groupFirstNames, forKey: "groupFirstNames")
     }
 }

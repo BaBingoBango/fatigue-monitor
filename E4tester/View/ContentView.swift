@@ -15,6 +15,7 @@ struct ContentView: View {
     enum Tab {
         case dashboard
         case profile
+        case device
     }
 
     
@@ -26,7 +27,11 @@ struct ContentView: View {
                     Label("Dashboard", systemImage: "heart.text.square")
                 }
                 .tag(Tab.dashboard)
-            
+            DeviceView()
+                .tabItem {
+                    Label("Device", systemImage: "applewatch")
+                }
+                .tag(Tab.device)
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person")
@@ -34,8 +39,8 @@ struct ContentView: View {
                 .tag(Tab.profile)
         }
         .onAppear {
-            FirestoreManager.connect()
-            FirestoreManager.getUserGroupId()
+            FirebaseManager.connect()
+            FirebaseManager.getUserGroupId()
         }
 //        } else if !modelData.nameEntered {
 //            LoginView()

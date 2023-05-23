@@ -22,9 +22,15 @@ public extension Published {
     }
 }
 
+extension Date {
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+}
+
 class ModelData: ObservableObject {
     @Published var heartRate: Int = 0
-    @Published(key: "fatigueLevel") var fatigueLevel: Int = 0
+    @Published(key: "fatigueLevel") var fatigueLevel: Int = -1
     
     @Published(key: "loggedIn") var loggedIn: Bool = false
     @Published var nameEntered: Bool = false
@@ -33,9 +39,14 @@ class ModelData: ObservableObject {
     @Published(key: "lastPeerNotification") var lastPeerNotification: Double = 0
     @Published(key: "lastResetDay") var lastResetDay: Int = 0
     
-    @Published var user: User = User()
-    @Published var inputs: Inputs = Inputs()
+    var user: User = User()
+    var inputs: Inputs = Inputs()
+//    @Published var crew = Peers()
     @Published var crew: [Peer] = []
+    
+    /// Group members
+    /// This is an object that can be passed by reference.
+    var peerLoader = RegisteredUserArr();
     
     var defaultObservations: [Peer.Observation] = []
     
@@ -45,122 +56,35 @@ class ModelData: ObservableObject {
         }
     }
     
-    // GET fatigue data of a peer, called from updateCrew()
-    func updatePeer(user_id: Int) async {
-        let url = URL(string: Config.API_SERVER + "/api/v1/peer/" + String(user_id) + "/")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print ("error: \(error)")
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print ("error: server error")
-                return
-            }
-            if let mimeType = response.mimeType, mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8)
-            {
-                 print ("got data: \(dataString)")
-                
-                if let observationModel = try? JSONDecoder().decode(PeerFatigueResponseModel.self, from: data) {
-                    print("success decode observation")
-                    
-                    // filter data from 7am to 3pm, note the offset
-                    let hourRange: ClosedRange = 6...14
-                    let observations: [Peer.Observation] = observationModel.observations.filter { hourRange.contains($0.hour_from_midnight)}
-                    
-                    
-                    guard let peerIndex = self.crew.firstIndex(where: {$0.id == user_id}) else {
-                        print("error: peer id not found")
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.crew[peerIndex].observations = observations
-                    }
-                    
-                } else {
-                    print("decode error")
-                }
-            }
-        }
-        task.resume()
-        return
+    // GET fatigue data of a peer of today
+    /// Called from `updateCrew()` below
+    func updatePeer(user_id: String, date: Date) {
+        let todayMidnight = date.startOfDay.timeIntervalSince1970
+        let endTime = todayMidnight + 86400; // + 1 day
+        
+        FirebaseManager.getFatigueLevels(deviceId: user_id,
+                                         startTime: todayMidnight,
+                                         endTime: endTime,
+                                         modelData: self)
     }
     
     // GET crew information, triggered by DashboardView
-    func updateCrew() async {
-        if (self.user.group_id == "") {
-            return
+    /// Updates all group members' fatigue levels
+    /// Modifies `modelData.crew` (array of `Peer` structs)
+    func updateCrew(_ date: Date) {
+        if peerLoader.arr.isEmpty { // first time
+            FirebaseManager.getUsersInGroup(userArr: peerLoader)
         }
-        let url = URL(string: Config.API_SERVER + "/api/v1/peer/group/" + self.user.group_id + "/")!
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print ("error: \(error)")
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print ("error: server error")
-                return
-            }
-            if let mimeType = response.mimeType, mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8) {
-                print ("got data: \(dataString)")
-                
-                if let decodedModel = try? JSONDecoder().decode(UpdateCrewResponseModel.self, from: data) {
-                    print("success")
-
-                    // loop through each peer
-                    for peer in decodedModel.peers {
-                        // for peer in decodedModel.peers where peer.user_id != self.user.user_id {
-                        
-                        DispatchQueue.main.async {
-                            
-                            if let i = self.crew.firstIndex(where: {$0.id == peer.user_id}) {
-                                self.crew[i].first_name = peer.first_name
-                                self.crew[i].fatigue_level = peer.fatigue_level
-                                self.crew[i].last_update = peer.last_update
-                            } else {
-                                // item could not be found
-                                self.crew.append(Peer(
-                                    id: peer.user_id,
-                                    first_name: peer.first_name,
-                                    fatigue_level: peer.fatigue_level,
-                                    last_update: peer.last_update,
-                                    observations: self.defaultObservations
-                                ))
-                            }
-                            
-                            // send peer notification on condition
-                            if (peer.user_id != self.user.user_id && peer.fatigue_level > 70 && !ifLessThanNHours(timestamp: self.lastPeerNotification, hours: 4.0) && ifLessThanNHours(timestamp: Double(peer.last_update), hours: 0.3)) {
-                                registerPeerNotification(first_name: peer.first_name)
-                                self.lastPeerNotification = Date().timeIntervalSince1970
-                                print("success: peer notification sent")
-                            }
-                        }
-                        
-                        Task {
-                            await self.updatePeer(user_id: peer.user_id)
-                        }
-                        
-                    }
-                } else {
-                    print("decode error")
-                    Task{
-                        await self.updateCrew()
-                    }
-                }
-                
+        else { // we have group members data
+            crew = []
+            for peer in peerLoader.arr {
+                updatePeer(user_id: peer.deviceId, date: date)
             }
         }
-        task.resume()
-        return
     }
     
+    /// OBSOLETE
+    /// We no longer retrieve first and last names of a user.
     // POST query first and last names for user information
     func queryName() async {
         struct Request: Codable {
@@ -250,6 +174,8 @@ class ModelData: ObservableObject {
         return
     }
     
+    /// OBSOLETE
+    /// User registration is now handled on `FirebaseManager.registerUser`.
     // POST upload user information
     func uploadUserInfo() async {
         struct Request: Codable {
@@ -342,49 +268,51 @@ class ModelData: ObservableObject {
     }
     
     // POST upload activities of folding/unfolding peers' fatigue details
-    func uploadActivity(peer_id: Int, if_open: Bool) async {
-        struct Request: Codable {
-            let user_id: Int
-            let peer_id: Int
-            let timestamp: Double
-            let if_open: Bool
-        }
+    func uploadActivity(peer_id: String, if_open: Bool) async {
+        // TODO
         
-        let request_json = Request(user_id: self.user.user_id,
-                                   peer_id: peer_id,
-                                   timestamp: Date().timeIntervalSince1970,
-                                   if_open: if_open
-        )
-        guard let encoded_json = try? JSONEncoder().encode(request_json) else {
-            print("encode error")
-            return
-        }
-        
-        let url = URL(string: Config.API_SERVER + "/api/v1/upload/activity/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.uploadTask(with: request, from: encoded_json) { data, response, error in
-            if let error = error {
-                print ("error: \(error)")
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print ("server error")
-                return
-            }
-            if let mimeType = response.mimeType,
-               mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8) {
-                
-                print ("got data: \(dataString)")
-            }
-        }
-        task.resume()
-        return
+//        struct Request: Codable {
+//            let user_id: Int
+//            let peer_id: Int
+//            let timestamp: Double
+//            let if_open: Bool
+//        }
+//
+//        let request_json = Request(user_id: self.user.user_id,
+//                                   peer_id: peer_id,
+//                                   timestamp: Date().timeIntervalSince1970,
+//                                   if_open: if_open
+//        )
+//        guard let encoded_json = try? JSONEncoder().encode(request_json) else {
+//            print("encode error")
+//            return
+//        }
+//
+//        let url = URL(string: Config.API_SERVER + "/api/v1/upload/activity/")!
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        let task = URLSession.shared.uploadTask(with: request, from: encoded_json) { data, response, error in
+//            if let error = error {
+//                print ("error: \(error)")
+//                return
+//            }
+//            guard let response = response as? HTTPURLResponse,
+//                  (200...299).contains(response.statusCode) else {
+//                print ("server error")
+//                return
+//            }
+//            if let mimeType = response.mimeType,
+//               mimeType == "application/json",
+//               let data = data,
+//               let dataString = String(data: data, encoding: .utf8) {
+//
+//                print ("got data: \(dataString)")
+//            }
+//        }
+//        task.resume()
+//        return
     }
 }
 

@@ -66,6 +66,7 @@ struct ProfileView: View {
                                   size: CGSize(width: 180, height: 16))
                 }
                 else {
+                    // Group member names
                     ForEach(groupmateNames.indices, id: \.self) { index in
                         Text(groupmateNames[index])
                     }
@@ -81,22 +82,7 @@ struct ProfileView: View {
             .onAppear {
                 getGroupmateNames()
             }
-            
-//            Button{
-//                print("clicked")
-//                modelData.nameEntered = false
-//                modelData.loggedIn = false
-//                modelData.userCreated = false
-//            } label: {
-//                Text("Log Out")
-//                    .fontWeight(.bold)
-//                    .foregroundColor(Color.white)
-//                    .frame(maxWidth: .infinity)
-//                    .frame(width: 180, height: 15)
-//                    .padding()
-//                    .background(Color("PrimaryColorMaize"))
-//                    .cornerRadius(10)
-//            }
+
         }
         
         
@@ -106,8 +92,8 @@ struct ProfileView: View {
     
     func getGroupmateNames() {
         print("Group ID: \(userGroupId)")
-        FirestoreManager.connect()
-        FirestoreManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
+        FirebaseManager.connect()
+        FirebaseManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
     }
     
 }

@@ -27,7 +27,7 @@ struct InfoView: View {
                     .shadow(radius: 3)
                 
                 HStack{
-                    Text("\(self.modelData.heartRate)")
+                    Text(self.modelData.heartRate == 0 ? "--" : "\(self.modelData.heartRate)")
 //                    Text("50")
                         .font(.system(size: 70, weight: .heavy))
                         .scaledToFill()
@@ -62,7 +62,7 @@ struct InfoView: View {
                 VStack (spacing: 0){
                     HStack(alignment: .bottom, spacing: 3){
 //                        Text("10")
-                        Text(self.fatigueLevelDisplay(fatigueLevel: self.modelData.fatigueLevel))
+                        Text(self.modelData.fatigueLevel < 0 ? "--" : self.fatigueLevelDisplay(fatigueLevel: self.modelData.fatigueLevel))
                             .font(.system(size: 60, weight: .heavy))
                             .scaledToFill()
                             .minimumScaleFactor(0.5)

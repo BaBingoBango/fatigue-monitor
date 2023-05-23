@@ -8,12 +8,14 @@
 
 import SwiftUI
 
+/// Onboarding view, shown on first app launch after installation
 struct OnboardingView: View {
     @EnvironmentObject var modelData: ModelData
     @State var firstName: String = ""
     @State var lastName: String = ""
     @State var age: String = ""
     @State var groupId: String = "";
+    @State var startDate: Date = Date()
     
     @Binding var userOnboarded: Bool;
     
@@ -29,6 +31,8 @@ struct OnboardingView: View {
             FloatingLabelInput(label: "Last Name", text: $lastName, numberPad: false)
             FloatingLabelInput(label: "Age", text: $age, numberPad: true)
             FloatingLabelInput(label: "Group ID", text: $groupId, numberPad: false)
+            DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                .padding([.horizontal], 60)
             
             // continue button
             if !firstName.isEmpty && !lastName.isEmpty && !age.isEmpty && !groupId.isEmpty {
@@ -61,8 +65,8 @@ struct OnboardingView: View {
         
         Toast.showToast("Welcome!")
         
-        FirestoreManager.connect()
-        FirestoreManager.registerUser(firstName: firstName, lastName: lastName,
-                                      age: userAge, groupId: groupId)
+        FirebaseManager.connect()
+        FirebaseManager.registerUser(firstName: firstName, lastName: lastName,
+                                     age: userAge, groupId: groupId, startDate: startDate)
     }
 }

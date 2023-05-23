@@ -50,6 +50,12 @@
 		FEE155EC2A1557F000398DCD /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155EB2A1557F000398DCD /* Toast.swift */; };
 		FEE155EE2A155FA300398DCD /* RegisteredUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155ED2A155FA300398DCD /* RegisteredUser.swift */; };
 		FEE155F12A1569B600398DCD /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = FEE155F02A1569B600398DCD /* SkeletonUI */; };
+		FEE155F42A17124700398DCD /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155F32A17124700398DCD /* DeviceView.swift */; };
+		FEE155F62A17C92100398DCD /* UserInfoLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155F52A17C92100398DCD /* UserInfoLoader.swift */; };
+		FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1561A2A1D075A00398DCD /* SimpleDropdown.swift */; };
+		FEE156212A1D375400398DCD /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156202A1D375400398DCD /* HighlightView.swift */; };
+		FEE156232A1D450600398DCD /* FatigueWarningLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */; };
+		FEE156252A1D5E0700398DCD /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156242A1D5E0700398DCD /* DummyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -103,6 +109,12 @@
 		FE620EC42A1408670073B8F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FEE155EB2A1557F000398DCD /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		FEE155ED2A155FA300398DCD /* RegisteredUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUser.swift; sourceTree = "<group>"; };
+		FEE155F32A17124700398DCD /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
+		FEE155F52A17C92100398DCD /* UserInfoLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoLoader.swift; sourceTree = "<group>"; };
+		FEE1561A2A1D075A00398DCD /* SimpleDropdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleDropdown.swift; sourceTree = "<group>"; };
+		FEE156202A1D375400398DCD /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
+		FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatigueWarningLoader.swift; sourceTree = "<group>"; };
+		FEE156242A1D5E0700398DCD /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,11 +186,13 @@
 		B91AA797286D0C8400B36E84 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FEE155F22A1709C900398DCD /* Device */,
 				B93AB80B285D8EF10008DC59 /* ContentView.swift */,
 				B9D051B02888434700AAC9D8 /* Login */,
 				B91AA799286D0D0400B36E84 /* Dashboard */,
 				B91AA79A286D0D1900B36E84 /* Profile */,
 				FE620EC22A1408010073B8F0 /* OnboardingView.swift */,
+				FEE156242A1D5E0700398DCD /* DummyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -204,7 +218,9 @@
 				B91AA791286CA5B700B36E84 /* DashboardView.swift */,
 				55591B6A1F2884AC0084CF0C /* ViewController.swift */,
 				B91AA7A4287F352100B36E84 /* InfoView.swift */,
+				FEE1561A2A1D075A00398DCD /* SimpleDropdown.swift */,
 				B9D051CF288B797000AAC9D8 /* MyCrew */,
+				FEE156202A1D375400398DCD /* HighlightView.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -246,6 +262,8 @@
 				FE620EC12A1405BD0073B8F0 /* Structs */,
 				FE620EAF2A13F00E0073B8F0 /* DarkMode.swift */,
 				FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */,
+				FEE155F52A17C92100398DCD /* UserInfoLoader.swift */,
+				FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -256,6 +274,14 @@
 				FEE155ED2A155FA300398DCD /* RegisteredUser.swift */,
 			);
 			path = Structs;
+			sourceTree = "<group>";
+		};
+		FEE155F22A1709C900398DCD /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				FEE155F32A17124700398DCD /* DeviceView.swift */,
+			);
+			path = Device;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,10 +382,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE620EB02A13F00E0073B8F0 /* DarkMode.swift in Sources */,
+				FEE156212A1D375400398DCD /* HighlightView.swift in Sources */,
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
+				FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */,
 				B91AA796286CA62400B36E84 /* ProfileView.swift in Sources */,
 				B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */,
+				FEE156252A1D5E0700398DCD /* DummyView.swift in Sources */,
 				B9D051C8288B6CB400AAC9D8 /* FatigueLevelGraph.swift in Sources */,
 				B9D051CE288B795B00AAC9D8 /* PeerView.swift in Sources */,
 				55591B6B1F2884AC0084CF0C /* ViewController.swift in Sources */,
@@ -378,8 +407,11 @@
 				FEE155EE2A155FA300398DCD /* RegisteredUser.swift in Sources */,
 				B9D051C0288B27A300AAC9D8 /* CrewView.swift in Sources */,
 				B9D051C2288B2D5F00AAC9D8 /* ResponseModel.swift in Sources */,
+				FEE155F62A17C92100398DCD /* UserInfoLoader.swift in Sources */,
+				FEE156232A1D450600398DCD /* FatigueWarningLoader.swift in Sources */,
 				B9D051B22888435800AAC9D8 /* LoginView.swift in Sources */,
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
+				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
 				B93AB80C285D8EF10008DC59 /* ContentView.swift in Sources */,

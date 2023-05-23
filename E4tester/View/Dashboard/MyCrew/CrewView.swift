@@ -12,14 +12,9 @@ struct CrewView: View {
     @EnvironmentObject var modelData: ModelData
     
     var body: some View {
-        // ver. 1
-        //        VStack{
-        //            ForEach (modelData.crew){peer in
-        //                PeerView(peer: peer)
-        //            }
-        //        }
-        
         VStack{
+            
+            // Peers
             HStack{
                 Spacer()
                 ForEach(Array(modelData.crew.enumerated()), id: \.element) { index, peer in
@@ -31,7 +26,6 @@ struct CrewView: View {
                 }
             }
             .font(.system(size: 16, weight: .medium))
-//            .foregroundColor(.secondary)
             .transition(.moveAndFade)
             .frame(height: 15)
             .padding(.bottom, 5)
@@ -61,16 +55,6 @@ struct CrewView: View {
                 VStack{
                     MultiLineChartView(peers: modelData.crew)
                         .frame(height: 280)
-                    //                .border(.green)
-                    // ver. 2.0
-                    //                ZStack{
-                    //                    ForEach(Array(modelData.crew.enumerated()), id: \.element) { index, peer in
-                    //                        LineChartView(peer: peer, radius: 2)
-                    //                            .accentColor(Color.Colors[index % 6])
-                    //                    }
-                    //                }
-                    //                .frame(height: 300)
-                    //                .border(.gray)
                     HStack() {
                         LabelView
                     }

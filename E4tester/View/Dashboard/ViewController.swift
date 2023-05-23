@@ -18,23 +18,30 @@ class ViewController: UITableViewController {
     private var heartRates: [Int] = []
     private var lastUpdateTime: Double = 0
     
-    private var rest_heart_rate: Int = 60
+
     private var max_heart_rate: Int = 180
-    private var hrr_cp: Int = 16
-    private var awc_tot: Int = 200
     private var awc_exp: Int = 0
+    private var userInfoLoader = UserInfoLoader()
     
-    private var k_value: Int = 1
+    /// OBSOLETE
+    /// Replaced by `userInfoLoader`
+    //    private var rest_heart_rate: Int = 60
+    //    private var hrr_cp: Int = 16
+    //    private var awc_tot: Int = 200
+    //    private var k_value: Int = 1
     
-    init(delegate: ViewControllerDelegate, user_id: Int, max_heart_rate: Int, rest_heart_rate: Int, hrr_cp: Int, awc_tot: Int, k_value: Int) {
+
+    
+    init(delegate: ViewControllerDelegate/*, user_id: Int, max_heart_rate: Int, rest_heart_rate: Int, hrr_cp: Int, awc_tot: Int, k_value: Int*/) {
         super.init(style: .plain)
         self.delegate = delegate
-        self.user_id = user_id
-        self.max_heart_rate = max_heart_rate
-        self.rest_heart_rate = rest_heart_rate
-        self.hrr_cp = hrr_cp
-        self.awc_tot = awc_tot
-        self.k_value = k_value
+        
+        FirebaseManager.connect()
+        FirebaseManager.loadUserInfo(loader: userInfoLoader)
+        
+        @AppStorage("userAge") var userAge: Int = 0
+        max_heart_rate = 208 - Int(0.7 * Double(userAge))
+        
         print("viewcontroller user_id: \(user_id)")
     }
     
@@ -162,86 +169,14 @@ protocol ViewControllerDelegate: AnyObject {
 extension ViewController {
     // POST
     func uploadHeartRate(heartRate: Int, timestamp: Double) {
-        struct Request: Codable {
-            let user_id: Int
-            let heart_rate: Int
-            let timestamp: Double
-        }
-        
-        let request_json = Request(user_id: self.user_id, heart_rate: heartRate, timestamp: timestamp)
-        guard let encoded_json = try? JSONEncoder().encode(request_json) else {
-            return
-        }
-        
-        let url = URL(string: Config.API_SERVER + "/api/v1/upload/heart_rate/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.uploadTask(with: request, from: encoded_json) { data, response, error in
-            if let error = error {
-                print ("error: \(error)")
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print ("server error")
-                return
-            }
-            if let mimeType = response.mimeType,
-               mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8) {
-                
-                DispatchQueue.main.async {
-                    print ("got data: \(dataString)")
-                }
-            }
-        }
-        task.resume()
-        return
+        FirebaseManager.connect()
+        FirebaseManager.uploadHeartRate(heartRate: heartRate, timestamp: timestamp)
     }
     
     // POST
     func uploadFatigueLevel(fatigueLevel: Int, timestamp: Double) {
-        struct Request: Codable {
-            let user_id: Int
-            let fatigue_level: Int
-            let timestamp: Double
-        }
-        
-        let request_json = Request(user_id: self.user_id, fatigue_level: fatigueLevel, timestamp: timestamp)
-        guard let encoded_json = try? JSONEncoder().encode(request_json) else {
-            return
-        }
-        
-        let url = URL(string: Config.API_SERVER + "/api/v1/upload/fatigue_level/")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.uploadTask(with: request, from: encoded_json) { data, response, error in
-            if let error = error {
-                print ("error: \(error)")
-                return
-            }
-            guard let response = response as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                print ("server error")
-                return
-            }
-            if let mimeType = response.mimeType,
-               mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8) {
-                
-                DispatchQueue.main.async {
-                    print ("got data: \(dataString)")
-                }
-            }
-        }
-        task.resume()
-        return
+        FirebaseManager.connect()
+        FirebaseManager.uploadFatigueLevel(fatigueLevel: fatigueLevel, timestamp: timestamp)
     }
     
     func getAverageHeartRate() -> Int {
@@ -253,6 +188,7 @@ extension ViewController {
         }
     }
     
+    /// Assesses fatigue, updates the UI, and uploads the data on the database.
     func assessFatigue() {
         print("\(Date().timeIntervalSince1970) start assessing \(self.heartRates.count) heart rate data")
         self.lastUpdateTime = Date().timeIntervalSince1970
@@ -262,13 +198,13 @@ extension ViewController {
         if (avgHR == 0) {
             return
         }
-        let HRR = Int(Double(avgHR - self.rest_heart_rate) / Double(self.max_heart_rate - self.rest_heart_rate) * 100)
+        let HRR = Int(Double(avgHR - userInfoLoader.rest_hr) / Double(self.max_heart_rate - userInfoLoader.rest_hr) * 100)
         print("avgHR = \(avgHR)")
         print("HRR = \(HRR)")
         
         // assess fatigue
-        self.awc_exp = max(self.awc_exp + self.k_value * (HRR - self.hrr_cp), 0)
-        let fatigue = Int(Double(self.awc_exp) / Double(self.awc_tot) * 100)
+        self.awc_exp = max(self.awc_exp + userInfoLoader.k_value * (HRR - userInfoLoader.hr_reserve_cp), 0)
+        let fatigue = Int(Double(self.awc_exp) / Double(userInfoLoader.total_awc) * 100)
         print("fatigue = \(fatigue)")
         
         // update UI
@@ -278,7 +214,32 @@ extension ViewController {
         // upload to server
         uploadFatigueLevel(fatigueLevel: fatigue, timestamp: Date().timeIntervalSince1970)
         
+        // reset
         self.heartRates = []
+        
+        // Upload to highlights?
+        let fatigueWarningThreshold: Int = 0
+        if fatigue > fatigueWarningThreshold {
+            uploadFatigueHighlight(min(fatigue, 100))
+        }
+    }
+    
+    /// Uploads fatigue warning to Firebase and sends notifications to group members.
+    /// Subject to rate limiting (no two notifications within X minutes)
+    func uploadFatigueHighlight(_ fatigueLevel: Int) {
+        // Rate limiting
+        let maxFrequency: Double = 3 * 60; // in minutes
+        let lastSent = UserDefaults.standard.double(forKey: "lastFatigueWarningSent") // default: 0.0
+        let now = Date().timeIntervalSince1970
+        if now < lastSent + (maxFrequency * 60) { // rate limited
+            return
+        }
+        else { // ok
+            UserDefaults.standard.set(now, forKey: "lastFatigueWarningSent")
+        }
+        
+        FirebaseManager.sendFatigueWarning()
+        FirebaseManager.uploadFatigueWarning(fatigueLevel)
     }
 }
 
