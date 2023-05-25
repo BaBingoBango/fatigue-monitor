@@ -37,7 +37,7 @@ func scheduleNotification(content: UNMutableNotificationContent, trigger: UNNoti
 func registerRegularNotification() {
     // schedule regular notification
     let content = UNMutableNotificationContent()
-    content.title = "DPM Wearable"
+    content.title = "SafeConnect"
     content.body = "Check out your crew's fatigue levels!"
     
     // Configure the recurring date.
@@ -68,7 +68,7 @@ func cancelRegularNotification() {
 func registerPeerNotification(first_name: String) {
     // schedule peer notification
     let content = UNMutableNotificationContent()
-    content.title = "DPM Wearable"
+    content.title = "SafeConnect"
     content.body = "\(first_name)'s fatigue level is high!"
        
     // Create the trigger as a repeating event.
@@ -76,4 +76,17 @@ func registerPeerNotification(first_name: String) {
         timeInterval: 1, repeats: false)
     scheduleNotification(content: content, trigger: trigger)
     print("done...")
+}
+
+/// Schedule a notification reminding the user to complete the survey
+func scheduleSurveyNotification(secondsAfter: Double) {
+    // schedule peer notification
+    let content = UNMutableNotificationContent()
+    content.title = "SafeConnect"
+    content.body = "Please complete your fatigue level survey!"
+       
+    // Create the trigger as a repeating event.
+    let trigger = UNTimeIntervalNotificationTrigger(
+        timeInterval: secondsAfter, repeats: false)
+    scheduleNotification(content: content, trigger: trigger)
 }

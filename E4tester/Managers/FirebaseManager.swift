@@ -210,11 +210,31 @@ class FirebaseManager {
                         }
                     }
                     
-                    // dict -> object
-                    for (hr, (curMin, curMax)) in range {
+                    // observations
+                    let hourOfDayNow = Calendar.current.component(.hour, from: Date())
+                    let upperBound: Int
+                    
+                    if startTime > Date().timeIntervalSince1970 { // future
+                        upperBound = 9
+                    }
+                    else if endTime > Date().timeIntervalSince1970 { // data from today
+                        upperBound = min(18, hourOfDayNow+1)
+                    }
+                    else {
+                        upperBound = 18
+                    }
+                    
+                    for hr in 9..<upperBound { // CHANGE ME to adjust x-range
                         let (curSum, curCount) = avg[hr] ?? (-1, -1)
-                        let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: curMin..<curMax, avg_fatigue_level: Double(curSum / curCount))
-                        peer.observations.append(obs)
+                        let (curMin, curMax) = range[hr] ?? (-1, -1)
+                        if curSum >= 0 {
+                             let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: curMin..<curMax, avg_fatigue_level: Double(curSum / curCount))
+                            peer.observations.append(obs)
+                        }
+                        else {
+                            let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: 0..<0, avg_fatigue_level: 0)
+                            peer.observations.append(obs)
+                        }
                     }
                     
                     modelData.crew.append(peer)
@@ -277,6 +297,29 @@ class FirebaseManager {
                     loader.loading = false
                 }
             }
+    }
+    
+    /// Uploads survey response data
+    static func submitSurvey(fatigueLevel: Int) {
+        let deviceId = UIDevice().identifierForVendor?.uuidString ?? "error"
+        let timestamp = Date().timeIntervalSince1970
+        
+        var ref: DocumentReference? = nil;
+        let docName: String = UUID().uuidString
+        
+        db.collection("surveys").document(docName).setData([
+            "device_id": deviceId,
+            "timestamp": timestamp,
+            "fatigue_level": fatigueLevel
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document \(docName) successfully written!")
+            }
+        }
+        
+        
     }
 }
 

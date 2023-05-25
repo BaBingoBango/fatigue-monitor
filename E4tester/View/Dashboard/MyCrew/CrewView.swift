@@ -31,7 +31,7 @@ struct CrewView: View {
             .padding(.bottom, 5)
             
             HStack{
-                Text("Fatigue Level")
+                Text("Average Fatigue Level")
                     .rotationEffect(.degrees(270))
                     .fixedSize()
                     .frame(width: 10, height: 90)
@@ -72,8 +72,6 @@ struct CrewView: View {
         Group {
             Spacer()
             HStack {
-                Text("7am")
-                Spacer()
                 Text("9am")
                 Spacer()
                 Text("11am")
@@ -81,6 +79,8 @@ struct CrewView: View {
                 Text("1pm")
                 Spacer()
                 Text("3pm")
+                Spacer()
+                Text("5pm")
             }
             Spacer()
         }

@@ -56,6 +56,13 @@
 		FEE156212A1D375400398DCD /* HighlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156202A1D375400398DCD /* HighlightView.swift */; };
 		FEE156232A1D450600398DCD /* FatigueWarningLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */; };
 		FEE156252A1D5E0700398DCD /* DummyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156242A1D5E0700398DCD /* DummyView.swift */; };
+		FEE1562D2A1E974A00398DCD /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = FEE1562C2A1E974A00398DCD /* Assets */; };
+		FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156302A1FB84B00398DCD /* SurveyDropdown.swift */; };
+		FEE156332A1FB88800398DCD /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156322A1FB88800398DCD /* SurveyView.swift */; };
+		FEE156362A1FB89000398DCD /* IconButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156342A1FB89000398DCD /* IconButtonStyle.swift */; };
+		FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156352A1FB89000398DCD /* IconButtonInner.swift */; };
+		FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */; };
+		FEE1563D2A1FD7AE00398DCD /* SurveyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -115,6 +122,13 @@
 		FEE156202A1D375400398DCD /* HighlightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightView.swift; sourceTree = "<group>"; };
 		FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatigueWarningLoader.swift; sourceTree = "<group>"; };
 		FEE156242A1D5E0700398DCD /* DummyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyView.swift; sourceTree = "<group>"; };
+		FEE1562C2A1E974A00398DCD /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
+		FEE156302A1FB84B00398DCD /* SurveyDropdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyDropdown.swift; sourceTree = "<group>"; };
+		FEE156322A1FB88800398DCD /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
+		FEE156342A1FB89000398DCD /* IconButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButtonStyle.swift; sourceTree = "<group>"; };
+		FEE156352A1FB89000398DCD /* IconButtonInner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButtonInner.swift; sourceTree = "<group>"; };
+		FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoViewDetails.swift; sourceTree = "<group>"; };
+		FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +200,8 @@
 		B91AA797286D0C8400B36E84 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FEE1562F2A1FB7CB00398DCD /* Survey */,
+				FEE1562C2A1E974A00398DCD /* Assets */,
 				FEE155F22A1709C900398DCD /* Device */,
 				B93AB80B285D8EF10008DC59 /* ContentView.swift */,
 				B9D051B02888434700AAC9D8 /* Login */,
@@ -284,6 +300,19 @@
 			path = Device;
 			sourceTree = "<group>";
 		};
+		FEE1562F2A1FB7CB00398DCD /* Survey */ = {
+			isa = PBXGroup;
+			children = (
+				FEE156302A1FB84B00398DCD /* SurveyDropdown.swift */,
+				FEE156322A1FB88800398DCD /* SurveyView.swift */,
+				FEE156352A1FB89000398DCD /* IconButtonInner.swift */,
+				FEE156342A1FB89000398DCD /* IconButtonStyle.swift */,
+				FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */,
+				FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */,
+			);
+			path = Survey;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -367,6 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEE1562D2A1E974A00398DCD /* Assets in Resources */,
 				55591B731F2884AC0084CF0C /* LaunchScreen.storyboard in Resources */,
 				FE620EC52A1408670073B8F0 /* GoogleService-Info.plist in Resources */,
 				55591B701F2884AC0084CF0C /* Assets.xcassets in Resources */,
@@ -384,12 +414,14 @@
 				FE620EB02A13F00E0073B8F0 /* DarkMode.swift in Sources */,
 				FEE156212A1D375400398DCD /* HighlightView.swift in Sources */,
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
+				FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
 				FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */,
 				B91AA796286CA62400B36E84 /* ProfileView.swift in Sources */,
 				B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */,
 				FEE156252A1D5E0700398DCD /* DummyView.swift in Sources */,
 				B9D051C8288B6CB400AAC9D8 /* FatigueLevelGraph.swift in Sources */,
+				FEE156332A1FB88800398DCD /* SurveyView.swift in Sources */,
 				B9D051CE288B795B00AAC9D8 /* PeerView.swift in Sources */,
 				55591B6B1F2884AC0084CF0C /* ViewController.swift in Sources */,
 				B9D051CA288B6CB900AAC9D8 /* GraphCapsule.swift in Sources */,
@@ -400,6 +432,7 @@
 				B9D051BA288B11B400AAC9D8 /* User.swift in Sources */,
 				B91AA792286CA5B700B36E84 /* DashboardView.swift in Sources */,
 				B93AB80A285D8E6E0008DC59 /* DPMApp.swift in Sources */,
+				FEE156362A1FB89000398DCD /* IconButtonStyle.swift in Sources */,
 				FEE155EC2A1557F000398DCD /* Toast.swift in Sources */,
 				B9DADC0D290BA2BE00D5F9EB /* LineChartView.swift in Sources */,
 				B9D051B628887D2B00AAC9D8 /* FloatingLabelInput.swift in Sources */,
@@ -409,9 +442,12 @@
 				B9D051C2288B2D5F00AAC9D8 /* ResponseModel.swift in Sources */,
 				FEE155F62A17C92100398DCD /* UserInfoLoader.swift in Sources */,
 				FEE156232A1D450600398DCD /* FatigueWarningLoader.swift in Sources */,
+				FEE1563D2A1FD7AE00398DCD /* SurveyInfoView.swift in Sources */,
 				B9D051B22888435800AAC9D8 /* LoginView.swift in Sources */,
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
 				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
+				FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */,
+				FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
 				B93AB80C285D8EF10008DC59 /* ContentView.swift in Sources */,

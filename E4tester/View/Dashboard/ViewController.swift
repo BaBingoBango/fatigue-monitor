@@ -91,7 +91,7 @@ class ViewController: UITableViewController {
         device.connect(with: self)
     }
     
-    private func updateValue(device : EmpaticaDeviceManager, string : String = "") {
+    private func updateValue(device : EmpaticaDeviceManager, battery : Int = -1) {
         
         if let row = self.devices.firstIndex(of: device) {
             
@@ -109,13 +109,26 @@ class ViewController: UITableViewController {
                                 cell?.detailTextLabel?.text = "NOT ALLOWED"
                                 cell?.detailTextLabel?.textColor = UIColor.orange
                             }
-                            else if string.count > 0 {
-                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(string)"
-                                cell?.detailTextLabel?.textColor = UIColor.gray
+                            else if battery >= 0 { // with battery
+                                cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(battery)%"
+                                
+                                if device.deviceStatus == kDeviceStatusConnected {
+                                    cell?.detailTextLabel?.textColor = battery > 20 ? UIColor.green : UIColor.orange
+                                }
+                                else {
+                                    cell?.detailTextLabel?.textColor = UIColor.gray
+                                }
+                                
                             }
-                            else {
+                            else { // without battery
                                 cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
-                                cell?.detailTextLabel?.textColor = UIColor.gray
+                                
+                                if device.deviceStatus == kDeviceStatusConnected {
+                                    cell?.detailTextLabel?.textColor = UIColor.green
+                                }
+                                else {
+                                    cell?.detailTextLabel?.textColor = UIColor.gray
+                                }
                             }
                         }
                     }
@@ -367,27 +380,23 @@ extension ViewController: EmpaticaDeviceDelegate {
     
     func didReceiveBatteryLevel(_ level: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         let percentage = Int((level * 100).rounded(.up))
-        self.updateValue(device: device, string: "\(percentage)%")
+        self.updateValue(device: device, battery: percentage)
     }
 }
 
 // handle touch selection
 extension ViewController {
-    
+    // on touch
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        
         EmpaticaAPI.cancelDiscovery()
         
         let device = self.devices[indexPath.row]
         
         if device.deviceStatus == kDeviceStatusConnected || device.deviceStatus == kDeviceStatusConnecting {
-            
             self.disconnect(device: device)
         }
         else if !device.isFaulty && device.allowed {
-            
             self.connect(device: device)
         }
         
@@ -412,14 +421,15 @@ extension ViewController {
         let device = self.devices[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "device") as? DeviceTableViewCell ?? DeviceTableViewCell(device: device)
-        
         cell.device = device
         
+        // text
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        
         cell.textLabel?.text = "E4 \(device.serialNumber!)"
         
         cell.alpha = device.isFaulty || !device.allowed ? 0.2 : 1.0
+        
+        
         
         return cell
     }
@@ -429,11 +439,23 @@ class DeviceTableViewCell : UITableViewCell {
     
     var device : EmpaticaDeviceManager
     
+    var testLabel: UILabel!
+    
     init(device: EmpaticaDeviceManager) {
         
         self.device = device
         super.init(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "device")
 //        self.backgroundColor = UIColor(named: "BackgroundColorGray")
+        
+        // wristband image
+        imageView!.image = UIImage(named: "E4_wristband_wc")
+        imageView!.frame = CGRectMake(0, 0, 80, 80)
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

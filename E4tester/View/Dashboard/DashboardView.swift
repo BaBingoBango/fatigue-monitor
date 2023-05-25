@@ -109,7 +109,9 @@ struct DashboardView: View {
                     
             }
         }
-        
+        .onAppear {
+            getGroupmateNames()
+        }
         
     }
     
@@ -131,25 +133,6 @@ struct DashboardView: View {
             modelData.updateCrew(dateSelection)
         }
     }
-    
-//    func generateDates() -> [String] {
-//        var arr: [String] = []
-//        var index: Int = 0
-//        while index < 7 {
-//            if index == 0 {
-//                arr.append("Today")
-//            }
-//            else {
-//                var date = Date()
-//                date.addTimeInterval(TimeInterval(-3600 * 24 * index)) // subtract `index` dates
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "EEE, MMM d"
-//                arr.append(dateFormatter.string(from: date))
-//            }
-//            index += 1
-//        }
-//        return arr
-//    }
     
     @AppStorage("userGroupId") var userGroupId: String = ""
     func getGroupmateNames() {

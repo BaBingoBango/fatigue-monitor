@@ -16,6 +16,7 @@ struct ContentView: View {
         case dashboard
         case profile
         case device
+        case survey
     }
 
     
@@ -32,6 +33,11 @@ struct ContentView: View {
                     Label("Device", systemImage: "applewatch")
                 }
                 .tag(Tab.device)
+            SurveyInfoView()
+                .tabItem {
+                    Label("Survey", systemImage: "checkmark.square.fill")
+                }
+                .tag(Tab.survey)
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person")

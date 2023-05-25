@@ -29,18 +29,18 @@ struct HighlightView: View {
                     HStack {
                         Text("Loading")
                             .skeleton(with: true,
-                                      size: CGSize(width: 80, height: 16))
+                                      size: CGSize(width: 80, height: 15))
                         VStack(alignment: .leading) {
                             Text("Loading...")
                                 .skeleton(with: true,
-                                          size: CGSize(width: 220, height: 16))
+                                          size: CGSize(width: 220, height: 15))
                             Text("Loading...")
                                 .skeleton(with: true,
                                           size: CGSize(width: 120, height: 10))
                         }
                         
                     }
-                    .frame(width: 380, height: 60)
+                    .frame(width: 370, height: 60)
                     .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
                     .cornerRadius(16)
                 }
@@ -63,7 +63,7 @@ struct HighlightView: View {
             }
             
         }
-        .frame(width: 380)
+        .frame(width: 360)
         
     }
     
@@ -90,11 +90,11 @@ struct HighlightItem: View {
             }
             // text
             Text(name)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 15, weight: .semibold))
             
             VStack(alignment: .leading) {
                 Text(text)
-                    .font(.system(size: 16))
+                    .font(.system(size: 15))
                 Text(timeAgo)
                     .font(.system(size: 10))
             }
@@ -102,7 +102,7 @@ struct HighlightItem: View {
             
             Spacer()
         }
-        .frame(width: 380, height: 60)
+        .frame(width: 360, height: 60)
         .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
         .cornerRadius(16)
     }
