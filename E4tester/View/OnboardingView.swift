@@ -51,6 +51,7 @@ struct OnboardingView: View {
     
     @AppStorage("userFirstName") var userFirstName: String = ""
     @AppStorage("userAge") var userAge: Int = 0
+    @AppStorage("userStartDate") var userStartDate: Double = 0
     
     /// Finish onboarding
     func continueOnboarding() {
@@ -62,6 +63,7 @@ struct OnboardingView: View {
         
         userOnboarded = true
         userFirstName = firstName
+        userStartDate = startDate.startOfDay.timeIntervalSince1970
         
         Toast.showToast("Welcome!")
         

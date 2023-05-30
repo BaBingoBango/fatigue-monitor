@@ -29,8 +29,10 @@ extension Date {
 }
 
 class ModelData: ObservableObject {
-    @Published var heartRate: Int = 0
+    var heartRate: Int = 0
+    @Published(key: "avgHeartRate") var avgHeartRate: Int = -1
     @Published(key: "fatigueLevel") var fatigueLevel: Int = -1
+    @Published(key: "deviceConnected") var deviceConnected: Bool = false
     
     @Published(key: "loggedIn") var loggedIn: Bool = false
     @Published var nameEntered: Bool = false
@@ -54,6 +56,7 @@ class ModelData: ObservableObject {
         for i in 0...11 {
             defaultObservations.append(Peer.Observation(hour_from_midnight: i, fatigue_level_range: -1 ..< -1, avg_fatigue_level: -1))
         }
+        deviceConnected = false
     }
     
     // GET fatigue data of a peer of today

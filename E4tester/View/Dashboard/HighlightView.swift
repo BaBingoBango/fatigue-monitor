@@ -12,12 +12,29 @@ import SkeletonUI
 struct HighlightView: View {
     
     @ObservedObject var warningLoader = FatigueWarningLoader()
+    @State var firstLoaded: Bool = false
+    
+    @AppStorage("highlightLastFetched") var highlightLastFetched: Double = 0
     
     /// Constructor
     init(numItems: Int = 2) {
         FirebaseManager.connect()
         FirebaseManager.getFatigueWarnings(loader: warningLoader,
                                            numItems: numItems)
+        
+//        // outdated highlight, fetch
+//        if Date().timeIntervalSince1970 - highlightLastFetched > 60 {
+//            FirebaseManager.connect()
+//            FirebaseManager.getFatigueWarnings(loader: warningLoader,
+//                                               numItems: numItems)
+//            highlightLastFetched = Date().timeIntervalSince1970
+//        }
+//        // reuse previously fetched data
+//        else {
+//            warningLoader = UserDefaults.standard.object(forKey: "lastHighlight") as? FatigueWarningLoader ?? FatigueWarningLoader()
+//        }
+        
+        
     }
     
     var body: some View {
@@ -44,6 +61,7 @@ struct HighlightView: View {
                     .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
                     .cornerRadius(16)
                 }
+                
             }
             else {
                 // done loading!
@@ -51,13 +69,14 @@ struct HighlightView: View {
                     Text("No hightlights in your group.")
                 }
                 
+                // Highlights
                 ForEach(warningLoader.data.indices) { index in
                     let warning = warningLoader.data[index]
                     HighlightItem(icon: "exclamationmark.triangle.fill",
                                   iconColor: .yellow,
                                   name: warning.firstName,
                                   text: warning.content,
-                                  timeAgo: warning.timeAgo())
+                                  timeAgo: warning.timeAgo()) // declaration below
                 }
                 Spacer()
             }

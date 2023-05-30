@@ -46,7 +46,6 @@
 		FE620EBD2A1402A10073B8F0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FE620EBC2A1402A10073B8F0 /* FirebaseFirestoreSwift */; };
 		FE620EBF2A14048F0073B8F0 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */; };
 		FE620EC32A1408010073B8F0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE620EC22A1408010073B8F0 /* OnboardingView.swift */; };
-		FE620EC52A1408670073B8F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE620EC42A1408670073B8F0 /* GoogleService-Info.plist */; };
 		FEE155EC2A1557F000398DCD /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155EB2A1557F000398DCD /* Toast.swift */; };
 		FEE155EE2A155FA300398DCD /* RegisteredUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155ED2A155FA300398DCD /* RegisteredUser.swift */; };
 		FEE155F12A1569B600398DCD /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = FEE155F02A1569B600398DCD /* SkeletonUI */; };
@@ -63,6 +62,8 @@
 		FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156352A1FB89000398DCD /* IconButtonInner.swift */; };
 		FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */; };
 		FEE1563D2A1FD7AE00398DCD /* SurveyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */; };
+		FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156462A263C0C00398DCD /* TimelineView.swift */; };
+		FEE156492A26466E00398DCD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEE156482A26466E00398DCD /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -113,7 +114,6 @@
 		FE620EAF2A13F00E0073B8F0 /* DarkMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkMode.swift; sourceTree = "<group>"; };
 		FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		FE620EC22A1408010073B8F0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		FE620EC42A1408670073B8F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FEE155EB2A1557F000398DCD /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		FEE155ED2A155FA300398DCD /* RegisteredUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredUser.swift; sourceTree = "<group>"; };
 		FEE155F32A17124700398DCD /* DeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
@@ -129,6 +129,8 @@
 		FEE156352A1FB89000398DCD /* IconButtonInner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButtonInner.swift; sourceTree = "<group>"; };
 		FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoViewDetails.swift; sourceTree = "<group>"; };
 		FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoView.swift; sourceTree = "<group>"; };
+		FEE156462A263C0C00398DCD /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
+		FEE156482A26466E00398DCD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				FEE155EB2A1557F000398DCD /* Toast.swift */,
-				FE620EC42A1408670073B8F0 /* GoogleService-Info.plist */,
+				FEE156482A26466E00398DCD /* GoogleService-Info.plist */,
 				FE620EC02A1405AE0073B8F0 /* Managers */,
 				B93AB809285D8E6E0008DC59 /* DPMApp.swift */,
 				B91AA797286D0C8400B36E84 /* View */,
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				B91AA795286CA62400B36E84 /* ProfileView.swift */,
+				FEE156462A263C0C00398DCD /* TimelineView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -398,9 +401,9 @@
 			files = (
 				FEE1562D2A1E974A00398DCD /* Assets in Resources */,
 				55591B731F2884AC0084CF0C /* LaunchScreen.storyboard in Resources */,
-				FE620EC52A1408670073B8F0 /* GoogleService-Info.plist in Resources */,
 				55591B701F2884AC0084CF0C /* Assets.xcassets in Resources */,
 				55591B6E1F2884AC0084CF0C /* Main.storyboard in Resources */,
+				FEE156492A26466E00398DCD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +452,7 @@
 				FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */,
 				FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
+				FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
 				B93AB80C285D8EF10008DC59 /* ContentView.swift in Sources */,
 			);
@@ -598,7 +602,7 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F965F5ZKX8;
+				DEVELOPMENT_TEAM = SZGWRN6R94;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -610,13 +614,13 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = E4tester/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "umich.dpm.fatigue-monitoring";
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
@@ -624,6 +628,7 @@
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -635,7 +640,7 @@
 				CLANG_MODULES_AUTOLINK = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F965F5ZKX8;
+				DEVELOPMENT_TEAM = SZGWRN6R94;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -647,19 +652,20 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = E4tester/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "umich.dpm.fatigue-monitoring";
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

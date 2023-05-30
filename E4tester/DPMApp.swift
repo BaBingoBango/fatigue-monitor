@@ -6,7 +6,7 @@
 import SwiftUI
 import FirebaseCore
 
-@main
+ @main
 struct DPMApp: App {
     @Environment(\.scenePhase) var scenePhase
     @StateObject private var modelData = ModelData()

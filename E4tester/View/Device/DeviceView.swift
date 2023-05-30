@@ -138,6 +138,12 @@ struct SwiftUIViewController: UIViewControllerRepresentable {
             }
         }
         
+        func updateDeviceStatus(_ viewController: ViewController, deviceConnected: Bool) {
+            DispatchQueue.main.async {
+                self.parent.modelData.deviceConnected = deviceConnected
+            }
+        }
+        
         var parent: SwiftUIViewController
         
         init(_ swiftUIViewController: SwiftUIViewController) {

@@ -13,6 +13,9 @@ struct SurveyView: View {
     @State var dropdownValue: Int = 0
     @Binding var toggleToRefresh: Bool
     
+    @State var showPopup: Bool = false
+    @State var popupText: String = ""
+    
     var body: some View {
         VStack(alignment: .center) {
             // Header
@@ -73,14 +76,22 @@ struct SurveyView: View {
                     
                     // schedule notification?
                     let surveysSubmittedToday = SurveyInfoView.surveysSubmittedToday()
+                    let (_, nextTime) = SurveyInfoView.sufficientTimePassed()
                     if surveysSubmittedToday < 5 {
-                        scheduleSurveyNotification(secondsAfter: 3600)
+                        scheduleSurveyNotification(secondsAfter: 60)
                     }
                     
-                    // UI
-                    toggleToRefresh.toggle()
-                        Toast.showToast("Submitted. Thank you!")
-                    self.presentationMode.wrappedValue.dismiss()
+                    // Popup
+                    if surveysSubmittedToday < 5 {
+                        popupText = "Thank you! Please return at \(nextTime) for the next survey; we'll send you a notification at that time."
+                    }
+                    else if surveysSubmittedToday < 8 {
+                        popupText = "Thank you! You can submit \(8 - surveysSubmittedToday) more surveys today but they are not required. You can submit another after \(nextTime)."
+                    }
+                    else {
+                        popupText = "Thank you! You have submitted all 8 survey responses today."
+                    }
+                    showPopup = true
                 }) {
                     if submitButtonEnabled {
                         IconButtonInner(iconName: "paperplane.fill", buttonText: "Submit")
@@ -99,8 +110,17 @@ struct SurveyView: View {
                 Spacer()
                     .frame(height: 32)
             }
-            
-            
+            // Popup
+            .alert("Submitted", isPresented: $showPopup, actions: {
+                Button("Close", role: nil, action: {
+                    // close and refresh
+                    toggleToRefresh.toggle()
+                    showPopup = false
+                    self.presentationMode.wrappedValue.dismiss()
+                })
+            }, message: {
+                Text(popupText)
+            })
             
         }
         .onAppear {

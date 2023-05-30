@@ -17,6 +17,17 @@ extension AnyTransition {
     }
 }
 
+
+extension Date {
+    func timeAgoDisplay() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
+}
+
+
+
 struct PeerView: View {
     @EnvironmentObject var modelData: ModelData
 
@@ -149,12 +160,4 @@ struct PeerView: View {
 //        }
 //    }
 //}
-
-extension Date {
-    func timeAgoDisplay() -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        return formatter.localizedString(for: self, relativeTo: Date())
-    }
-}
 

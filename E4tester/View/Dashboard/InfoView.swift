@@ -11,6 +11,8 @@ import SwiftUI
 struct InfoView: View {
     @EnvironmentObject var modelData: ModelData
     
+    @State var animationBool: Bool = false
+    
     func fatigueLevelDisplay(fatigueLevel: Int) -> String {
         if (fatigueLevel > 100) {
             return "100"
@@ -23,8 +25,21 @@ struct InfoView: View {
             ZStack{
                 
                 Circle()
-                    .fill(DarkMode.isDarkMode() ? Color(white: 0.05) : .white)
+                    .fill(DarkMode.isDarkMode() ? Color(white: 0.08) : .white)
                     .shadow(radius: 3)
+                
+                // animation
+                if modelData.deviceConnected {
+                    Circle()
+                        .trim(from: 0, to: 0.2)
+                        .stroke(Color.red, lineWidth: 2)
+                        .rotationEffect(Angle(degrees: animationBool ? 360 : 0))
+                        .animation(Animation.linear(duration: 2.5).repeatForever(autoreverses: false))
+                        .onAppear {
+                            animationBool = true
+                        }
+                }
+                
                 
                 HStack{
                     Text(self.modelData.heartRate == 0 ? "--" : "\(self.modelData.heartRate)")
@@ -56,7 +71,7 @@ struct InfoView: View {
             ZStack{
                 
                 Circle()
-                    .fill(DarkMode.isDarkMode() ? Color(white: 0.05) : .white)
+                    .fill(DarkMode.isDarkMode() ? Color(white: 0.08) : .white)
                     .shadow(radius: 3)
                 
                 VStack (spacing: 0){

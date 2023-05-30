@@ -224,18 +224,21 @@ class FirebaseManager {
                         upperBound = 18
                     }
                     
-                    for hr in 9..<upperBound { // CHANGE ME to adjust x-range
-                        let (curSum, curCount) = avg[hr] ?? (-1, -1)
-                        let (curMin, curMax) = range[hr] ?? (-1, -1)
-                        if curSum >= 0 {
-                             let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: curMin..<curMax, avg_fatigue_level: Double(curSum / curCount))
-                            peer.observations.append(obs)
-                        }
-                        else {
-                            let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: 0..<0, avg_fatigue_level: 0)
-                            peer.observations.append(obs)
+                    if upperBound >= 9 {
+                        for hr in 9..<upperBound { // CHANGE ME to adjust x-range
+                            let (curSum, curCount) = avg[hr] ?? (-1, -1)
+                            let (curMin, curMax) = range[hr] ?? (-1, -1)
+                            if curSum >= 0 {
+                                 let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: curMin..<curMax, avg_fatigue_level: Double(curSum / curCount))
+                                peer.observations.append(obs)
+                            }
+                            else {
+                                let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: 0..<0, avg_fatigue_level: 0)
+                                peer.observations.append(obs)
+                            }
                         }
                     }
+                    
                     
                     modelData.crew.append(peer)
                 }
@@ -297,6 +300,8 @@ class FirebaseManager {
                     loader.loading = false
                 }
             }
+        
+//        UserDefaults.standard.set(loader, forKey: "lastHighlight")
     }
     
     /// Uploads survey response data

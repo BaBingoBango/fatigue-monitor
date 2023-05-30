@@ -10,6 +10,11 @@ import SwiftUI
 
 struct CrewView: View {
     @EnvironmentObject var modelData: ModelData
+    @State var dateSelection: Date = Date()
+    @StateObject var groupMates = RegisteredUserArr()
+    
+    // timer for periodic crew info retrieval
+    @State var timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack{
@@ -65,6 +70,23 @@ struct CrewView: View {
             .font(.system(size: 12))
             .foregroundColor(.secondary)
             .transition(.moveAndFade)
+            .onAppear {
+                getGroupmateNames()
+                initCrew()
+            }
+            .onReceive(timer) { _ in
+                updateCrew()
+            }
+            
+            // Date Selection
+            DatePicker("Date", selection: $dateSelection,
+                       displayedComponents: [.date])
+            .padding([.horizontal], 80)
+            .padding(.top, 8)
+            .padding(.bottom, 16)
+            .onChange(of: dateSelection, perform: { value in
+                updateCrew()
+            })
         }
     }
 
@@ -84,6 +106,32 @@ struct CrewView: View {
             }
             Spacer()
         }
+    }
+    
+    func updateCrew() {
+        getGroupmateNames()
+        print("update crew")
+        Task {
+            modelData.updateCrew(dateSelection)
+        }
+        if !modelData.crew.isEmpty {
+            timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+        }
+    }
+    
+    func initCrew() {
+        getGroupmateNames()
+        print("init crew")
+        Task {
+            modelData.updateCrew(dateSelection)
+        }
+    }
+    
+    @AppStorage("userGroupId") var userGroupId: String = ""
+    func getGroupmateNames() {
+        print("Group ID: \(userGroupId)")
+        FirebaseManager.connect()
+        FirebaseManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
     }
 }
 

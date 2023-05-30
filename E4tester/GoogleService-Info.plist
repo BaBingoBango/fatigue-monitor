@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>944631981903-kj588ctqrs26hqmf2sv0tqf8a4g6rvvi.apps.googleusercontent.com</string>
+	<string>944631981903-7c06rb08nqmc3g0k48j3heasqn50mc8u.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.944631981903-kj588ctqrs26hqmf2sv0tqf8a4g6rvvi</string>
+	<string>com.googleusercontent.apps.944631981903-7c06rb08nqmc3g0k48j3heasqn50mc8u</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCxlfKHv8KaF-DUVsDQr_gYCfS_OWJ9wVU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,22 +13,24 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>umich.dpm.fatigue-monitoring</string>
+	<string>umich.dpm.fatiguemonitor</string>
 	<key>PROJECT_ID</key>
 	<string>dpm-fatigue-monitoring</string>
 	<key>STORAGE_BUCKET</key>
 	<string>dpm-fatigue-monitoring.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:944631981903:ios:72e7c85b24984ac4ec073a</string>
+	<string>1:944631981903:ios:723b33358c210e1dec073a</string>
+	<key>DATABASE_URL</key>
+	<string>https://dpm-fatigue-monitoring-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

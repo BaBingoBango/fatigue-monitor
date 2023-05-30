@@ -10,19 +10,13 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject var modelData: ModelData
+    
     
     @AppStorage("userFirstName") var userFirstName: String = ""
+    @AppStorage("userAge") var userAge: Int = 0
+    @AppStorage("userGroupId") var userGroupId: String = ""
     @StateObject var groupMates = RegisteredUserArr()
-    
-    @State var dateSelection: Date = Date()
-    
-    // timer for periodic crew info retrieval
-    @State var timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
-    
-    
-    
-    
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -86,60 +80,31 @@ struct DashboardView: View {
                             // graph
                             CrewView()
                                 .padding([.horizontal], 20)
-                                .onReceive(timer) { _ in
-                                    updateCrew()
-                                }
-                                .onAppear {
-                                    initCrew()
-                                }
+                                
+                                
                             
-                            // Date Selection
-                            DatePicker("Date", selection: $dateSelection,
-                                       displayedComponents: [.date])
-                            .padding([.horizontal], 110)
-                            .padding(.top, 8)
-                            .padding(.bottom, 16)
-                            .onChange(of: dateSelection, perform: { value in
-                                updateCrew()
-                            })
+                           
                         }
                     }
                 }
                 
                     
             }
-        }
-        .onAppear {
+        }.onAppear {
             getGroupmateNames()
         }
         
+        
     }
     
-    func updateCrew() {
-        getGroupmateNames()
-        print("update crew")
-        Task {
-            modelData.updateCrew(dateSelection)
-        }
-        if !modelData.crew.isEmpty {
-            timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-        }
-    }
     
-    func initCrew() {
-        getGroupmateNames()
-        print("init crew")
-        Task {
-            modelData.updateCrew(dateSelection)
-        }
-    }
     
-    @AppStorage("userGroupId") var userGroupId: String = ""
     func getGroupmateNames() {
         print("Group ID: \(userGroupId)")
         FirebaseManager.connect()
         FirebaseManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
     }
+    
 }
 
 

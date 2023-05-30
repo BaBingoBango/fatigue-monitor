@@ -39,7 +39,7 @@ struct SurveyInfoView: View {
                                     .padding(.bottom, 12)
                                 Text("During the day, you'll need to respond to a single-question survey at least 5 times per day (maximum 8 times). We'll notify you every hour until we receive 5 responses.")
                             }
-                            .frame(width: 360)
+                            .frame(width: 350)
                             .padding([.horizontal], 10)
                         }
                         .frame(alignment: .top)
@@ -179,7 +179,7 @@ struct SurveyInfoView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         
-        let ok: Bool = nextEarliest - 60 < now // minus 60 for some flexibility
+        let ok: Bool = nextEarliest - 60 < now // minus 1 minute for some flexibility
         let time = dateFormatter.string(from: Date(timeIntervalSince1970: nextEarliest))
         return (ok, time)
     }

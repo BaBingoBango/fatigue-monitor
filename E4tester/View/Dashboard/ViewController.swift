@@ -49,7 +49,7 @@ class ViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var allDisconnected : Bool {
+    var allDisconnected : Bool {
         return self.devices.reduce(true) { (value, device) -> Bool in
             value && device.deviceStatus == kDeviceStatusDisconnected
         }
@@ -113,7 +113,7 @@ class ViewController: UITableViewController {
                                 cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus)) • \(battery)%"
                                 
                                 if device.deviceStatus == kDeviceStatusConnected {
-                                    cell?.detailTextLabel?.textColor = battery > 20 ? UIColor.green : UIColor.orange
+                                    cell?.detailTextLabel?.textColor = battery > 20 ? UIColor(Color(red: 52/255, green: 178/255, blue: 51/255)) : UIColor.orange
                                 }
                                 else {
                                     cell?.detailTextLabel?.textColor = UIColor.gray
@@ -124,7 +124,7 @@ class ViewController: UITableViewController {
                                 cell?.detailTextLabel?.text = "\(self.deviceStatusDisplay(status: device.deviceStatus))"
                                 
                                 if device.deviceStatus == kDeviceStatusConnected {
-                                    cell?.detailTextLabel?.textColor = UIColor.green
+                                    cell?.detailTextLabel?.textColor = UIColor(Color(red: 52/255, green: 178/255, blue: 51/255))
                                 }
                                 else {
                                     cell?.detailTextLabel?.textColor = UIColor.gray
@@ -157,15 +157,10 @@ class ViewController: UITableViewController {
     }
     
     private func restartDiscovery() {
-        
         print("restartDiscovery")
-        
         guard EmpaticaAPI.status() == kBLEStatusReady else { return }
-        
         if self.allDisconnected {
-            
             print("restartDiscovery • allDisconnected")
-            
             self.discover()
         }
     }
@@ -173,13 +168,14 @@ class ViewController: UITableViewController {
 
 protocol ViewControllerDelegate: AnyObject {
     func updateHeartRate(_ viewController: ViewController, heartRate: Int)
-    
     func updateFatigueLevel(_ viewController: ViewController, fatigueLevel: Int)
+    func updateDeviceStatus(_ viewController: ViewController, deviceConnected: Bool)
 }
 
 
 // utilities
 extension ViewController {
+    
     // POST
     func uploadHeartRate(heartRate: Int, timestamp: Double) {
         FirebaseManager.connect()
@@ -222,6 +218,7 @@ extension ViewController {
         
         // update UI
         print("fatigue updated")
+        delegate?.updateHeartRate(self, heartRate: avgHR)
         delegate?.updateFatigueLevel(self, fatigueLevel: fatigue)
         
         // upload to server
@@ -322,7 +319,7 @@ extension ViewController: EmpaticaDeviceDelegate {
             heartRates.append(heartRate)
             
             // update UI
-            delegate?.updateHeartRate(self, heartRate: heartRate)
+//            delegate?.updateHeartRate(self, heartRate: heartRate)
             
             // upload to server
             uploadHeartRate(heartRate: heartRate, timestamp: timestamp)
@@ -345,6 +342,9 @@ extension ViewController: EmpaticaDeviceDelegate {
     func didUpdate( _ status: DeviceStatus, forDevice device: EmpaticaDeviceManager!) {
         
         self.updateValue(device: device)
+        
+        delegate?.updateDeviceStatus(self,
+                                     deviceConnected: status == kDeviceStatusConnected)
         
         switch status {
             
@@ -426,10 +426,7 @@ extension ViewController {
         // text
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         cell.textLabel?.text = "E4 \(device.serialNumber!)"
-        
         cell.alpha = device.isFaulty || !device.allowed ? 0.2 : 1.0
-        
-        
         
         return cell
     }
@@ -445,7 +442,6 @@ class DeviceTableViewCell : UITableViewCell {
         
         self.device = device
         super.init(style: UITableViewCell.CellStyle.value1, reuseIdentifier: "device")
-//        self.backgroundColor = UIColor(named: "BackgroundColorGray")
         
         // wristband image
         imageView!.image = UIImage(named: "E4_wristband_wc")
