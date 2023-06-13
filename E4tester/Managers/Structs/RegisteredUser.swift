@@ -31,6 +31,10 @@ class RegisteredUserArr: ObservableObject {
     }
     
     func updateLocalStorage() {
+        if arr.isEmpty {
+            return
+        }
+        
         var groupFirstNames: [String: String] = [:] // id: first name
         
         for user in arr {

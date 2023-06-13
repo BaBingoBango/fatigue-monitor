@@ -8,8 +8,10 @@
 
 import Foundation
 
+/// Used to load fatigue warning data from Firebase.
 class FatigueWarningLoader: ObservableObject {
     
+    // Struct representing a single fatigue warning.
     struct FatigueWarning: Identifiable {
         var content: String
         var firstName: String
@@ -30,11 +32,12 @@ class FatigueWarningLoader: ObservableObject {
     }
     
     var data: [FatigueWarning] = []
+    
     @Published var loading: Bool = false
     
-    func addData(content: String,
-                 firstName: String,
-                 timestamp: Double) {
+    /// Add data to loader
+    /// Called by FirebaseManager
+    func addData(content: String, firstName: String, timestamp: Double) {
         data.append(FatigueWarning(content: content,
                                    firstName: firstName,
                                    timestamp: timestamp))

@@ -20,78 +20,87 @@ struct ProfileView: View {
     
     var body: some View {
         
-        VStack {
-            // User information
-            HStack {
-                // User info
+        NavigationView {
+            ScrollView {
                 VStack {
-                    Text("\(userFirstName)")
-                        .font(.system(size: 18, weight: .bold))
-                        .padding(.bottom, -4)
-                        .padding(.top, 10)
-                    
-                    Text("Age: \(userAge)")
-                        .font(.system(size: 12))
-                        .padding(.bottom, 8)
-                }
-                .frame(width: 150)
-                .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
-                .cornerRadius(16)
-                .padding(.trailing, 12)
-                
-                // Group members
-                VStack {
-                    Text("Group \(userGroupId)")
-                        .font(.system(size: 18, weight: .bold))
-                        .padding(.bottom, -1)
-                        .padding(.top, 10)
-                    
-                    Rectangle()
-                        .frame(width: 150, height: 1)
-                        .foregroundColor(DarkMode.isDarkMode() ? Color(white: 0.7) : Color(white: 0.3))
-                    
-                    
-                    let groupmateNames = groupMates.getUserFullNames()
-                    
-                    // Loading from Firebase
-                    if groupmateNames.isEmpty {
-                        Text("Loading...")
-                            .skeleton(with: true,
-                                      size: CGSize(width: 180, height: 16))
-                        Text("Loading...")
-                            .skeleton(with: true,
-                                      size: CGSize(width: 180, height: 16))
-                        Text("Loading...")
-                            .skeleton(with: true,
-                                      size: CGSize(width: 180, height: 16))
-                    }
-                    else {
-                        // Group member names
-                        ForEach(groupmateNames.indices, id: \.self) { index in
-                            Text(groupmateNames[index])
+                    // User information
+                    HStack {
+                        // User info
+                        VStack {
+                            Text("\(userFirstName)")
+                                .font(.system(size: 18, weight: .bold))
+                                .padding(.bottom, -4)
+                                .padding(.top, 10)
+                            
+                            Text("Age: \(userAge)")
+                                .font(.system(size: 12))
+                                .padding(.bottom, 8)
                         }
+                        .frame(width: 150)
+                        .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
+                        .cornerRadius(16)
+                        .padding(.trailing, 12)
+                        
+                        // Group members
+                        VStack {
+                            Text("Group \(userGroupId)")
+                                .font(.system(size: 18, weight: .bold))
+                                .padding(.bottom, -1)
+                                .padding(.top, 10)
+                            
+                            Rectangle()
+                                .frame(width: 150, height: 1)
+                                .foregroundColor(DarkMode.isDarkMode() ? Color(white: 0.7) : Color(white: 0.3))
+                            
+                            
+                            let groupmateNames = groupMates.getUserFullNames()
+                            
+                            // Loading from Firebase
+                            if groupmateNames.isEmpty {
+                                Text("Loading...")
+                                    .skeleton(with: true,
+                                              size: CGSize(width: 180, height: 16))
+                                Text("Loading...")
+                                    .skeleton(with: true,
+                                              size: CGSize(width: 180, height: 16))
+                                Text("Loading...")
+                                    .skeleton(with: true,
+                                              size: CGSize(width: 180, height: 16))
+                            }
+                            else {
+                                // Group member names
+                                ForEach(groupmateNames.indices, id: \.self) { index in
+                                    Text(groupmateNames[index])
+                                }
+                            }
+                            
+                            
+                            Spacer()
+                                .frame(height: 12)
+                        }
+                        .frame(width: 200)
+                        .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
+                        .cornerRadius(16)
+                        .onAppear {
+                            getGroupmateNames()
+                        }
+                    } // HStack
+                    
+                    // Timeline
+                    TimelineView()
+                        .padding(.top, 32)
+                    
+                    NavigationLink(destination: SettingsView()) {
+                        HStack {
+                            Image(systemName: "gearshape.fill")
+                            Text("Settings")
+                        }
+                        .padding([.vertical], 8)
                     }
-                    
-                    
-                    Spacer()
-                        .frame(height: 12)
-                }
-                .frame(width: 200)
-                .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
-                .cornerRadius(16)
-                .onAppear {
-                    getGroupmateNames()
-                }
-            }
-            
-            
-            
-
-            // Timeline
-            TimelineView()
-                .padding(.top, 32)
-        }
-        
+                } // VStack
+            } // ScrollView
+            .navigationTitle(Text("Profile"))
+        } // NavigationView
         
     }
     

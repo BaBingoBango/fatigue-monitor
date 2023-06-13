@@ -4,7 +4,9 @@
 //
 
 import SwiftUI
+import UserNotifications
 import FirebaseCore
+import FirebaseMessaging
 
  @main
 struct DPMApp: App {
@@ -25,8 +27,6 @@ struct DPMApp: App {
         askNotificationPermission()
         cancelRegularNotification()
         registerRegularNotification()
-        
-        
     }
     
     func resetFatigueLevel(){
@@ -81,25 +81,4 @@ struct DPMApp: App {
             }
         }
     }
-}
-
-/// Connects to Firebase on app launch
-///
-/// ### Usage
-/// ```
-/// struct YourApp: App {
-///     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-///     // stuff...
-/// }
-/// ```
-///
-/// ### Author & Version
-/// Provided by Firebase, as of May 16, 2023.
-///
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-    return true
-  }
 }

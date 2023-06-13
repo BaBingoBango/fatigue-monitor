@@ -1,25 +1,35 @@
 import SwiftUI
 
-/// Survey view
+/// Survey view, asking users to report their self-assessed fatigue levels
 ///
 /// ### Author & Version
-/// Seung-Gu Lee (seunggu@umich.edu), last modified May 25, 2023
+/// Seung-Gu Lee (seunggu@umich.edu), last modified Jun 2, 2023
 ///
 struct SurveyView: View {
     @Environment(\.presentationMode) var presentationMode
+    
+    /// Timer object used to disable the submit button for 3 seconds
     @State var timer = Timer.publish(every: 3, on: .main, in: .common)
                             .autoconnect()
+    
     @State var submitButtonEnabled = false
+    
+    /// Selected dropdown value, default 0.
     @State var dropdownValue: Int = 0
+    
+    /// Call `toggleToRefresh.toggle()` to refresh the `SurveyInfoView`.
     @Binding var toggleToRefresh: Bool
     
+    /// Show alert popup? Shown when user submits survey.
     @State var showPopup: Bool = false
+    
+    /// Text to show on alert popup, depends on number of surveys submitted today
     @State var popupText: String = ""
     
     var body: some View {
         VStack(alignment: .center) {
             // Header
-            VStack{
+            VStack {
                 Spacer()
                     .frame(height: 32)
                 Text("Fatigue Survey")
@@ -53,7 +63,7 @@ struct SurveyView: View {
                 .frame(width: geometry.size.width)
             }
             
-            // submit
+            // submit button
             VStack {
                 SimpleDropdown(label: "Fatigue level:",
                                optionTexts: ["10 (total fatigue)", "9", "8", "7", "6",
@@ -72,13 +82,13 @@ struct SurveyView: View {
                     }
                     // submit
                     FirebaseManager.submitSurvey(fatigueLevel: dropdownValue)
-                    SurveyInfoView.addSurveyTimestamp(Date().timeIntervalSince1970)
+                    SurveyManager.addSurveyTimestamp(Date().timeIntervalSince1970)
                     
                     // schedule notification?
-                    let surveysSubmittedToday = SurveyInfoView.surveysSubmittedToday()
-                    let (_, nextTime) = SurveyInfoView.sufficientTimePassed()
+                    let surveysSubmittedToday = SurveyManager.surveysSubmittedToday()
+                    let (_, nextTime) = SurveyManager.sufficientTimePassed()
                     if surveysSubmittedToday < 5 {
-                        scheduleSurveyNotification(secondsAfter: 60)
+                        scheduleSurveyNotification(secondsAfter: 3600)
                     }
                     
                     // Popup
@@ -103,14 +113,14 @@ struct SurveyView: View {
                 .buttonStyle(IconButtonStyle(backgroundColor: Color(red: 0, green: 146/255, blue: 12/255),
                                      foregroundColor: .white))
                 .opacity(submitButtonEnabled ? 1.0 : 0.6)
-                .onReceive(timer) { _ in
+                .onReceive(timer) { _ in // enable submit button
                     submitButtonEnabled = true
                 }
                 
                 Spacer()
                     .frame(height: 32)
             }
-            // Popup
+            // Alert Popup
             .alert("Submitted", isPresented: $showPopup, actions: {
                 Button("Close", role: nil, action: {
                     // close and refresh
@@ -123,9 +133,9 @@ struct SurveyView: View {
             })
             
         }
-        .onAppear {
-            timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-        }
+//        .onAppear {
+//            timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+//        }
         
     }
 }

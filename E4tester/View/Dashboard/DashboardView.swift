@@ -11,17 +11,20 @@ import SwiftUI
 
 struct DashboardView: View {
     
-    
+    /// Saved data
     @AppStorage("userFirstName") var userFirstName: String = ""
     @AppStorage("userAge") var userAge: Int = 0
     @AppStorage("userGroupId") var userGroupId: String = ""
-    @StateObject var groupMates = RegisteredUserArr()
+    @ObservedObject var groupMates = RegisteredUserArr()
+    
+    @State var toggleToRefresh: Bool = false
+    
+    @Binding var tabSelection: ContentView.Tab
 
     var body: some View {
         NavigationView {
             ZStack {
-                ScrollView{
-                
+                ScrollView {
                     VStack(alignment: .leading) {
                         
                         Text("Daily Summary")
@@ -51,11 +54,11 @@ struct DashboardView: View {
                         }
                         .padding(.bottom, 8)
                     
-                        HighlightView()
+                        HighlightView(tabSelection: $tabSelection)
                             .padding([.horizontal], 20)
                             .frame(height: 120, alignment: .center)
                     
-                        NavigationLink(destination: DummyView()) {
+                        NavigationLink(destination: FullscreenHighlightView(tabSelection: $tabSelection)) {
                             HStack {
                                 Spacer()
                                 Text("See all highlights")
@@ -80,37 +83,22 @@ struct DashboardView: View {
                             // graph
                             CrewView()
                                 .padding([.horizontal], 20)
-                                
-                                
-                            
-                           
                         }
                     }
-                }
-                
-                    
-            }
-        }.onAppear {
-            getGroupmateNames()
+                } // ScrollView
+            } // ZStack
+        } // NavigationView
+        .onAppear {
+//            getGroupmateNames()
         }
-        
-        
     }
     
     
-    
+    /// Retrieves up-to-date groupmate names.
     func getGroupmateNames() {
         print("Group ID: \(userGroupId)")
         FirebaseManager.connect()
         FirebaseManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
     }
     
-}
-
-
-struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        DashboardView()
-            .environmentObject(ModelData())
-    }
 }

@@ -27,13 +27,15 @@ struct TimelineView: View {
     @State var toggleToRefresh: Bool = false
 
     @AppStorage("userStartDate") var userStartDate: Double = 0
+    
+    /// Initialize `data` from start date.
     init() {
         let startDate = Date(timeIntervalSince1970: userStartDate).startOfDay
         data = [
             (startDate.startOfDay, ["1st in-person survey", "Online fatigue survey"]),
-            (addDaysExcludingWeekends(startDate, 1), ["Online fatigue survey"]),
-            (addDaysExcludingWeekends(startDate, 5), ["2nd in-person survey"]),
-            (addDaysExcludingWeekends(startDate, 9), ["3rd in-person survey", "Usefulness interview", "Return device & Get rewarded!"]),
+            (Utilities.addDaysExcludingWeekends(startDate, 1), ["Online fatigue survey"]),
+            (Utilities.addDaysExcludingWeekends(startDate, 5), ["2nd in-person survey"]),
+            (Utilities.addDaysExcludingWeekends(startDate, 9), ["3rd in-person survey", "Usefulness interview", "Return device & Get rewarded!"]),
         ]
     }
     
@@ -60,14 +62,14 @@ struct TimelineView: View {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
                         // icon
-                        if daysFromToday(date) > 0 { // future
+                        if Utilities.daysFromToday(date) > 0 { // future
                             Image(systemName: "dot.square.fill")
                                 .resizable()
                                 .foregroundColor(Color(white: 0.5))
                                 .background(DarkMode.isDarkMode() ? .black : .white)
                                 .frame(width: imageSize, height: imageSize)
                         }
-                        else if daysFromToday(date) < 0 { // past
+                        else if Utilities.daysFromToday(date) < 0 { // past
                             Image(systemName: "checkmark.square.fill")
                                 .resizable()
                                 .foregroundColor(Color(red: 52/255, green: 178/255, blue: 51/255))
@@ -82,10 +84,9 @@ struct TimelineView: View {
                                 .frame(width: imageSize, height: imageSize)
                         }
                         
-                        
                         // text
                         VStack(alignment: .leading) {
-                            Text(dateToString(date))
+                            Text(Utilities.dateToString(date))
                                 .font(.system(size: 16, weight: .bold))
                                 .padding(.bottom, -4)
                             ForEach(value.indices) { index in
@@ -113,7 +114,7 @@ struct TimelineView: View {
 
                     Rectangle()
                         .frame(width: 2, height: lineHeight)
-                        .foregroundColor(Color(white: 0.5))
+                        .foregroundColor(DarkMode.isDarkMode() ? Color(white: 0.2) : Color(white: 0.8))
                         .background(DarkMode.isDarkMode() ? .black : .white)
                         .offset(x: xOffset, y: yOffset)
                         .padding(.bottom, -1 * lineHeight)
@@ -127,42 +128,6 @@ struct TimelineView: View {
             }
         }
         .padding([.horizontal], 24)
-    }
-    
-    func dateToString(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEE, MMM d"
-        return dateFormatter.string(from: date)
-    }
-    
-    func daysFromToday(_ date: Date) -> Int {
-        let today = Date().startOfDay
-        return Int(date.timeIntervalSince1970 - today.timeIntervalSince1970) / 86400
-    }
-    
-    /// Adds `days` days to `date`, excluding weekends
-    func addDaysExcludingWeekends(_ date: Date, _ days: Int) -> Date {
-        var daysToAdd: Int = days
-        var result: Date = date
-        
-        while daysToAdd > 0 {
-            result.addTimeInterval(86400)
-            
-            // account for weekends
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEE"
-            
-            if dateFormatter.string(from: result) == "Sat" {
-                result.addTimeInterval(86400 * 2)
-            }
-            else if dateFormatter.string(from: result) == "Sun" {
-                result.addTimeInterval(86400)
-            }
-            
-            daysToAdd -= 1
-        }
-        
-        return result
     }
     
 }

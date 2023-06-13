@@ -9,6 +9,48 @@
 import Foundation
 import SwiftUI
 
+class Utilities {
+    
+    /// Adds `days` days to `date`, excluding weekends
+    /// O(number of days) - not intended for dates that are more than a month apart
+    static func addDaysExcludingWeekends(_ date: Date, _ days: Int) -> Date {
+        var daysToAdd: Int = days
+        var result: Date = date
+        
+        while daysToAdd > 0 {
+            result.addTimeInterval(86400)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEE"
+            
+            if dateFormatter.string(from: result) == "Sat" {
+                result.addTimeInterval(86400 * 2)
+            }
+            else if dateFormatter.string(from: result) == "Sun" {
+                result.addTimeInterval(86400)
+            }
+            
+            daysToAdd -= 1
+        }
+        
+        return result
+    }
+    
+    /// Returns the number of days from today.
+    /// e.g. if `date` = Jan 1 and today = Jan 5, returns -4
+    static func daysFromToday(_ date: Date) -> Int {
+        let today = Date().startOfDay
+        return Int(date.timeIntervalSince1970 - today.timeIntervalSince1970) / 86400
+    }
+    
+    /// Converts date object to string in `EEE, MMM, d` format
+    /// e.g. "Mon, Jan 1"
+    static func dateToString(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEE, MMM d"
+        return dateFormatter.string(from: date)
+    }
+}
+
 extension Color {
     static let Colors: [Color] = [
         Color(red: 4/255, green: 116/255, blue: 186/255),
@@ -58,4 +100,17 @@ func fileURL() throws -> URL {
 // if timestamp is less than n hours from now
 func ifLessThanNHours(timestamp: Double, hours: Double) -> Bool {
     return (Date().timeIntervalSince1970 - timestamp <= hours * 3600)
+}
+
+class DarkMode {
+    /// Detects if dark mode is enabled or not.
+    static func isDarkMode() -> Bool {
+        return UITraitCollection.current.userInterfaceStyle == .dark
+    }
+}
+
+extension Date {
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
 }

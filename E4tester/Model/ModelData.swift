@@ -22,17 +22,14 @@ public extension Published {
     }
 }
 
-extension Date {
-    var startOfDay: Date {
-        return Calendar.current.startOfDay(for: self)
-    }
-}
+
 
 class ModelData: ObservableObject {
     var heartRate: Int = 0
     @Published(key: "avgHeartRate") var avgHeartRate: Int = -1
     @Published(key: "fatigueLevel") var fatigueLevel: Int = -1
     @Published(key: "deviceConnected") var deviceConnected: Bool = false
+    @Published(key: "lastUpdatedTime") var lastUpdatedTime: String = "-"
     
     @Published(key: "loggedIn") var loggedIn: Bool = false
     @Published var nameEntered: Bool = false
@@ -57,6 +54,7 @@ class ModelData: ObservableObject {
             defaultObservations.append(Peer.Observation(hour_from_midnight: i, fatigue_level_range: -1 ..< -1, avg_fatigue_level: -1))
         }
         deviceConnected = false
+        lastUpdatedTime = "-"
     }
     
     // GET fatigue data of a peer of today
@@ -86,8 +84,10 @@ class ModelData: ObservableObject {
         }
     }
     
+    /// ALL CODE BELOW IS **OBSOLETE**
+    
     /// OBSOLETE
-    /// We no longer retrieve first and last names of a user.
+    /// We no longer retrieve first and last names of a user from the database.
     // POST query first and last names for user information
     func queryName() async {
         struct Request: Codable {
@@ -270,6 +270,8 @@ class ModelData: ObservableObject {
         return
     }
     
+    /// OBSOLETE
+    /// We no longer use the activities table.
     // POST upload activities of folding/unfolding peers' fatigue details
     func uploadActivity(peer_id: String, if_open: Bool) async {
         // TODO
@@ -319,6 +321,8 @@ class ModelData: ObservableObject {
     }
 }
 
+/// OBSOLETE
+/// This is no longer used.
 // save and load User data when starting/quiting the app
 extension ModelData {
     static func load(completion: @escaping (Result<User, Error>)->Void) {

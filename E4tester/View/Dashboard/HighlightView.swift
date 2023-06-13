@@ -9,33 +9,43 @@
 import SwiftUI
 import SkeletonUI
 
+/// Shows highlights
+///
+/// ### Usage
+/// `HighlightView(numItems: 10)`
+///
 struct HighlightView: View {
     
     @ObservedObject var warningLoader = FatigueWarningLoader()
     @State var firstLoaded: Bool = false
+    @State var showDoSurvey: Bool = false
+    
+    @Binding var tabSelection: ContentView.Tab
     
     @AppStorage("highlightLastFetched") var highlightLastFetched: Double = 0
     
+    
     /// Constructor
-    init(numItems: Int = 2) {
-        FirebaseManager.connect()
-        FirebaseManager.getFatigueWarnings(loader: warningLoader,
-                                           numItems: numItems)
+    init(numItems: Int = 2, tabSelection: Binding<ContentView.Tab>) {
+        self._tabSelection = tabSelection
+        // User has survey to do today?
+        let (surveyAvailable, _) = SurveyManager.sufficientTimePassed()
+        let doSurvey = SurveyManager.doSurveyToday()
         
-//        // outdated highlight, fetch
-//        if Date().timeIntervalSince1970 - highlightLastFetched > 60 {
-//            FirebaseManager.connect()
-//            FirebaseManager.getFatigueWarnings(loader: warningLoader,
-//                                               numItems: numItems)
-//            highlightLastFetched = Date().timeIntervalSince1970
-//        }
-//        // reuse previously fetched data
-//        else {
-//            warningLoader = UserDefaults.standard.object(forKey: "lastHighlight") as? FatigueWarningLoader ?? FatigueWarningLoader()
-//        }
-        
-        
+        if doSurvey && surveyAvailable {
+            _showDoSurvey = State(initialValue: true)
+            FirebaseManager.connect()
+            FirebaseManager.getFatigueWarnings(loader: warningLoader,
+                                               numItems: numItems - 1)
+        }
+        else {
+            _showDoSurvey = State(initialValue: false)
+            FirebaseManager.connect()
+            FirebaseManager.getFatigueWarnings(loader: warningLoader,
+                                               numItems: numItems)
+        }
     }
+    
     
     var body: some View {
         VStack {
@@ -57,7 +67,7 @@ struct HighlightView: View {
                         }
                         
                     }
-                    .frame(width: 370, height: 60)
+                    .frame(width: 360, height: 60)
                     .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))
                     .cornerRadius(16)
                 }
@@ -67,6 +77,21 @@ struct HighlightView: View {
                 // done loading!
                 if warningLoader.data.count == 0 {
                     Text("No hightlights in your group.")
+                }
+                
+                // Do survey?
+                if showDoSurvey {
+                    Button(action: {
+                        tabSelection = .survey
+                    }) {
+                        HighlightItem(icon: "square.and.pencil",
+                                      iconColor: .cyan,
+                                      name: "Survey",
+                                      text: "Please complete the fatigue survey!",
+                                      showArrow: true) // declaration below
+                    }
+                    .foregroundColor(DarkMode.isDarkMode() ? .white : .black)
+                    
                 }
                 
                 // Highlights
@@ -83,43 +108,69 @@ struct HighlightView: View {
             
         }
         .frame(width: 360)
+        .onAppear {
+            let (surveyAvailable, _) = SurveyManager.sufficientTimePassed()
+            let doSurvey = SurveyManager.doSurveyToday()
+            
+            if doSurvey && surveyAvailable {
+                showDoSurvey = true
+            }
+            else {
+                showDoSurvey = false
+            }
+        }
         
     }
     
     
 }
 
-
+/// View for each highlight item.
 struct HighlightItem: View {
     
     var icon: String // leave empty ("") for no icon
     var iconColor: Color = .black
     var name: String
     var text: String
-    var timeAgo: String
+    var timeAgo: String = ""
+    var showArrow: Bool = false
     
     var body: some View {
         HStack {
             Spacer()
+                .frame(width: 20)
+            
             // icon
             if icon != "" {
                 Image(systemName: icon)
                     .foregroundColor(iconColor)
-                    .imageScale(.medium)
+                    .imageScale(.large)
             }
-            // text
-            Text(name)
-                .font(.system(size: 15, weight: .semibold))
-            
-            VStack(alignment: .leading) {
-                Text(text)
-                    .font(.system(size: 15))
-                Text(timeAgo)
-                    .font(.system(size: 10))
-            }
-            
             
             Spacer()
+                .frame(width: 12)
+            
+            // text
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(name)
+                        .font(.system(size: 15, weight: .semibold))
+                    Text(timeAgo)
+                        .font(.system(size: 10))
+                }
+                Text(text)
+                    .font(.system(size: 15))
+            }
+            
+            Spacer()
+            
+            if showArrow {
+                Image(systemName: "greaterthan")
+                    .resizable()
+                    .frame(width: 6, height: 12)
+                    .foregroundColor(Color(white: 0.5))
+                    .offset(x: -16)
+            }
         }
         .frame(width: 360, height: 60)
         .background(DarkMode.isDarkMode() ? Color(white: 0.1) : Color(white: 0.9))

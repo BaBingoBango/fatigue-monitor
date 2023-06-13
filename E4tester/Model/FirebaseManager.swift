@@ -9,6 +9,7 @@
 import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseMessaging
 
 
 /// Handles all Firebase-related actions.
@@ -17,9 +18,10 @@ import FirebaseFirestore
 /// All functions are static functions unless otherwise noted.
 ///
 /// ### Author & Version
-/// Seung-Gu Lee (seunggu@umich.edu), last modified May 23, 2023
+/// Seung-Gu Lee (seunggu@umich.edu), last modified Jun 6, 2023
 ///
 class FirebaseManager {
+    
     /// Firestore database object
     static var db: Firestore!
     
@@ -158,8 +160,10 @@ class FirebaseManager {
                                                        groupId: groupId,
                                                        deviceId: deviceId ?? "ERR"))
                     }
+                    userArr.updateLocalStorage()
                 }
             }
+        
     }
     
     /// Retreives the list of users in the current device's group, modifying `userArr` class object.
@@ -188,7 +192,8 @@ class FirebaseManager {
                     print("Error getting documents: \(err)")
                 }
                 else {
-                    var peer = Peer(id: deviceId, firstName: (groupFirstNames ?? [:])[deviceId] ?? "Unknown")
+                    var peer = Peer(id: deviceId,
+                                    firstName: (groupFirstNames ?? [:])[deviceId] ?? "Unknown")
                     var range: [Int: (Int, Int)] = [:] // hr : (min, max)
                     var avg: [Int: (Int, Int)] = [:] // hr: (sum, count)
                     
@@ -239,15 +244,9 @@ class FirebaseManager {
                         }
                     }
                     
-                    
                     modelData.crew.append(peer)
                 }
             }
-    }
-    
-    /// Sends a push notification to group members
-    static func sendFatigueWarning() {
-        // TODO
     }
     
     /// Uploads a record of fatigue warning to Firestore
@@ -300,8 +299,6 @@ class FirebaseManager {
                     loader.loading = false
                 }
             }
-        
-//        UserDefaults.standard.set(loader, forKey: "lastHighlight")
     }
     
     /// Uploads survey response data
@@ -323,8 +320,26 @@ class FirebaseManager {
                 print("Document \(docName) successfully written!")
             }
         }
-        
-        
+    }
+    
+    /// Sends a push notification to group members
+    static func sendFatigueWarning(firstName: String, fatigueLevel: Int) {
+        let title = "High Fatigue: \(firstName)"
+        let body = "\(firstName) may need a break (fatigue level \(fatigueLevel)%."
+    }
+    
+    /// Subscribe to push notifications of the group
+    /// Called on completing onboarding and editing profile (to be implemented)
+    static func subscribeToGroup(groupId: String) {
+        Messaging.messaging().subscribe(toTopic: "group_id_\(groupId)")
+        print("FirebaseManager.subscribeToGroup(): Subscribed to group_id_\(groupId)")
+    }
+    
+    /// Unsubscribe from push notifications of the group
+    /// Called on edit profile (to be implemented)
+    static func unsubscribeFromGroup(groupId: String) {
+        Messaging.messaging().unsubscribe(fromTopic: "group_id_\(groupId)")
+        print("FirebaseManager.unsubscribeFromGroup(): Unsubscribed from group_id_\(groupId)")
     }
 }
 

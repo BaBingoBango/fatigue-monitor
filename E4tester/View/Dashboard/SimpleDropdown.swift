@@ -19,7 +19,6 @@ struct SimpleDropdown: View {
     /// Label text to be shown on top of the dropdown menu.
     var label: String
     
-    
     /// Array of strings to be shown in the dropdown menu.
     var optionTexts: [String]
     

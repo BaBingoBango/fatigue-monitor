@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
 //        if modelData.loggedIn {
         TabView(selection: $selection) {
-            DashboardView()
+            DashboardView(tabSelection: $selection)
                 .tabItem {
                     Label("Dashboard", systemImage: "heart.text.square")
                 }

@@ -11,7 +11,9 @@ import SwiftUI
 struct CrewView: View {
     @EnvironmentObject var modelData: ModelData
     @State var dateSelection: Date = Date()
-    @StateObject var groupMates = RegisteredUserArr()
+    @ObservedObject var groupMates = RegisteredUserArr()
+    
+    @State var toggleToRefresh: Bool = false
     
     // timer for periodic crew info retrieval
     @State var timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
@@ -19,10 +21,13 @@ struct CrewView: View {
     var body: some View {
         VStack{
             
-            // Peers
-            HStack{
+            // List of peers
+            HStack {
                 Spacer()
-                ForEach(Array(modelData.crew.enumerated()), id: \.element) { index, peer in
+                let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
+                    return lhs.first_name < rhs.first_name
+                }
+                ForEach(Array(sortedCrew.enumerated()), id: \.element) { index, peer in
                     Circle()
                         .fill(Color.getColor(withIndex: index))
                         .frame(width: 8, height: 8)
@@ -35,13 +40,16 @@ struct CrewView: View {
             .frame(height: 15)
             .padding(.bottom, 5)
             
-            HStack{
+            // Graph
+            HStack {
                 Text("Average Fatigue Level")
                     .rotationEffect(.degrees(270))
                     .fixedSize()
                     .frame(width: 10, height: 90)
                     .font(.system(size: 16))
-                VStack{
+                
+                // y-axis label
+                VStack {
                     Text("100%")
                     Spacer()
                     Text("75%")
@@ -55,15 +63,12 @@ struct CrewView: View {
                         Text("")
                     }
                 }
-                //                    .border(Color.gray)
-                // ver 2.1
                 VStack{
                     MultiLineChartView(peers: modelData.crew)
                         .frame(height: 280)
                     HStack() {
-                        LabelView
+                        LabelView // x-axis label
                     }
-                    //                        .border(Color.gray)
                     
                 }
             }
@@ -79,17 +84,28 @@ struct CrewView: View {
             }
             
             // Date Selection
-            DatePicker("Date", selection: $dateSelection,
-                       displayedComponents: [.date])
-            .padding([.horizontal], 80)
+            HStack {
+                DatePicker("Date", selection: $dateSelection,
+                           displayedComponents: [.date])
+                .onChange(of: dateSelection, perform: { value in
+                    updateCrew()
+                })
+                
+                Button(action: {
+                    dateSelection = Date().startOfDay
+                    toggleToRefresh.toggle()
+                }) {
+                    Image(systemName: "arrow.counterclockwise")
+                }
+                .padding(.leading, 8)
+            }
             .padding(.top, 8)
             .padding(.bottom, 16)
-            .onChange(of: dateSelection, perform: { value in
-                updateCrew()
-            })
+            .padding([.horizontal], 70)
         }
     }
 
+    /// x-axis labels
     var LabelView: some View {
         Group {
             Spacer()
@@ -108,6 +124,7 @@ struct CrewView: View {
         }
     }
     
+    /// Updates graph data on call
     func updateCrew() {
         getGroupmateNames()
         print("update crew")
@@ -119,6 +136,7 @@ struct CrewView: View {
         }
     }
     
+    /// Initializes graph data on call
     func initCrew() {
         getGroupmateNames()
         print("init crew")
@@ -127,6 +145,7 @@ struct CrewView: View {
         }
     }
     
+    /// Retrieves up-to-date groupmate names from the database
     @AppStorage("userGroupId") var userGroupId: String = ""
     func getGroupmateNames() {
         print("Group ID: \(userGroupId)")

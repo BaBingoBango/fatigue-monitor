@@ -7,8 +7,10 @@ import SwiftUI
 ///
 struct SurveyInfoViewDetails: View {
     
-    
+    /// Font size for body text.
     let infoFontSize: CGFloat = 15
+    
+    /// Toggle this to refresh `SurveyInfoView`.
     @Binding var toggleToRefresh: Bool
     
     var body: some View {
@@ -100,8 +102,8 @@ struct SurveyInfoViewDetails: View {
                     .padding(.bottom, 20)
                     
                     // Next
-                    let todaysResponses = SurveyInfoView.surveysSubmittedToday()
-                    let (timePassed, nextTime) = SurveyInfoView.sufficientTimePassed()
+                    let todaysResponses = SurveyManager.surveysSubmittedToday()
+                    let (timePassed, nextTime) = SurveyManager.sufficientTimePassed()
                     if todaysResponses < 8 && timePassed {
                         NavigationLink(destination: SurveyView(toggleToRefresh: $toggleToRefresh)) {
                             IconButtonInner(iconName: "square.and.pencil", buttonText: "Continue to Survey")

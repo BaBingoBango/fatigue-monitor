@@ -248,7 +248,8 @@ extension ViewController {
             UserDefaults.standard.set(now, forKey: "lastFatigueWarningSent")
         }
         
-        FirebaseManager.sendFatigueWarning()
+        let firstName = UserDefaults.standard.string(forKey: "userFirstName") ?? "ERROR"
+        FirebaseManager.sendFatigueWarning(firstName: firstName, fatigueLevel: fatigueLevel)
         FirebaseManager.uploadFatigueWarning(fatigueLevel)
     }
 }
@@ -298,6 +299,7 @@ extension ViewController: EmpaticaDelegate {
 
 extension ViewController: EmpaticaDeviceDelegate {
     
+    /// Called when the app receives a temperature data from the wristband.
     func didReceiveTemperature(_ temp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         
         //        let strDate = ts2date(timestamp: timestamp)
@@ -305,23 +307,18 @@ extension ViewController: EmpaticaDeviceDelegate {
         //        delegate?.updateFatigueLevel(self, fatigueLevel: Int(temp))
     }
     
+    /// Called when the app receives an IBI data from the wristband.
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-        
+        // unrealistic heart rate?
         let heartRate = Int(60 / ibi)
         if (heartRate > max_heart_rate) {
             return
         }
         
         let avgHR = getAverageHeartRate()
-        
         if (avgHR == 0 || (avgHR != 0 && abs(heartRate - avgHR) < 30)) {
-            
             heartRates.append(heartRate)
-            
-            // update UI
-//            delegate?.updateHeartRate(self, heartRate: heartRate)
-            
-            // upload to server
+//            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
             uploadHeartRate(heartRate: heartRate, timestamp: timestamp)
         }
         
@@ -329,16 +326,10 @@ extension ViewController: EmpaticaDeviceDelegate {
         if (timestamp - self.lastUpdateTime > 60) {
             assessFatigue()
         }
-        
         print("\(device.serialNumber!) \(ts2date(timestamp: timestamp)) IBI { \(ibi) }")
     }
-    
-    //    func didReceiveBVP(_ bvp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-    //
-    //        print("\(device.serialNumber!) BVP { \(timestamp) \(bvp) }")
-    //    }
-    
-    
+
+    /// ???
     func didUpdate( _ status: DeviceStatus, forDevice device: EmpaticaDeviceManager!) {
         
         self.updateValue(device: device)
@@ -378,6 +369,7 @@ extension ViewController: EmpaticaDeviceDelegate {
         }
     }
     
+    /// Called when the app receives battery level data from the wristband.
     func didReceiveBatteryLevel(_ level: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         let percentage = Int((level * 100).rounded(.up))
         self.updateValue(device: device, battery: percentage)

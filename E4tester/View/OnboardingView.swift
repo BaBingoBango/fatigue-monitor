@@ -70,5 +70,6 @@ struct OnboardingView: View {
         FirebaseManager.connect()
         FirebaseManager.registerUser(firstName: firstName, lastName: lastName,
                                      age: userAge, groupId: groupId, startDate: startDate)
+        FirebaseManager.subscribeToGroup(groupId: groupId)
     }
 }
