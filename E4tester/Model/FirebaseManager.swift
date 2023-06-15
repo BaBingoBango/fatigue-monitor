@@ -322,11 +322,7 @@ class FirebaseManager {
         }
     }
     
-    /// Sends a push notification to group members
-    static func sendFatigueWarning(firstName: String, fatigueLevel: Int) {
-        let title = "High Fatigue: \(firstName)"
-        let body = "\(firstName) may need a break (fatigue level \(fatigueLevel)%."
-    }
+
     
     /// Subscribe to push notifications of the group
     /// Called on completing onboarding and editing profile (to be implemented)

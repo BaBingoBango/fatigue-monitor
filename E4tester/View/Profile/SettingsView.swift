@@ -14,29 +14,36 @@ struct SettingsView: View {
     var receiveErrorNotifications: Bool = true
     
     var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Notifications")) {
-                    Toggle(isOn: $receiveErrorNotifications) {
-                        Text("TODO")
-                    }
-                }
-                
-                // App Info
-                Section(header: Text("App Info")) {
-                    NavigationLink("About SafeConnect") {
-                        WebView(url: URL(string: "https://google.com"))
-                    }
-                    NavigationLink("Help & Support") {
-                        WebView(url: URL(string: "https://google.com"))
-                    }
-                    NavigationLink("Legal") {
-                        WebView(url: URL(string: "https://google.com"))
-                    }
+        Form {
+            Section(header: Text("Notifications")) {
+                Toggle(isOn: $receiveErrorNotifications) {
+                    Text("TODO")
                 }
             }
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
+            
+            // App Info
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+            Section(header: Text("App Info"),
+                    footer: Text("Version " + (appVersion ?? "?"))) {
+                NavigationLink("About SafeConnect") {
+                    WebView(url: URL(string: "https://google.com"))
+                }
+                NavigationLink("Help & Support") {
+                    WebView(url: URL(string: "https://google.com"))
+                }
+                NavigationLink("Privacy Policy") {
+                    WebView(url: URL(string: "https://google.com"))
+                }
+            }
+            
+            // App Info
+            Section(header: Text("Testing")) {
+                Button("Test Push Notification") {
+                    NodeServer.sendFatigueWarning(firstName: "Test Name",
+                                                  fatigueLevel: 55,
+                                                  groupId: "2")
+                }
+            }
         }
     }
 }

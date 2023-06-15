@@ -249,7 +249,8 @@ extension ViewController {
         }
         
         let firstName = UserDefaults.standard.string(forKey: "userFirstName") ?? "ERROR"
-        FirebaseManager.sendFatigueWarning(firstName: firstName, fatigueLevel: fatigueLevel)
+        let groupId = UserDefaults.standard.string(forKey: "userGroupId") ?? "ERROR"
+        NodeServer.sendFatigueWarning(firstName: firstName, fatigueLevel: fatigueLevel, groupId: groupId)
         FirebaseManager.uploadFatigueWarning(fatigueLevel)
     }
 }

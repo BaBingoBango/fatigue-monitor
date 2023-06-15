@@ -51,6 +51,7 @@
 		FE14B9F32A2FA2AF004A1E30 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FE14B9F22A2FA2AF004A1E30 /* FirebaseMessaging */; };
 		FE5ED2582A39100300C9E3D7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5ED2572A39100300C9E3D7 /* SettingsView.swift */; };
 		FE5ED25A2A39113000C9E3D7 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5ED2592A39113000C9E3D7 /* WebView.swift */; };
+		FE5ED25C2A3B7FFC00C9E3D7 /* NodeServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5ED25B2A3B7FFC00C9E3D7 /* NodeServer.swift */; };
 		FE620EBF2A14048F0073B8F0 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */; };
 		FE620EC32A1408010073B8F0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE620EC22A1408010073B8F0 /* OnboardingView.swift */; };
 		FEE155EC2A1557F000398DCD /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE155EB2A1557F000398DCD /* Toast.swift */; };
@@ -124,6 +125,7 @@
 		FE14B9E02A2F9318004A1E30 /* E4tester.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = E4tester.entitlements; sourceTree = "<group>"; };
 		FE5ED2572A39100300C9E3D7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		FE5ED2592A39113000C9E3D7 /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		FE5ED25B2A3B7FFC00C9E3D7 /* NodeServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeServer.swift; sourceTree = "<group>"; };
 		FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		FE620EC22A1408010073B8F0 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		FEE155EB2A1557F000398DCD /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				B9D051C1288B2D5F00AAC9D8 /* ResponseModel.swift */,
 				B9D051D028908DD100AAC9D8 /* Utilities.swift */,
 				B9EC1D8828C9234A007EB285 /* Notification.swift */,
+				FE5ED25B2A3B7FFC00C9E3D7 /* NodeServer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
 				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
 				FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */,
+				FE5ED25C2A3B7FFC00C9E3D7 /* NodeServer.swift in Sources */,
 				FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */,
