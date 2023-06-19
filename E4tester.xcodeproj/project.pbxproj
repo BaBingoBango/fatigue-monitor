@@ -88,7 +88,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		55591B651F2884AC0084CF0C /* E4tester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = E4tester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55591B651F2884AC0084CF0C /* DPM SafeConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DPM SafeConnect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55591B6A1F2884AC0084CF0C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		55591B6D1F2884AC0084CF0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55591B6F1F2884AC0084CF0C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -176,15 +176,15 @@
 			isa = PBXGroup;
 			children = (
 				55591B671F2884AC0084CF0C /* E4tester */,
-				55591B661F2884AC0084CF0C /* Products */,
 				55591B961F2887C90084CF0C /* Frameworks */,
+				55591B661F2884AC0084CF0C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 		55591B661F2884AC0084CF0C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				55591B651F2884AC0084CF0C /* E4tester.app */,
+				55591B651F2884AC0084CF0C /* DPM SafeConnect.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -194,9 +194,7 @@
 			children = (
 				FE14B9E02A2F9318004A1E30 /* E4tester.entitlements */,
 				FEE156482A26466E00398DCD /* GoogleService-Info.plist */,
-				FE620EC02A1405AE0073B8F0 /* Managers */,
 				B93AB809285D8E6E0008DC59 /* DPMApp.swift */,
-				FE01C5762A2FAB1800850EFF /* AppDelegate.swift */,
 				B91AA797286D0C8400B36E84 /* View */,
 				B91AA798286D0C8C00B36E84 /* Model */,
 				55591B6C1F2884AC0084CF0C /* Main.storyboard */,
@@ -220,6 +218,7 @@
 		B91AA797286D0C8400B36E84 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FEE155EB2A1557F000398DCD /* Toast.swift */,
 				FE5ED2592A39113000C9E3D7 /* WebView.swift */,
 				FEE1562F2A1FB7CB00398DCD /* Survey */,
 				FEE1562C2A1E974A00398DCD /* Assets */,
@@ -237,10 +236,7 @@
 		B91AA798286D0C8C00B36E84 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */,
-				FEE155F52A17C92100398DCD /* UserInfoLoader.swift */,
-				FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */,
-				FEE155EB2A1557F000398DCD /* Toast.swift */,
+				FE5ED25F2A40D74E00C9E3D7 /* Firebase */,
 				B91AA78F286CA26E00B36E84 /* ModelData.swift */,
 				B91AA79B286D12E900B36E84 /* Config.swift */,
 				B9D051B9288B11B400AAC9D8 /* User.swift */,
@@ -301,20 +297,16 @@
 			path = MyCrew;
 			sourceTree = "<group>";
 		};
-		FE620EC02A1405AE0073B8F0 /* Managers */ = {
+		FE5ED25F2A40D74E00C9E3D7 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				FE620EC12A1405BD0073B8F0 /* Structs */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		FE620EC12A1405BD0073B8F0 /* Structs */ = {
-			isa = PBXGroup;
-			children = (
+				FE01C5762A2FAB1800850EFF /* AppDelegate.swift */,
+				FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */,
+				FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */,
 				FEE155ED2A155FA300398DCD /* RegisteredUser.swift */,
+				FEE155F52A17C92100398DCD /* UserInfoLoader.swift */,
 			);
-			path = Structs;
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		FEE155F22A1709C900398DCD /* Device */ = {
@@ -371,7 +363,7 @@
 				FE14B9F22A2FA2AF004A1E30 /* FirebaseMessaging */,
 			);
 			productName = E4Tests;
-			productReference = 55591B651F2884AC0084CF0C /* E4tester.app */;
+			productReference = 55591B651F2884AC0084CF0C /* DPM SafeConnect.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -655,7 +647,7 @@
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -697,7 +689,7 @@
 				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = NO;

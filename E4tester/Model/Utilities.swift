@@ -49,6 +49,20 @@ class Utilities {
         dateFormatter.dateFormat = "EEE, MMM d"
         return dateFormatter.string(from: date)
     }
+    
+    /// Retrieves the timestamp as a sorting- and human-friendly string.
+    ///
+    /// ### Format
+    /// `yyyyMMdd-HHmmss`
+    /// Example: `20230115-233405
+    ///
+    static func timestampToDateString(_ timestamp: Double) -> String {
+        let date = Date(timeIntervalSince1970: timestamp)
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyyMMdd-HHmmss"
+        return dateFormatter.string(from: date)
+    }
 }
 
 extension Color {

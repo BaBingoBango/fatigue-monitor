@@ -84,6 +84,8 @@ class ModelData: ObservableObject {
         }
     }
     
+
+    
     /// ALL CODE BELOW IS **OBSOLETE**
     
     /// OBSOLETE
@@ -274,50 +276,7 @@ class ModelData: ObservableObject {
     /// We no longer use the activities table.
     // POST upload activities of folding/unfolding peers' fatigue details
     func uploadActivity(peer_id: String, if_open: Bool) async {
-        // TODO
         
-//        struct Request: Codable {
-//            let user_id: Int
-//            let peer_id: Int
-//            let timestamp: Double
-//            let if_open: Bool
-//        }
-//
-//        let request_json = Request(user_id: self.user.user_id,
-//                                   peer_id: peer_id,
-//                                   timestamp: Date().timeIntervalSince1970,
-//                                   if_open: if_open
-//        )
-//        guard let encoded_json = try? JSONEncoder().encode(request_json) else {
-//            print("encode error")
-//            return
-//        }
-//
-//        let url = URL(string: Config.API_SERVER + "/api/v1/upload/activity/")!
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        let task = URLSession.shared.uploadTask(with: request, from: encoded_json) { data, response, error in
-//            if let error = error {
-//                print ("error: \(error)")
-//                return
-//            }
-//            guard let response = response as? HTTPURLResponse,
-//                  (200...299).contains(response.statusCode) else {
-//                print ("server error")
-//                return
-//            }
-//            if let mimeType = response.mimeType,
-//               mimeType == "application/json",
-//               let data = data,
-//               let dataString = String(data: data, encoding: .utf8) {
-//
-//                print ("got data: \(dataString)")
-//            }
-//        }
-//        task.resume()
-//        return
     }
 }
 

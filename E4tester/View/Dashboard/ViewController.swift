@@ -15,7 +15,12 @@ class ViewController: UITableViewController {
     
     private var user_id: Int = -1
     
+    /// Used to calculate fatigue level
     private var heartRates: [Int] = []
+    
+    /// For recording purposes
+    private var heartRateMap: [String: Int] = [:]
+    
     private var lastUpdateTime: Double = 0
     
 
@@ -92,17 +97,12 @@ class ViewController: UITableViewController {
     }
     
     private func updateValue(device : EmpaticaDeviceManager, battery : Int = -1) {
-        
         if let row = self.devices.firstIndex(of: device) {
-            
             DispatchQueue.main.async {
-                
                 for cell in self.tableView.visibleCells {
-                    
                     if let cell = cell as? DeviceTableViewCell {
                         
                         if cell.device == device {
-                            
                             let cell = self.tableView.cellForRow(at: IndexPath(row: row, section: 0))
                             
                             if !device.allowed {
@@ -177,12 +177,6 @@ protocol ViewControllerDelegate: AnyObject {
 extension ViewController {
     
     // POST
-    func uploadHeartRate(heartRate: Int, timestamp: Double) {
-        FirebaseManager.connect()
-        FirebaseManager.uploadHeartRate(heartRate: heartRate, timestamp: timestamp)
-    }
-    
-    // POST
     func uploadFatigueLevel(fatigueLevel: Int, timestamp: Double) {
         FirebaseManager.connect()
         FirebaseManager.uploadFatigueLevel(fatigueLevel: fatigueLevel, timestamp: timestamp)
@@ -223,9 +217,11 @@ extension ViewController {
         
         // upload to server
         uploadFatigueLevel(fatigueLevel: fatigue, timestamp: Date().timeIntervalSince1970)
+        FirebaseManager.uploadHeartRate(hrMap: self.heartRateMap)
         
         // reset
         self.heartRates = []
+        self.heartRateMap = [:]
         
         // Upload to highlights?
         let fatigueWarningThreshold: Int = 0
@@ -319,8 +315,9 @@ extension ViewController: EmpaticaDeviceDelegate {
         let avgHR = getAverageHeartRate()
         if (avgHR == 0 || (avgHR != 0 && abs(heartRate - avgHR) < 30)) {
             heartRates.append(heartRate)
+            heartRateMap[Utilities.timestampToDateString(timestamp)] = heartRate
 //            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
-            uploadHeartRate(heartRate: heartRate, timestamp: timestamp)
+            
         }
         
         // check time interval
@@ -439,7 +436,6 @@ class DeviceTableViewCell : UITableViewCell {
         // wristband image
         imageView!.image = UIImage(named: "E4_wristband_wc")
         imageView!.frame = CGRectMake(0, 0, 80, 80)
-        
     }
     
     override func layoutSubviews() {

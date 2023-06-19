@@ -11,7 +11,7 @@ import SwiftUI
 /// Contains UI to connect, disconnect, and view E4 devices.
 struct DeviceView: View {
     var body: some View {
-        ScrollView {
+        VStack {
             VStack {
                 // Header
                 Spacer()

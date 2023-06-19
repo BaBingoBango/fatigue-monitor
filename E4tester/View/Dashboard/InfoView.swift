@@ -67,7 +67,7 @@ struct InfoView: View {
                                 .foregroundColor(Color(white: 0.5))
                         }
                         else {
-                            Text("Connect device")
+                            Text("Disconnected")
                                 .font(.system(size: 12, weight: .light))
                                 .foregroundColor(Color(white: 0.5))
                         }

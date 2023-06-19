@@ -63,9 +63,8 @@ struct PeerView: View {
                 VStack(alignment: .leading) {
                     Text(peer.first_name)
                         .font(.headline)
-                    HStack{
+                    HStack {
                         Text(fatigueLevelDisplay(fatigue_level: peer.fatigue_level))
-//                            .font(.callout)
                         Text(relativeDate)
                             .foregroundColor(.secondary)
                             .onReceive(timer) { _ in

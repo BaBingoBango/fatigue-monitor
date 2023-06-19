@@ -63,8 +63,11 @@ struct CrewView: View {
                         Text("")
                     }
                 }
-                VStack{
-                    MultiLineChartView(peers: modelData.crew)
+                VStack {
+                    let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
+                        return lhs.first_name < rhs.first_name
+                    }
+                    MultiLineChartView(peers: sortedCrew)
                         .frame(height: 280)
                     HStack() {
                         LabelView // x-axis label
@@ -101,7 +104,7 @@ struct CrewView: View {
             }
             .padding(.top, 8)
             .padding(.bottom, 16)
-            .padding([.horizontal], 70)
+            .padding([.horizontal], 60)
         }
     }
 
@@ -110,6 +113,8 @@ struct CrewView: View {
         Group {
             Spacer()
             HStack {
+                Text("7am")
+                Spacer()
                 Text("9am")
                 Spacer()
                 Text("11am")
@@ -117,8 +122,6 @@ struct CrewView: View {
                 Text("1pm")
                 Spacer()
                 Text("3pm")
-                Spacer()
-                Text("5pm")
             }
             Spacer()
         }
@@ -132,7 +135,7 @@ struct CrewView: View {
             modelData.updateCrew(dateSelection)
         }
         if !modelData.crew.isEmpty {
-            timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+            timer = Timer.publish(every: 300, on: .main, in: .common).autoconnect()
         }
     }
     

@@ -44,6 +44,31 @@ class FirebaseManager {
             "device_uuid": deviceId,
             "age": age,
             "group_id": groupId,
+            "start_date": startDate.startOfDay.timeIntervalSince1970,
+            // Heart rate stuff
+            "heart_rate_reserve_cp": Int(20),
+            "k_value": Int(15),
+            "rest_heart_rate": Int(60),
+            "total_awc": Int(150)
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document \(docName) successfully written!")
+            }
+        }
+    }
+    
+    /// Edit user information.
+    /// Must connect to Firebase by calling `FirestoreManager.connect()` before running.
+    static func editUser(age: Int, startDate: Date) {
+        let deviceId = UIDevice.current.identifierForVendor?.uuidString
+        var ref: DocumentReference? = nil;
+        let docName: String = deviceId ?? "error";
+        
+        db.collection("users").document(docName).updateData([
+            "device_uuid": deviceId,
+            "age": age,
             "start_date": startDate.startOfDay.timeIntervalSince1970
         ]) { err in
             if let err = err {
@@ -67,7 +92,13 @@ class FirebaseManager {
                 }
                 else {
                     for document in querySnapshot!.documents {
+                        let oldGroupId = userGroupId
                         userGroupId = document.get("group_id") as? String ?? "ERROR"
+                        
+                        if userGroupId != oldGroupId {
+                            unsubscribeFromGroup(groupId: oldGroupId)
+                        }
+                        subscribeToGroup(groupId: userGroupId)
                     }
                 }
             }
@@ -77,7 +108,7 @@ class FirebaseManager {
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func loadUserInfo(loader: UserInfoLoader) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        let docRef = db.collection("user_heart_data").document(deviceId ?? "error")
+        let docRef = db.collection("users").document(deviceId ?? "error")
         loader.loading = true
         
         docRef.getDocument { (document, err) in
@@ -100,9 +131,10 @@ class FirebaseManager {
     static func uploadFatigueLevel(fatigueLevel: Int, timestamp: Double) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
         var ref: DocumentReference? = nil;
-        let docName: String = (deviceId ?? "Invalid_Device_ID") + "__" + String(timestamp);
+        let docName: String = Utilities.timestampToDateString(timestamp);
         
-        db.collection("fatigue_levels").document(docName).setData([
+        db.collection("users").document(deviceId ?? "")
+            .collection("fatigue_levels").document(docName).setData([
             "device_uuid": deviceId,
             "fatigue_level": fatigueLevel,
             "timestamp": timestamp
@@ -116,17 +148,16 @@ class FirebaseManager {
     }
     
     /// Uploads heart rate to database.
-    /// Called by `uploadHeartRate` in `ViewController`
+    /// Called by `didReceiveIBI` in `ViewController`
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
-    static func uploadHeartRate(heartRate: Int, timestamp: Double) {
+    static func uploadHeartRate(hrMap: [String: Int]) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
         var ref: DocumentReference? = nil;
-        let docName: String = (deviceId ?? "Invalid_Device_ID") + "__" + String(timestamp);
+        let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
         
-        db.collection("heart_rates").document(docName).setData([
-            "device_uuid": deviceId,
-            "heart_rate": heartRate,
-            "timestamp": timestamp
+        db.collection("users").document(deviceId ?? "")
+            .collection("heart_rates").document(docName).setData([
+            "heart_rates": hrMap
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -182,8 +213,7 @@ class FirebaseManager {
         let groupFirstNames =  UserDefaults.standard.object(forKey: "groupFirstNames") as? [String: String]
         
         modelData.crew.removeAll()
-        db.collection("fatigue_levels")
-            .whereField("device_uuid", isEqualTo: deviceId)
+        db.collection("users").document(deviceId).collection("fatigue_levels")
             .whereField("timestamp", isGreaterThanOrEqualTo: startTime)
             .whereField("timestamp", isLessThanOrEqualTo: endTime)
             .order(by: "timestamp")
@@ -218,19 +248,20 @@ class FirebaseManager {
                     // observations
                     let hourOfDayNow = Calendar.current.component(.hour, from: Date())
                     let upperBound: Int
+                    let lowerBound = 7
                     
                     if startTime > Date().timeIntervalSince1970 { // future
-                        upperBound = 9
+                        upperBound = lowerBound
                     }
                     else if endTime > Date().timeIntervalSince1970 { // data from today
-                        upperBound = min(18, hourOfDayNow+1)
+                        upperBound = min(16, hourOfDayNow+1)
                     }
-                    else {
-                        upperBound = 18
+                    else { // past
+                        upperBound = 16
                     }
                     
-                    if upperBound >= 9 {
-                        for hr in 9..<upperBound { // CHANGE ME to adjust x-range
+                    if upperBound >= lowerBound {
+                        for hr in lowerBound..<upperBound { // CHANGE ME to adjust x-range
                             let (curSum, curCount) = avg[hr] ?? (-1, -1)
                             let (curMin, curMax) = range[hr] ?? (-1, -1)
                             if curSum >= 0 {
@@ -309,7 +340,8 @@ class FirebaseManager {
         var ref: DocumentReference? = nil;
         let docName: String = UUID().uuidString
         
-        db.collection("surveys").document(docName).setData([
+        db.collection("users").document(deviceId)
+            .collection("survey_responses").document(Utilities.timestampToDateString(timestamp)).setData([
             "device_id": deviceId,
             "timestamp": timestamp,
             "fatigue_level": fatigueLevel

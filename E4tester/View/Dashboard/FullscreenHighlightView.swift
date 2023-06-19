@@ -9,19 +9,26 @@
 import SwiftUI
 
 struct FullscreenHighlightView: View {
+    @AppStorage("numHighlights") var numHighlights: Int = 12
     @Binding var tabSelection: ContentView.Tab
+    @AppStorage("userGroupId") var userGroupId: String = ""
     
     var body: some View {
-        GeometryReader { metrics in
-            NavigationView {
-                ScrollView {
-                    HighlightView(numItems: 12, tabSelection: $tabSelection)
+        ScrollView {
+            HStack {
+                Text("Number of Highlights")
+                Picker("Number of Highlights", selection: $numHighlights) {
+                    Text("12").tag(12)
+                    Text("24").tag(24)
+                    Text("36").tag(36)
+                    Text("48").tag(48)
+                    Text("60").tag(60)
                 }
-                .frame(width: metrics.size.width)
             }
-            .frame(width: metrics.size.width)
-            .navigationTitle(Text("Highlights"))
+               
+            HighlightView(numItems: numHighlights, tabSelection: $tabSelection)
         }
+        .navigationTitle(Text("Group \(userGroupId)"))
     }
 }
 
