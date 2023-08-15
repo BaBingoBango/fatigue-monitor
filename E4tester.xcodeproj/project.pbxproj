@@ -68,7 +68,7 @@
 		FEE156332A1FB88800398DCD /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156322A1FB88800398DCD /* SurveyView.swift */; };
 		FEE156362A1FB89000398DCD /* IconButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156342A1FB89000398DCD /* IconButtonStyle.swift */; };
 		FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156352A1FB89000398DCD /* IconButtonInner.swift */; };
-		FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */; };
+		FEE1563B2A1FC3E800398DCD /* SurveyDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563A2A1FC3E800398DCD /* SurveyDetailsView.swift */; };
 		FEE1563D2A1FD7AE00398DCD /* SurveyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */; };
 		FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE156462A263C0C00398DCD /* TimelineView.swift */; };
 		FEE156492A26466E00398DCD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEE156482A26466E00398DCD /* GoogleService-Info.plist */; };
@@ -141,7 +141,7 @@
 		FEE156322A1FB88800398DCD /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
 		FEE156342A1FB89000398DCD /* IconButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButtonStyle.swift; sourceTree = "<group>"; };
 		FEE156352A1FB89000398DCD /* IconButtonInner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButtonInner.swift; sourceTree = "<group>"; };
-		FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoViewDetails.swift; sourceTree = "<group>"; };
+		FEE1563A2A1FC3E800398DCD /* SurveyDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyDetailsView.swift; sourceTree = "<group>"; };
 		FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyInfoView.swift; sourceTree = "<group>"; };
 		FEE156462A263C0C00398DCD /* TimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineView.swift; sourceTree = "<group>"; };
 		FEE156482A26466E00398DCD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 				FEE156352A1FB89000398DCD /* IconButtonInner.swift */,
 				FEE156342A1FB89000398DCD /* IconButtonStyle.swift */,
 				FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */,
-				FEE1563A2A1FC3E800398DCD /* SurveyInfoViewDetails.swift */,
+				FEE1563A2A1FC3E800398DCD /* SurveyDetailsView.swift */,
 				FE01C5792A2FAF6100850EFF /* SurveyManager.swift */,
 			);
 			path = Survey;
@@ -470,7 +470,7 @@
 				B9D051B22888435800AAC9D8 /* LoginView.swift in Sources */,
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
 				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
-				FEE1563B2A1FC3E800398DCD /* SurveyInfoViewDetails.swift in Sources */,
+				FEE1563B2A1FC3E800398DCD /* SurveyDetailsView.swift in Sources */,
 				FE5ED25C2A3B7FFC00C9E3D7 /* NodeServer.swift in Sources */,
 				FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
@@ -644,7 +644,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "DPM SafeConnect";
@@ -686,7 +686,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "DPM SafeConnect";

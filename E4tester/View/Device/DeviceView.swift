@@ -70,15 +70,14 @@ struct DeviceView: View {
                 .cornerRadius(24)
                 
                 // User Manual
-                Link(destination: URL(string: "https://eu32.salesforce.com/sfc/p/#5J000001QPsT/a/5J000000p2rz/7eFMC1dLiJPyeTNeTgkxHFOFcdN77YXxiHijMSHsz6E")!) {
-                    HStack {
-                        Image(systemName: "book.fill")
-                            .imageScale(.medium)
-                        Text("User Manual")
-                    }
-                    
-                }
-                .padding(.top, 8)
+//                Link(destination: URL(string: "https://eu32.salesforce.com/sfc/p/#5J000001QPsT/a/5J000000p2rz/7eFMC1dLiJPyeTNeTgkxHFOFcdN77YXxiHijMSHsz6E")!) {
+//                    HStack {
+//                        Image(systemName: "book.fill")
+//                            .imageScale(.medium)
+//                        Text("User Manual")
+//                    }
+//                }
+//                .padding(.top, 8)
                 
                 // Divider
                 Spacer()

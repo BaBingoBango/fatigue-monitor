@@ -38,7 +38,7 @@ class SurveyManager {
     /// - Bool: true if sufficient time (default 60 min) has passed since last survey submission, false otherwise
     /// - String: next earliest time user can submit a form if false. Trivial value returned when returning true
     static func sufficientTimePassed() -> (Bool, String) {
-        let minTime: Double = 3600 // seconds
+        let minTime: Double = 180 // seconds
         let curArr = UserDefaults.standard.object(forKey: "submittedSurveyTimestamps") as? [Double] ?? []
         if curArr.isEmpty { // first response
             return (true, "")

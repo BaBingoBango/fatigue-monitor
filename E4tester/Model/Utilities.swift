@@ -63,6 +63,8 @@ class Utilities {
         dateFormatter.dateFormat = "yyyyMMdd-HHmmss"
         return dateFormatter.string(from: date)
     }
+    
+    
 }
 
 extension Color {
@@ -71,9 +73,10 @@ extension Color {
         Color(red: 255/255, green: 166/255, blue: 48/255),
         Color(red: 92/255, green: 92/255, blue: 92/255),
         Color(red: 107/255, green: 189/255, blue: 96/255),
-        Color(red: 0/255, green: 167/255, blue: 225/255),
+        Color(red: 0/255, green: 231/255, blue: 196/255),
         Color(red: 255/255, green: 166/255, blue: 0)
     ]
+
     
     static var random: Color {
         return Color(
@@ -86,6 +89,10 @@ extension Color {
     static func getColor(withIndex index: Int) -> Color {
         return Colors[index % 6]
     }
+    
+//    static func strToColor(str: String) -> Color {
+//        // Generate MD5 hash
+//    }
 }
 
 // convert timestamp to date string

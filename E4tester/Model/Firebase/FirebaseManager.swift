@@ -241,23 +241,23 @@ class FirebaseManager {
                             let (curMin, curMax) = range[hourOfDay] ?? (-1, -1)
                             range[hourOfDay] = (min(curMin, fatigueLevel ?? -1), max(curMax, fatigueLevel ?? -1))
                             let (curSum, curCount) = avg[hourOfDay] ?? (-1, -1)
-                            avg[hourOfDay] = (curSum + (fatigueLevel ?? -1), curCount + 1)
+                            avg[hourOfDay] = (curSum + min((fatigueLevel ?? 100), 100), curCount + 1)
                         }
                     }
                     
                     // observations
                     let hourOfDayNow = Calendar.current.component(.hour, from: Date())
                     let upperBound: Int
-                    let lowerBound = 7
+                    let lowerBound = UserDefaults.standard.integer(forKey: "xAxisStartHour")
                     
                     if startTime > Date().timeIntervalSince1970 { // future
                         upperBound = lowerBound
                     }
                     else if endTime > Date().timeIntervalSince1970 { // data from today
-                        upperBound = min(16, hourOfDayNow+1)
+                        upperBound = min(lowerBound+9, hourOfDayNow+1)
                     }
                     else { // past
-                        upperBound = 16
+                        upperBound = lowerBound+9
                     }
                     
                     if upperBound >= lowerBound {

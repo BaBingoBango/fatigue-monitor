@@ -99,9 +99,51 @@ struct InfoView: View {
                             .offset(x: 0, y: -3)
                         
                     }
-                    Text("Fatigue Level")
-                        .font(.system(size: 15, weight: .semibold))
+//                    Text("Fatigue Level")
+//                        .font(.system(size: 15, weight: .semibold))
                     
+                    if self.modelData.fatigueLevel < 40  {
+                        HStack {
+                            Image(systemName: "checkmark.shield.fill")
+                                .imageScale(.small)
+                                .padding(.trailing, -4)
+                            Text("Low Fatigue")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .foregroundColor(Color(red: 10/255, green: 163/255, blue: 0))
+                    }
+                    else if self.modelData.fatigueLevel < 70 {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .imageScale(.small)
+                                .padding(.trailing, -4)
+                            Text("Moderate Fatigue")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .foregroundColor(.orange)
+                    }
+                    else if self.modelData.fatigueLevel < 90 {
+                        HStack {
+                            Image(systemName: "exclamationmark.octagon.fill")
+                                .imageScale(.small)
+                                .padding(.trailing, -4)
+                            Text("High Fatigue")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .foregroundColor(.red)
+                        .padding(.top, 4)
+                    }
+                    else {
+                        HStack {
+                            Image(systemName: "exclamationmark.octagon.fill")
+                                .imageScale(.small)
+                                .padding(.trailing, -4)
+                            Text("Critical")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .foregroundColor(.red)
+                        .padding(.top, 4)
+                    }
                 }
                 .multilineTextAlignment(.center)
             }

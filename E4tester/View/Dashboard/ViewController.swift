@@ -306,7 +306,12 @@ extension ViewController: EmpaticaDeviceDelegate {
     
     /// Called when the app receives an IBI data from the wristband.
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        // calculate HR
+        
         // unrealistic heart rate?
+        if Int(ibi) == 0 {
+            return
+        }
         let heartRate = Int(60 / ibi)
         if (heartRate > max_heart_rate) {
             return
@@ -317,14 +322,13 @@ extension ViewController: EmpaticaDeviceDelegate {
             heartRates.append(heartRate)
             heartRateMap[Utilities.timestampToDateString(timestamp)] = heartRate
 //            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
-            
         }
         
         // check time interval
         if (timestamp - self.lastUpdateTime > 60) {
             assessFatigue()
         }
-        print("\(device.serialNumber!) \(ts2date(timestamp: timestamp)) IBI { \(ibi) }")
+        print("\(device.serialNumber!) \(timestamp) IBI { \(ibi) }")
     }
 
     /// ???

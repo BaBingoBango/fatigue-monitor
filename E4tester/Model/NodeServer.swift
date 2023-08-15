@@ -10,7 +10,7 @@ import Foundation
 
 class NodeServer {
     static let serverProtocol = "http"
-    static let serverIp = "35.193.174.156"
+    static let serverIp = "34.136.54.25"
     static let serverPort: Int = 3001
     
     /// Sends a push notification to group members

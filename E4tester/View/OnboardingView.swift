@@ -61,6 +61,8 @@ struct OnboardingView: View {
             return
         }
         
+        UserDefaults.standard.setValue(7, forKey: "xAxisStartHour")
+        
         userOnboarded = true
         userFirstName = firstName
         userStartDate = startDate.startOfDay.timeIntervalSince1970

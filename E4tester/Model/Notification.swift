@@ -65,6 +65,7 @@ func cancelRegularNotification() {
 }
 
 
+/// ??
 func registerPeerNotification(first_name: String) {
     // schedule peer notification
     let content = UNMutableNotificationContent()

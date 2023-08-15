@@ -76,7 +76,7 @@ struct HighlightView: View {
             else {
                 // done loading!
                 if warningLoader.data.count == 0 {
-                    Text("No hightlights in your group.")
+                    Text("No highlights in your group.")
                 }
                 
                 // Do survey?
@@ -98,7 +98,7 @@ struct HighlightView: View {
                 ForEach(warningLoader.data.indices) { index in
                     let warning = warningLoader.data[index]
                     HighlightItem(icon: "exclamationmark.triangle.fill",
-                                  iconColor: .yellow,
+                                  iconColor: DarkMode.isDarkMode() ? .yellow : .orange,
                                   name: warning.firstName,
                                   text: warning.content,
                                   timeAgo: warning.timeAgo()) // declaration below

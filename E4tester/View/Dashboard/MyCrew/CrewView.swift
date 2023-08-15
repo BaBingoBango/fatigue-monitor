@@ -21,24 +21,59 @@ struct CrewView: View {
     var body: some View {
         VStack{
             
+            let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
+                return lhs.first_name < rhs.first_name
+            }
+            
             // List of peers
-            HStack {
-                Spacer()
-                let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
-                    return lhs.first_name < rhs.first_name
-                }
-                ForEach(Array(sortedCrew.enumerated()), id: \.element) { index, peer in
-                    Circle()
-                        .fill(Color.getColor(withIndex: index))
-                        .frame(width: 8, height: 8)
-                    Text(peer.first_name)
-                    Spacer()
+            let splittedArray = arraySplitter(sortedCrew: sortedCrew)
+            VStack(alignment: .center) {
+                
+                ForEach(Array(splittedArray.enumerated()), id: \.element) { index1, arr in
+                    HStack {
+                        Spacer()
+                        ForEach(Array(arr.enumerated()), id: \.element) { index, peer in
+                            
+                            HStack {
+                                Spacer()
+                                    .frame(maxWidth: 8)
+                                Circle()
+                                    .fill(Color.getColor(withIndex: (index1 * 3) + index))
+                                    .frame(width: 8, height: 8)
+                                Text(peer.first_name)
+                                Spacer()
+                                    .frame(maxWidth: 8)
+                            }
+                            
+                        }
+                        Spacer()
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .transition(.moveAndFade)
+                    .frame(height: 15)
+                    .padding(.bottom, 5)
                 }
             }
-            .font(.system(size: 16, weight: .medium))
-            .transition(.moveAndFade)
-            .frame(height: 15)
-            .padding(.bottom, 5)
+
+//            HStack {
+//                Spacer()
+//                ForEach(Array(sortedCrew.enumerated()), id: \.element) { index, peer in
+//                    HStack {
+//                        Circle()
+//                            .fill(Color.getColor(withIndex: index))
+//                            .frame(width: 8, height: 8)
+//                        Text(peer.first_name)
+//                        Spacer()
+//                    }
+//
+//                }
+//            }
+//            .font(.system(size: 16, weight: .medium))
+//            .transition(.moveAndFade)
+//            .frame(height: 15)
+//            .padding(.bottom, 5)
+            
+            
             
             // Graph
             HStack {
@@ -113,17 +148,51 @@ struct CrewView: View {
         Group {
             Spacer()
             HStack {
-                Text("7am")
-                Spacer()
-                Text("9am")
-                Spacer()
-                Text("11am")
-                Spacer()
-                Text("1pm")
-                Spacer()
-                Text("3pm")
+                let lowerBound = UserDefaults.standard.integer(forKey: "xAxisStartHour")
+                ForEach(0..<5) { index in
+                    Text(hrToString(lowerBound + (index * 2)))
+                    if index < 4 {
+                        Spacer()
+                    }
+                }
             }
             Spacer()
+        }
+    }
+    
+    func arraySplitter(sortedCrew: [Peer], num: Int = 3) -> ([[Peer]]) {
+        var arr: [[Peer]] = []
+        var temp: [Peer] = []
+        var index: Int = 0
+        
+        while index < sortedCrew.count {
+            if temp.count >= num {
+                arr.append(temp);
+                temp = []
+            }
+            temp.append(sortedCrew[index])
+            index += 1
+        }
+        
+        if !temp.isEmpty {
+            arr.append(temp);
+        }
+        
+        return arr
+    }
+    
+    func hrToString(_ hr: Int) -> String {
+        if hr == 0 {
+            return "12am"
+        }
+        else if hr < 12 {
+            return "\(hr)am"
+        }
+        else if hr == 12 {
+            return "12pm"
+        }
+        else {
+            return "\(hr-12)pm"
         }
     }
     

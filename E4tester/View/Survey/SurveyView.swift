@@ -8,8 +8,8 @@ import SwiftUI
 struct SurveyView: View {
     @Environment(\.presentationMode) var presentationMode
     
-    /// Timer object used to disable the submit button for 3 seconds
-    @State var timer = Timer.publish(every: 3, on: .main, in: .common)
+    /// Timer object used to disable the submit button for 4 seconds
+    @State var timer = Timer.publish(every: 4, on: .main, in: .common)
                             .autoconnect()
     
     @State var submitButtonEnabled = false

@@ -26,70 +26,101 @@ struct SurveyInfoView: View {
                                     .frame(height: 64)
                                 Text("Fatigue Survey")
                                     .font(.system(size: 32, weight: .bold))
-                                    .padding(.bottom, -4)
-                                Text("Please read the following information carefully before responding.")
-                                    .frame(maxWidth: 360)
+                                    .padding(.bottom, 12)
+                                Text("Your responses will be used to personalize our fatigue prediction model for you.")
+                                    .frame(maxWidth: 320)
                                     .multilineTextAlignment(.center)
                                 Spacer()
-                                    .frame(height: 32)
+                                    .frame(height: 28)
                             }
-                            
-                            // Survey information
-                            VStack(alignment: .leading) {
-                                Text("Your responses will be used to personalize our fatigue prediction model for you. Your honest responses will help us predict your fatigue more accurately. All responses will be kept confidential.")
-                                    .padding(.bottom, 12)
-                                Text("During the day, you'll need to respond to a single-question survey at least 5 times per day (maximum 8 times). We'll notify you every hour until we receive 5 responses.")
-                            }
-                            .frame(width: 350)
-                            .padding([.horizontal], 10)
                         } // VStack
                         .frame(alignment: .top)
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 4)
                         
-                        Spacer()
+                        // Responses today
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image(systemName: "checkmark.square")
+                                Text("Responses Today")
+                                Spacer()
+                            }
+                            .font(.system(size: 20, weight: .semibold))
+                            .padding([.horizontal], 20)
+                        }
+                        .padding(.bottom, 8)
                         
                         // Responses today (8 bars)
                         let todaysResponses = SurveyManager.surveysSubmittedToday()
                         VStack {
                             if toggleToRefresh {}
-                            Text("Responses today: \(todaysResponses)")
+                            let checkmarkSize: CGFloat = 30
+                            let checkmarkHorizPadding: CGFloat = 8
+                            let checkmarkVertPadding: CGFloat = 4
                             HStack {
-                                ForEach(0..<8) { index in
+                                ForEach(0..<5) { index in
                                     if index < todaysResponses { // green
-                                        Text("○")
-                                            .font(.system(size: 6))
-                                            .frame(width: 30, height: 8)
-                                            .padding([.horizontal], 0.5)
-                                            .background(Color.green)
-                                            .foregroundColor(.black)
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: checkmarkSize, height: checkmarkSize)
+                                            .padding([.horizontal], checkmarkHorizPadding)
+                                            .padding([.vertical], checkmarkVertPadding)
+                                            .foregroundColor(Color(red: 53/255, green: 199/255, blue: 89/255))
                                     }
                                     else {
-                                        if index >= 5 { // optional - gray
-                                            Text("")
-                                                .font(.system(size: 8))
-                                                .frame(width: 30, height: 8)
-                                                .padding([.horizontal], 0.5)
-                                                .background(DarkMode.isDarkMode() ? Color(white: 0.4) : Color(white: 0.6))
-                                                .foregroundColor(.black)
-                                        }
-                                        else { // required - red
-                                            Text("-")
-                                                .font(.system(size: 8))
-                                                .frame(width: 30, height: 8)
-                                                .padding([.horizontal], 0.5)
-                                                .background(Color(red: 225/255, green: 106/255, blue: 131/255))
-                                                .foregroundColor(.black)
-                                        }
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: checkmarkSize, height: checkmarkSize)
+                                            .padding([.horizontal], checkmarkHorizPadding)
+                                            .padding([.vertical], checkmarkVertPadding)
+                                            .foregroundColor(DarkMode.isDarkMode() ? Color(white: 0.2) : Color(white: 0.8))
+                                    }
+                                }
+                            } // HStack
+                            HStack {
+                                ForEach(5..<8) { index in
+                                    if index < todaysResponses { // green
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: checkmarkSize, height: checkmarkSize)
+                                            .padding([.horizontal], checkmarkHorizPadding)
+                                            .padding([.vertical], checkmarkVertPadding)
+                                            .foregroundColor(Color(red: 53/255, green: 199/255, blue: 89/255))
+                                    }
+                                    else {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .resizable()
+                                            .frame(width: checkmarkSize, height: checkmarkSize)
+                                            .padding([.horizontal], checkmarkHorizPadding)
+                                            .padding([.vertical], checkmarkVertPadding)
+                                            .foregroundColor(DarkMode.isDarkMode() ? Color(white: 0.2) : Color(white: 0.8))
                                     }
                                 }
                             } // HStack
                         } // VStack
+                        .frame(width: 360)
+                        .padding(.bottom, 24)
+                        
+                        // Next survey
+                        VStack() {
+                            HStack {
+                                Image(systemName: "clock")
+                                Text("Next Survey")
+                                Spacer()
+                            }
+                            .font(.system(size: 20, weight: .semibold))
+                            .padding([.horizontal], 20)
+                            
+                            let (timePassed, nextTime) = SurveyManager.sufficientTimePassed()
+                            Text(timePassed ? "Now" : nextTime)
+                                .font(.system(size: 20, weight: .bold))
+                                .padding(.top, 4)
+                        }
                         .padding(.bottom, 32)
                         
                         // Buttons
                         VStack {
                             // More details
-                            NavigationLink(destination: SurveyInfoViewDetails(toggleToRefresh: $toggleToRefresh)) {
+                            NavigationLink(destination: SurveyDetailsView(toggleToRefresh: $toggleToRefresh)) {
                                 HStack {
                                     Image(systemName: "info.circle")
                                     Text("Details")
@@ -108,7 +139,14 @@ struct SurveyInfoView: View {
                                 let (timePassed, nextTime) = SurveyManager.sufficientTimePassed()
                                 
                                 if !timePassed { // not yet
-                                    Text("Please return at \(nextTime) for the next survey.")
+                                    // continue
+                                    NavigationLink(destination: SurveyView(toggleToRefresh: $toggleToRefresh)) {
+                                        IconButtonInner(iconName: "square.and.pencil", buttonText: "Continue to Survey")
+                                    }
+                                    .buttonStyle(IconButtonStyle(backgroundColor: .gray,
+                                                         foregroundColor: .white))
+                                    .opacity(0.5)
+                                    .disabled(true)
                                 }
                                 else if continueButtonEnabled {
                                     // continue
