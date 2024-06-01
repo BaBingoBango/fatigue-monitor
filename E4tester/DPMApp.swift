@@ -7,8 +7,9 @@ import SwiftUI
 import UserNotifications
 import FirebaseCore
 import FirebaseMessaging
+import FirebaseAuth
 
- @main
+@main
 struct DPMApp: App {
     @Environment(\.scenePhase) var scenePhase
     @StateObject private var modelData = ModelData()
@@ -16,7 +17,7 @@ struct DPMApp: App {
     @AppStorage("userOnboarded") var userOnboarded: Bool = false
     @State var showOnboarding: Bool = true
     
-
+    @State var isSignedIn: Bool? = nil
     
     // Firebase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -39,26 +40,59 @@ struct DPMApp: App {
     
     var body: some Scene {
         WindowGroup {
-            
-            if userOnboarded {
-                ContentView()
-                    .environmentObject(modelData)
-                    .onAppear {
-                        ModelData.load { result in
-                            switch result {
-                            case .failure(let error):
-                                fatalError(error.localizedDescription)
-                            case .success(let user):
-                                modelData.user = user
+            Group {
+                if let isSignedIn = isSignedIn {
+                    if isSignedIn {
+                        ContentView(userChecker: .init(uid: Auth.auth().currentUser!.uid))
+                            .environmentObject(modelData)
+                            .onAppear {
+                                ModelData.load { result in
+                                    switch result {
+                                    case .failure(let error):
+                                        fatalError(error.localizedDescription)
+                                    case .success(let user):
+                                        modelData.user = user
+                                    }
+                                }
                             }
-                        }
+                    } else {
+                        OnboardingView(userOnboarded: $userOnboarded)
+                            .environmentObject(modelData)
                     }
+                    
+                    // If not, check the Auth object!
+                } else {
+                    if Auth.auth().currentUser != nil {
+                        ContentView(userChecker: .init(uid: Auth.auth().currentUser!.uid))
+                            .environmentObject(modelData)
+                            .onAppear {
+                                ModelData.load { result in
+                                    switch result {
+                                    case .failure(let error):
+                                        fatalError(error.localizedDescription)
+                                    case .success(let user):
+                                        modelData.user = user
+                                    }
+                                }
+                            }
+                    } else {
+                        OnboardingView(userOnboarded: $userOnboarded)
+                            .environmentObject(modelData)
+                    }
+                }
             }
-            else {
-                OnboardingView(userOnboarded: $userOnboarded)
-                    .environmentObject(modelData)
+            .onAppear {
+                // MARK: App Launch Code
+                // Listen to the auth status!
+                _ = Auth.auth().addStateDidChangeListener { auth, user in
+                    
+                    if user != nil {
+                        isSignedIn = true
+                    } else {
+                        isSignedIn = false
+                    }
+                }
             }
-            
         }
         .onChange(of: scenePhase) { newScenePhase in
             switch newScenePhase {

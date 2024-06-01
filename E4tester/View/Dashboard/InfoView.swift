@@ -10,10 +10,13 @@ import SwiftUI
 
 /// Displays heart rate and fatigue level.
 struct InfoView: View {
+    
+    // MARK: View Variables
     @EnvironmentObject var modelData: ModelData
-    
     @State var animationBool: Bool = false
+    let heatStrainLevel = HeatStrainLevel.high
     
+    // MARK: View Body
     var body: some View {
         HStack {
             // Heart Rate
@@ -36,25 +39,23 @@ struct InfoView: View {
                 }
                 
                 VStack {
-                    // BPM text
-                    HStack {
-                        Text(self.modelData.heartRate == 0 ? "--" : "\(self.modelData.heartRate)")
-                            .font(.system(size: 64, weight: .heavy))
-                            .scaledToFill()
-                            .minimumScaleFactor(0.1)
-                            .lineLimit(1)
-                            .frame(width: 80, height: 55, alignment: .trailing)
-                            .offset(x: 4, y: 0)
-                        
-                        VStack{
+                    VStack {
+                        HStack(spacing: 2) {
                             Image(systemName: "heart.fill")
-                                .font(.system(size: 20, weight: .semibold))
+                                .imageScale(.small)
+                                .dynamicFont(.callout, padding :0)
+                                .foregroundColor(.secondary)
+                            
                             Text("BPM")
-                                .font(.system(size: 15, weight: .semibold))
+                                .dynamicFont(.callout, padding :0)
+                                .foregroundColor(.secondary)
                         }
+                        
+                        Text(self.modelData.heartRate == 0 ? "--" : "\(self.modelData.heartRate)")
+                            .dynamicFont(.title, padding: 0)
+                            .fontWeight(.bold)
                     }
                     
-                    // Status text
                     if modelData.lastUpdatedTime != "-" {
                         Text("as of \(modelData.lastUpdatedTime)")
                             .font(.system(size: 12, weight: .light))
@@ -62,14 +63,15 @@ struct InfoView: View {
                     }
                     else {
                         if modelData.deviceConnected {
-                            Text("Collecting data")
-                                .font(.system(size: 12, weight: .light))
-                                .foregroundColor(Color(white: 0.5))
-                        }
-                        else {
+                            Text("Collecting")
+                                .dynamicFont(.footnote, padding: 20)
+                                .foregroundColor(.gray)
+                                .fontWeight(.semibold)
+                        } else {
                             Text("Disconnected")
-                                .font(.system(size: 12, weight: .light))
-                                .foregroundColor(Color(white: 0.5))
+                                .dynamicFont(.footnote, padding: 20)
+                                .foregroundColor(.gray)
+                                .fontWeight(.semibold)
                         }
                     }
                 }
@@ -85,67 +87,128 @@ struct InfoView: View {
                     .shadow(radius: 3)
                 
                 // fatigue level text
-                VStack (spacing: 0){
-                    HStack(alignment: .bottom, spacing: 3){
-                        Text(self.modelData.fatigueLevel < 0 ? "--" : self.fatigueLevelDisplay(fatigueLevel: self.modelData.fatigueLevel))
-                            .font(.system(size: 60, weight: .heavy))
-                            .scaledToFill()
-                            .minimumScaleFactor(0.5)
-                            .lineLimit(1)
-                            .frame(width: 80, height: 55, alignment: .trailing)
-                            .offset(x: 4, y: 0)
-                        Text("%")
-                            .font(.system(size: 20, weight: .semibold))
-                            .offset(x: 0, y: -3)
+                VStack (spacing: 0) {
+                    Text("FATIGUE")
+                        .dynamicFont(.callout, padding :0)
+                        .foregroundColor(.secondary)
+                    
+                    HStack(alignment: .bottom, spacing: 1) {
+                        if self.modelData.fatigueLevel >= 0 {
+                            Text("%")
+                                .dynamicFont(.caption2, padding: 0)
+                                .hidden()
+                        }
                         
+                        Text(self.modelData.fatigueLevel < 0 ? "--" : self.fatigueLevelDisplay(fatigueLevel: self.modelData.fatigueLevel))
+                            .dynamicFont(.title, padding: 0)
+                            .fontWeight(.bold)
+                        
+                        if self.modelData.fatigueLevel >= 0 {
+                            Text("%")
+                                .dynamicFont(.title3, padding: 0)
+                        }
                     }
-//                    Text("Fatigue Level")
-//                        .font(.system(size: 15, weight: .semibold))
                     
                     if self.modelData.fatigueLevel < 40  {
-                        HStack {
+                        HStack(spacing: 0) {
                             Image(systemName: "checkmark.shield.fill")
                                 .imageScale(.small)
-                                .padding(.trailing, -4)
-                            Text("Low Fatigue")
+                            
+                            Text("Low")
                                 .font(.system(size: 14, weight: .bold))
                         }
                         .foregroundColor(Color(red: 10/255, green: 163/255, blue: 0))
                     }
                     else if self.modelData.fatigueLevel < 70 {
-                        HStack {
+                        HStack(spacing: 0) {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .imageScale(.small)
-                                .padding(.trailing, -4)
-                            Text("Moderate Fatigue")
-                                .font(.system(size: 14, weight: .bold))
+                            
+                            Text("Moderate")
+                                .dynamicFont(.callout, padding: 0)
                         }
                         .foregroundColor(.orange)
                     }
                     else if self.modelData.fatigueLevel < 90 {
-                        HStack {
+                        HStack(spacing: 0) {
                             Image(systemName: "exclamationmark.octagon.fill")
                                 .imageScale(.small)
-                                .padding(.trailing, -4)
-                            Text("High Fatigue")
+                            
+                            Text("High")
                                 .font(.system(size: 14, weight: .bold))
                         }
                         .foregroundColor(.red)
-                        .padding(.top, 4)
                     }
                     else {
                         HStack {
                             Image(systemName: "exclamationmark.octagon.fill")
                                 .imageScale(.small)
-                                .padding(.trailing, -4)
                             Text("Critical")
                                 .font(.system(size: 14, weight: .bold))
                         }
                         .foregroundColor(.red)
-                        .padding(.top, 4)
                     }
                 }
                 .multilineTextAlignment(.center)
+                
+            }
+            .padding([.trailing, .leading], 5)
+            
+            // MARK: - dupe view here
+            ZStack {
+                Circle()
+                    .fill(DarkMode.isDarkMode() ? Color(white: 0.08) : .white)
+                    .shadow(radius: 3)
+                
+                VStack(spacing: 4) {
+                    Text("HEAT")
+                        .dynamicFont(.callout)
+                        .foregroundColor(.secondary)
+                    
+                    switch heatStrainLevel {
+                    case .unknown:
+                        Text("--")
+                            .dynamicFont(.title)
+                            .fontWeight(.bold)
+                        
+                        Text("Unknown")
+                            .dynamicFont(.footnote, padding: 0)
+                            .foregroundColor(.gray)
+                            .fontWeight(.semibold)
+                        
+                    case .low:
+                        Image(systemName: "checkmark.shield.fill")
+                            .dynamicFont(.title2)
+                            .foregroundColor(Color(red: 10/255, green: 163/255, blue: 0))
+                        
+                        Text("Low")
+                            .dynamicFont(.footnote, padding: 0)
+                            .foregroundColor(Color(red: 10/255, green: 163/255, blue: 0))
+                            .fontWeight(.semibold)
+                        
+                    case .moderate:
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .dynamicFont(.title2)
+                            .foregroundColor(.orange)
+                        
+                        Text("Moderate")
+                            .dynamicFont(.footnote, padding: 0)
+                            .foregroundColor(.orange)
+                            .fontWeight(.semibold)
+                        
+                    case .high:
+                        Image(systemName: "exclamationmark.octagon.fill")
+                            .dynamicFont(.title2)
+                            .foregroundColor(.red)
+                        
+                        Text("High")
+                            .dynamicFont(.footnote, padding: 0)
+                            .foregroundColor(.red)
+                            .fontWeight(.semibold)
+                    }
+                }
+                .multilineTextAlignment(.center)
+                
             }
             .padding([.trailing], 10)
         }

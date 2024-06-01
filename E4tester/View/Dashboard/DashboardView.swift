@@ -39,10 +39,10 @@ struct DashboardView: View {
                             .padding([.horizontal], 20)
                             
                             InfoView()
-                                .frame(height: 200)
                                 .background(DarkMode.isDarkMode() ? Color.black : Color.white)
-                                .cornerRadius(15)
-                                .padding([.horizontal], 20)
+                                .padding(.top, 7)
+                                .padding(.bottom, 15)
+                                .padding(.horizontal, 5)
                             
                             // Highlights
                             VStack {
@@ -108,4 +108,11 @@ struct DashboardView: View {
         FirebaseManager.getUsersInGroup(groupId: userGroupId, userArr: groupMates)
     }
     
+}
+
+struct DashboardView_Previews: PreviewProvider {
+    static var previews: some View {
+        DashboardView(tabSelection: .constant(.dashboard))
+            .environmentObject(ModelData())
+    }
 }

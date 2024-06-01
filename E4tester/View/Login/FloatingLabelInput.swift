@@ -13,11 +13,13 @@ struct FloatingLabelInput: View {
     var label: String
     @Binding var text: String
     var numberPad: Bool = false
+    var isSecure: Bool = false
     
-    init(label: String, text: Binding<String>, numberPad: Bool) {
+    init(label: String, text: Binding<String>, numberPad: Bool, isSecure: Bool) {
         self.label = label
         self._text = text
         self.numberPad = numberPad
+        self.isSecure = isSecure
     }
     
     init(label: String, text: Binding<String>) {
@@ -34,11 +36,19 @@ struct FloatingLabelInput: View {
                         y: self.text.isEmpty ? 0 : -20)
                 .scaleEffect(self.text.isEmpty ? 1 : 0.6, anchor: .topLeading)
                 .animation(.easeIn(duration: 0.1))
-            TextField("", text: self.$text)
-                .font(Font.headline.weight(.medium))
-                .keyboardType(numberPad ? .numberPad : .default)
-                .offset(x: 0,
-                        y: self.text.isEmpty ? 0 : 3)
+            if !isSecure {
+                TextField("", text: self.$text)
+                    .font(Font.headline.weight(.medium))
+                    .keyboardType(numberPad ? .numberPad : .default)
+                    .offset(x: 0,
+                            y: self.text.isEmpty ? 0 : 3)
+            } else {
+                SecureField("", text: self.$text)
+                    .font(Font.headline.weight(.medium))
+                    .keyboardType(numberPad ? .numberPad : .default)
+                    .offset(x: 0,
+                            y: self.text.isEmpty ? 0 : 3)
+            }
         }
         .padding()
         .frame(maxWidth: .infinity)

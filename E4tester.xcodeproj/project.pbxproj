@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,13 @@
 		55591B731F2884AC0084CF0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55591B711F2884AC0084CF0C /* LaunchScreen.storyboard */; };
 		59CAB61E207770890052910F /* E4link.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CAB61D207770890052910F /* E4link.framework */; };
 		59CAB626207771C30052910F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CAB625207771C30052910F /* CoreBluetooth.framework */; };
+		AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */; };
+		AA7545422C0115F600D79A62 /* DynamicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7545412C0115F600D79A62 /* DynamicFont.swift */; };
+		AA7874502C095EB500A0DDC5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA78744F2C095EB500A0DDC5 /* FirebaseAuth */; };
+		AA7874522C095EB500A0DDC5 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AA7874512C095EB500A0DDC5 /* FirebaseAuthCombine-Community */; };
+		AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874532C09606C00A0DDC5 /* Operation.swift */; };
+		AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */; };
+		AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874572C0966D400A0DDC5 /* NewUserView.swift */; };
 		B91491542911AFE400A51A62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B91491532911AFE400A51A62 /* Algorithms */; };
 		B914915C2911B19C00A51A62 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = B914915B2911B19C00A51A62 /* Charts */; };
 		B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */; };
@@ -97,6 +104,11 @@
 		59CAB61D207770890052910F /* E4link.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = E4link.framework; path = Libs/E4link.framework; sourceTree = "<group>"; };
 		59CAB6222077716E0052910F /* E4tester-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "E4tester-Bridging-Header.h"; sourceTree = "<group>"; };
 		59CAB625207771C30052910F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatStrainLevel.swift; sourceTree = "<group>"; };
+		AA7545412C0115F600D79A62 /* DynamicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFont.swift; sourceTree = "<group>"; };
+		AA7874532C09606C00A0DDC5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
+		AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistenceChecker.swift; sourceTree = "<group>"; };
+		AA7874572C0966D400A0DDC5 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
 		B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineChartView.swift; sourceTree = "<group>"; };
 		B91AA78F286CA26E00B36E84 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		B91AA791286CA5B700B36E84 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -153,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59CAB626207771C30052910F /* CoreBluetooth.framework in Frameworks */,
+				AA7874502C095EB500A0DDC5 /* FirebaseAuth in Frameworks */,
 				59CAB61E207770890052910F /* E4link.framework in Frameworks */,
 				FE14B9F32A2FA2AF004A1E30 /* FirebaseMessaging in Frameworks */,
 				FE14B9E32A2FA2AF004A1E30 /* FirebaseAnalytics in Frameworks */,
@@ -166,6 +179,7 @@
 				FE14B9E72A2FA2AF004A1E30 /* FirebaseDatabase in Frameworks */,
 				B914915C2911B19C00A51A62 /* Charts in Frameworks */,
 				FE14B9EF2A2FA2AF004A1E30 /* FirebaseInAppMessaging-Beta in Frameworks */,
+				AA7874522C095EB500A0DDC5 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +234,7 @@
 			children = (
 				FEE155EB2A1557F000398DCD /* Toast.swift */,
 				FE5ED2592A39113000C9E3D7 /* WebView.swift */,
+				AA7545412C0115F600D79A62 /* DynamicFont.swift */,
 				FEE1562F2A1FB7CB00398DCD /* Survey */,
 				FEE1562C2A1E974A00398DCD /* Assets */,
 				FEE155F22A1709C900398DCD /* Device */,
@@ -228,6 +243,7 @@
 				B91AA799286D0D0400B36E84 /* Dashboard */,
 				B91AA79A286D0D1900B36E84 /* Profile */,
 				FE620EC22A1408010073B8F0 /* OnboardingView.swift */,
+				AA7874572C0966D400A0DDC5 /* NewUserView.swift */,
 				FEE156242A1D5E0700398DCD /* DummyView.swift */,
 			);
 			path = View;
@@ -240,9 +256,11 @@
 				B91AA78F286CA26E00B36E84 /* ModelData.swift */,
 				B91AA79B286D12E900B36E84 /* Config.swift */,
 				B9D051B9288B11B400AAC9D8 /* User.swift */,
+				AA7874532C09606C00A0DDC5 /* Operation.swift */,
 				B9D051BB288B21B500AAC9D8 /* Input.swift */,
 				B9D051BD288B21EA00AAC9D8 /* Peer.swift */,
 				B9D051C1288B2D5F00AAC9D8 /* ResponseModel.swift */,
+				AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */,
 				B9D051D028908DD100AAC9D8 /* Utilities.swift */,
 				B9EC1D8828C9234A007EB285 /* Notification.swift */,
 				FE5ED25B2A3B7FFC00C9E3D7 /* NodeServer.swift */,
@@ -302,6 +320,7 @@
 			children = (
 				FE01C5762A2FAB1800850EFF /* AppDelegate.swift */,
 				FE620EBE2A14048F0073B8F0 /* FirebaseManager.swift */,
+				AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */,
 				FEE156222A1D450600398DCD /* FatigueWarningLoader.swift */,
 				FEE155ED2A155FA300398DCD /* RegisteredUser.swift */,
 				FEE155F52A17C92100398DCD /* UserInfoLoader.swift */,
@@ -361,6 +380,8 @@
 				FE14B9EE2A2FA2AF004A1E30 /* FirebaseInAppMessaging-Beta */,
 				FE14B9F02A2FA2AF004A1E30 /* FirebaseInAppMessagingSwift-Beta */,
 				FE14B9F22A2FA2AF004A1E30 /* FirebaseMessaging */,
+				AA78744F2C095EB500A0DDC5 /* FirebaseAuth */,
+				AA7874512C095EB500A0DDC5 /* FirebaseAuthCombine-Community */,
 			);
 			productName = E4Tests;
 			productReference = 55591B651F2884AC0084CF0C /* DPM SafeConnect.app */;
@@ -432,6 +453,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEE156212A1D375400398DCD /* HighlightView.swift in Sources */,
+				AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */,
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
 				FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
@@ -446,6 +468,7 @@
 				B9D051CE288B795B00AAC9D8 /* PeerView.swift in Sources */,
 				55591B6B1F2884AC0084CF0C /* ViewController.swift in Sources */,
 				B9D051CA288B6CB900AAC9D8 /* GraphCapsule.swift in Sources */,
+				AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */,
 				B9D051B42888627300AAC9D8 /* LoginDetailView.swift in Sources */,
 				B91AA790286CA26E00B36E84 /* ModelData.swift in Sources */,
 				FE620EC32A1408010073B8F0 /* OnboardingView.swift in Sources */,
@@ -471,11 +494,14 @@
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
 				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
 				FEE1563B2A1FC3E800398DCD /* SurveyDetailsView.swift in Sources */,
+				AA7545422C0115F600D79A62 /* DynamicFont.swift in Sources */,
 				FE5ED25C2A3B7FFC00C9E3D7 /* NodeServer.swift in Sources */,
 				FEE156312A1FB84B00398DCD /* SurveyDropdown.swift in Sources */,
+				AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
+				AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */,
 				B93AB80C285D8EF10008DC59 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,7 +652,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SZGWRN6R94;
+				DEVELOPMENT_TEAM = GUDZ7ALN9J;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -646,7 +672,7 @@
 				);
 				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor.ethan;
 				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
@@ -668,7 +694,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SZGWRN6R94;
+				DEVELOPMENT_TEAM = GUDZ7ALN9J;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -688,7 +714,7 @@
 				);
 				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor.ethan;
 				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
@@ -758,6 +784,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA78744F2C095EB500A0DDC5 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		AA7874512C095EB500A0DDC5 /* FirebaseAuthCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseAuthCombine-Community";
+		};
 		B91491532911AFE400A51A62 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B91491522911AFE400A51A62 /* XCRemoteSwiftPackageReference "swift-algorithms" */;

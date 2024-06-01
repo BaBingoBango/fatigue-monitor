@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct SettingsView: View {
     
@@ -109,7 +110,9 @@ struct SettingsView: View {
                 }
             }
             
-            
+            Button("Sign Out") {
+                try! Auth.auth().signOut()
+            }
         }
         .navigationTitle(Text("Settings"))
 

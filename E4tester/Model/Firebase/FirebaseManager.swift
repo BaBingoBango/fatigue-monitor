@@ -10,6 +10,7 @@ import SwiftUI
 import FirebaseCore
 import FirebaseFirestore
 import FirebaseMessaging
+import FirebaseAuth
 
 
 /// Handles all Firebase-related actions.
@@ -28,35 +29,6 @@ class FirebaseManager {
     /// Connects to Firestore database. Required before calling other functions.
     static func connect() {
         db = Firestore.firestore()
-    }
-    
-    /// Registers user to the database.
-    /// Must connect to Firebase by calling `FirestoreManager.connect()` before running.
-    static func registerUser(firstName: String, lastName: String,
-                             age: Int, groupId: String, startDate: Date) {
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        var ref: DocumentReference? = nil;
-        let docName: String = deviceId ?? "error";
-        
-        db.collection("users").document(docName).setData([
-            "first_name": firstName,
-            "last_name": lastName,
-            "device_uuid": deviceId,
-            "age": age,
-            "group_id": groupId,
-            "start_date": startDate.startOfDay.timeIntervalSince1970,
-            // Heart rate stuff
-            "heart_rate_reserve_cp": Int(20),
-            "k_value": Int(15),
-            "rest_heart_rate": Int(60),
-            "total_awc": Int(150)
-        ]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document \(docName) successfully written!")
-            }
-        }
     }
     
     /// Edit user information.
@@ -155,9 +127,28 @@ class FirebaseManager {
         var ref: DocumentReference? = nil;
         let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
         
-        db.collection("users").document(deviceId ?? "")
+        db.collection("users").document(Auth.auth().currentUser!.uid)
             .collection("heart_rates").document(docName).setData([
             "heart_rates": hrMap
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document \(docName) successfully written!")
+            }
+        }
+    }
+    
+    /// Uploads skin temperature data to the Firestore database.
+    /// Called by `ViewController`.
+    /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
+    static func uploadSkinTemps(skinTempMap: [String: Float]) {
+        let deviceId = UIDevice.current.identifierForVendor?.uuidString
+        let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
+        
+        db.collection("users").document(deviceId ?? "")
+            .collection("skin_temperatures").document(docName).setData([
+            "skin_temperatures": skinTempMap
         ]) { err in
             if let err = err {
                 print("Error adding document: \(err)")
@@ -213,7 +204,7 @@ class FirebaseManager {
         let groupFirstNames =  UserDefaults.standard.object(forKey: "groupFirstNames") as? [String: String]
         
         modelData.crew.removeAll()
-        db.collection("users").document(deviceId).collection("fatigue_levels")
+        db.collection("users").document(Auth.auth().currentUser!.uid).collection("fatigue_levels")
             .whereField("timestamp", isGreaterThanOrEqualTo: startTime)
             .whereField("timestamp", isLessThanOrEqualTo: endTime)
             .order(by: "timestamp")
@@ -340,7 +331,7 @@ class FirebaseManager {
         var ref: DocumentReference? = nil;
         let docName: String = UUID().uuidString
         
-        db.collection("users").document(deviceId)
+        db.collection("users").document(Auth.auth().currentUser!.uid)
             .collection("survey_responses").document(Utilities.timestampToDateString(timestamp)).setData([
             "device_id": deviceId,
             "timestamp": timestamp,

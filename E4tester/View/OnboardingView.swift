@@ -7,15 +7,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 /// Onboarding view, shown on first app launch after installation
 struct OnboardingView: View {
     @EnvironmentObject var modelData: ModelData
-    @State var firstName: String = ""
-    @State var lastName: String = ""
-    @State var age: String = ""
-    @State var groupId: String = "";
-    @State var startDate: Date = Date()
+    @State var enteredEmail = ""
+    @State var enteredPassword = ""
+    @State var signInOperation = Operation()
     
     @Binding var userOnboarded: Bool;
     
@@ -24,26 +23,44 @@ struct OnboardingView: View {
             Text("Welcome!")
                 .font(.system(size: 32, weight: .bold))
                 .padding(.bottom, -2)
-            Text("Please tell us about yourself.")
+            Text("Please create an account. If you already have one, we'll sign you in.")
+                .padding(.horizontal)
+                .multilineTextAlignment(.center)
                 .padding(.bottom, 24)
             
-            FloatingLabelInput(label: "First Name", text: $firstName, numberPad: false)
-            FloatingLabelInput(label: "Last Name", text: $lastName, numberPad: false)
-            FloatingLabelInput(label: "Age", text: $age, numberPad: true)
-            FloatingLabelInput(label: "Group ID", text: $groupId, numberPad: false)
-            DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
-                .padding([.horizontal], 60)
+            FloatingLabelInput(label: "Email Address", text: $enteredEmail, numberPad: false, isSecure: false)
+            FloatingLabelInput(label: "Password", text: $enteredPassword, numberPad: false, isSecure: true)
             
             // continue button
-            if !firstName.isEmpty && !lastName.isEmpty && !age.isEmpty && !groupId.isEmpty {
+            if !enteredEmail.isEmpty && !enteredPassword.isEmpty {
                 Spacer()
                     .frame(height: 24)
-                Button(action: continueOnboarding) {
-                    HStack {
-                        Text("Continue")
-                        Image(systemName: "arrow.right")
-                            .imageScale(.medium)
+                
+                switch signInOperation.status {
+                case .notStarted:
+                    Button(action: continueOnboarding) {
+                        HStack {
+                            Text("Continue")
+                            Image(systemName: "arrow.right")
+                                .imageScale(.medium)
+                        }
                     }
+                case .inProgress:
+                    ProgressView()
+                case .success:
+                    ProgressView()
+                case .failure:
+                    Button(action: continueOnboarding) {
+                        HStack {
+                            Text("Continue")
+                            Image(systemName: "arrow.right")
+                                .imageScale(.medium)
+                        }
+                    }
+                    
+                    Text(signInOperation.errorMessage)
+                        .foregroundStyle(.red)
+                        .multilineTextAlignment(.center)
                 }
             }
         }
@@ -55,23 +72,37 @@ struct OnboardingView: View {
     
     /// Finish onboarding
     func continueOnboarding() {
-        userAge = Int(age) ?? 0
-        if(userAge < 18) {
-            Toast.showToast("You must be 18 or older to use this app.")
-            return
+        signInOperation.status = .inProgress
+        
+        Auth.auth().signIn(withEmail: enteredEmail, password: enteredPassword) { authResult, error in
+            if let error = error as NSError? {
+                // Check if the error is due to the user not being found.
+                if error.code == AuthErrorCode.userNotFound.rawValue {
+                    // User doesn't exist, create a new account.
+                    Auth.auth().createUser(withEmail: enteredEmail, password: enteredPassword) { authResult, error in
+                        if let error = error {
+                            // There was an error creating the user.
+                            signInOperation.setError(message: error.localizedDescription)
+                        } else if let authResult = authResult {
+                            // User created successfully.
+                            signInOperation.status = .success
+                        }
+                    }
+                } else {
+                    // Sign in failed for another reason.
+                    signInOperation.setError(message: error.localizedDescription)
+                }
+            } else if let authResult = authResult {
+                // The user signed in successfully.
+                signInOperation.status = .success
+            }
         }
-        
-        UserDefaults.standard.setValue(7, forKey: "xAxisStartHour")
-        
-        userOnboarded = true
-        userFirstName = firstName
-        userStartDate = startDate.startOfDay.timeIntervalSince1970
-        
-        Toast.showToast("Welcome!")
-        
-        FirebaseManager.connect()
-        FirebaseManager.registerUser(firstName: firstName, lastName: lastName,
-                                     age: userAge, groupId: groupId, startDate: startDate)
-        FirebaseManager.subscribeToGroup(groupId: groupId)
+    }
+}
+
+struct OnboardingView_Previews: PreviewProvider {
+    static var previews: some View {
+        OnboardingView(userOnboarded: .constant(false))
+            .environmentObject(ModelData())
     }
 }

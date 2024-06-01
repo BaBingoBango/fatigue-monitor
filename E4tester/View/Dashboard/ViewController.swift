@@ -20,6 +20,9 @@ class ViewController: UITableViewController {
     
     /// For recording purposes
     private var heartRateMap: [String: Int] = [:]
+    private var skinTempMap: [String: Float] = [:]
+    private var GSRmap: [String: Float] = [:]
+    private var BVPmap: [String: Float] = [:]
     
     private var lastUpdateTime: Double = 0
     
@@ -295,15 +298,7 @@ extension ViewController: EmpaticaDelegate {
 }
 
 extension ViewController: EmpaticaDeviceDelegate {
-    
-    /// Called when the app receives a temperature data from the wristband.
-    func didReceiveTemperature(_ temp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-        
-        //        let strDate = ts2date(timestamp: timestamp)
-        //        print("\(device.serialNumber!) \(strDate) TEMP { \(temp) }")
-        //        delegate?.updateFatigueLevel(self, fatigueLevel: Int(temp))
-    }
-    
+
     /// Called when the app receives an IBI data from the wristband.
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         // calculate HR
@@ -321,7 +316,7 @@ extension ViewController: EmpaticaDeviceDelegate {
         if (avgHR == 0 || (avgHR != 0 && abs(heartRate - avgHR) < 30)) {
             heartRates.append(heartRate)
             heartRateMap[Utilities.timestampToDateString(timestamp)] = heartRate
-//            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
+            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
         }
         
         // check time interval
@@ -329,6 +324,24 @@ extension ViewController: EmpaticaDeviceDelegate {
             assessFatigue()
         }
         print("\(device.serialNumber!) \(timestamp) IBI { \(ibi) }")
+    }
+    
+    /// Called when the app receives GSR data from the wristband.
+    func didReceiveGSR(_ gsr: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        print("🛜 Received GSR data of \(gsr) from the wristband!")
+        GSRmap[Utilities.timestampToDateString(timestamp)] = gsr
+    }
+    
+    /// Called when the app receives BVP data from the wristband.
+    func didReceiveBVP(_ bvp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        print("🛜 Received BVP data of \(bvp) from the wristband!")
+        BVPmap[Utilities.timestampToDateString(timestamp)] = bvp
+    }
+    
+    /// Called when the app receives temperature data from the wristband.
+    func didReceiveTemperature(_ temp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
+        print("🌡️ Received temp data of \(temp) from the wristband!")
+        skinTempMap[Utilities.timestampToDateString(timestamp)] = temp
     }
 
     /// ???
