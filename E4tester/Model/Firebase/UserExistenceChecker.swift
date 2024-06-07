@@ -10,7 +10,7 @@ import Foundation
 import FirebaseFirestore
 
 class UserExistenceChecker: ObservableObject {
-    @Published var userExists: Bool = false
+    @Published var userExists: UserRecordExistenceState = .unknown
     
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
@@ -28,10 +28,10 @@ class UserExistenceChecker: ObservableObject {
         listener = documentRef.addSnapshotListener { documentSnapshot, error in
             if let documentSnapshot = documentSnapshot {
                 print("😻 user exists? -> \(documentSnapshot.exists)")
-                self.userExists = documentSnapshot.exists
+                if documentSnapshot.exists { self.userExists = .exists } else { self.userExists = .doesNotExist }
             } else {
                 print("Error listening for document existence: \(error?.localizedDescription ?? "Unknown error")")
-                self.userExists = false
+                self.userExists = .error
             }
         }
     }
@@ -40,4 +40,11 @@ class UserExistenceChecker: ObservableObject {
         listener?.remove()
         print("😻 stopped listening!")
     }
+}
+
+enum UserRecordExistenceState {
+    case exists
+    case doesNotExist
+    case unknown
+    case error
 }

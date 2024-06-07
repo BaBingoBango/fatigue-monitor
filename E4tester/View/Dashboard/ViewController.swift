@@ -221,10 +221,16 @@ extension ViewController {
         // upload to server
         uploadFatigueLevel(fatigueLevel: fatigue, timestamp: Date().timeIntervalSince1970)
         FirebaseManager.uploadHeartRate(hrMap: self.heartRateMap)
+        FirebaseManager.uploadBVPdata(BVPmap: self.BVPmap)
+        FirebaseManager.uploadGSRdata(GSRmap: self.GSRmap)
+        FirebaseManager.uploadSkinTemps(skinTempMap: self.skinTempMap)
         
         // reset
         self.heartRates = []
         self.heartRateMap = [:]
+        self.BVPmap = [:]
+        self.GSRmap = [:]
+        self.skinTempMap = [:]
         
         // Upload to highlights?
         let fatigueWarningThreshold: Int = 0
@@ -299,9 +305,10 @@ extension ViewController: EmpaticaDelegate {
 
 extension ViewController: EmpaticaDeviceDelegate {
 
-    /// Called when the app receives an IBI data from the wristband.
+    /// Called when the app receives IBI data from the wristband.
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         // calculate HR
+        print("❤️‍🔥 IBI identified! \(ibi)")
         
         // unrealistic heart rate?
         if Int(ibi) == 0 {
@@ -314,12 +321,14 @@ extension ViewController: EmpaticaDeviceDelegate {
         
         let avgHR = getAverageHeartRate()
         if (avgHR == 0 || (avgHR != 0 && abs(heartRate - avgHR) < 30)) {
+            print("❤️ Heart rate identified! \(heartRate)")
             heartRates.append(heartRate)
             heartRateMap[Utilities.timestampToDateString(timestamp)] = heartRate
             delegate?.updateHeartRate(self, heartRate: heartRate) // UI
         }
         
         // check time interval
+        print("⏰ checking time since last update - timestamp: \(timestamp), LUT: \(self.lastUpdateTime), subtraction: \(timestamp - self.lastUpdateTime)")
         if (timestamp - self.lastUpdateTime > 60) {
             assessFatigue()
         }

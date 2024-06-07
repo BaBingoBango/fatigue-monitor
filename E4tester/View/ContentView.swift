@@ -15,30 +15,41 @@ struct ContentView: View {
     
     enum Tab {
         case dashboard
-        case profile
         case device
         case survey
+        case tips
+        case profile
     }
 
     
     var body: some View {
-        if userChecker.userExists {
+        switch userChecker.userExists {
+        case .exists:
             TabView(selection: $selection) {
                 DashboardView(tabSelection: $selection)
                     .tabItem {
                         Label("Dashboard", systemImage: "heart.text.square")
                     }
                     .tag(Tab.dashboard)
+                
                 DeviceView()
                     .tabItem {
                         Label("Device", systemImage: "applewatch")
                     }
                     .tag(Tab.device)
+                
                 SurveyInfoView()
                     .tabItem {
-                        Label("Survey", systemImage: "checkmark.square.fill")
+                        Label("Surveys", systemImage: "checkmark.square.fill")
                     }
                     .tag(Tab.survey)
+                
+                TipsView()
+                    .tabItem {
+                        Label("Tips", systemImage: "lightbulb.fill")
+                    }
+                    .tag(Tab.tips)
+                
                 ProfileView()
                     .tabItem {
                         Label("Profile", systemImage: "person")
@@ -49,8 +60,12 @@ struct ContentView: View {
                 FirebaseManager.connect()
                 FirebaseManager.getUserGroupId()
             }
-        } else {
+        case .doesNotExist:
             NewUserView()
+        case .unknown:
+            ProgressView()
+        case .error:
+            EmptyView()
         }
     }
 }

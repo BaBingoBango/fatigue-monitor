@@ -13,6 +13,9 @@
 		55591B731F2884AC0084CF0C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55591B711F2884AC0084CF0C /* LaunchScreen.storyboard */; };
 		59CAB61E207770890052910F /* E4link.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CAB61D207770890052910F /* E4link.framework */; };
 		59CAB626207771C30052910F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CAB625207771C30052910F /* CoreBluetooth.framework */; };
+		AA2E19D72C0F89250072303D /* EMASurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19D62C0F89250072303D /* EMASurveyView.swift */; };
+		AA2E19D92C0F8F4C0072303D /* RectangleWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */; };
+		AA2E19DB2C0FAAFA0072303D /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19DA2C0FAAFA0072303D /* TipsView.swift */; };
 		AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */; };
 		AA7545422C0115F600D79A62 /* DynamicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7545412C0115F600D79A62 /* DynamicFont.swift */; };
 		AA7874502C095EB500A0DDC5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA78744F2C095EB500A0DDC5 /* FirebaseAuth */; };
@@ -20,6 +23,7 @@
 		AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874532C09606C00A0DDC5 /* Operation.swift */; };
 		AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */; };
 		AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874572C0966D400A0DDC5 /* NewUserView.swift */; };
+		AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */; };
 		B91491542911AFE400A51A62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B91491532911AFE400A51A62 /* Algorithms */; };
 		B914915C2911B19C00A51A62 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = B914915B2911B19C00A51A62 /* Charts */; };
 		B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */; };
@@ -104,11 +108,15 @@
 		59CAB61D207770890052910F /* E4link.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = E4link.framework; path = Libs/E4link.framework; sourceTree = "<group>"; };
 		59CAB6222077716E0052910F /* E4tester-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "E4tester-Bridging-Header.h"; sourceTree = "<group>"; };
 		59CAB625207771C30052910F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AA2E19D62C0F89250072303D /* EMASurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMASurveyView.swift; sourceTree = "<group>"; };
+		AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleWrapper.swift; sourceTree = "<group>"; };
+		AA2E19DA2C0FAAFA0072303D /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 		AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatStrainLevel.swift; sourceTree = "<group>"; };
 		AA7545412C0115F600D79A62 /* DynamicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFont.swift; sourceTree = "<group>"; };
 		AA7874532C09606C00A0DDC5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistenceChecker.swift; sourceTree = "<group>"; };
 		AA7874572C0966D400A0DDC5 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
+		AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineChartView.swift; sourceTree = "<group>"; };
 		B91AA78F286CA26E00B36E84 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		B91AA791286CA5B700B36E84 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -233,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				FEE155EB2A1557F000398DCD /* Toast.swift */,
+				FEE156322A1FB88800398DCD /* SurveyView.swift */,
 				FE5ED2592A39113000C9E3D7 /* WebView.swift */,
 				AA7545412C0115F600D79A62 /* DynamicFont.swift */,
 				FEE1562F2A1FB7CB00398DCD /* Survey */,
@@ -243,8 +252,11 @@
 				B91AA799286D0D0400B36E84 /* Dashboard */,
 				B91AA79A286D0D1900B36E84 /* Profile */,
 				FE620EC22A1408010073B8F0 /* OnboardingView.swift */,
+				AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */,
+				AA2E19DA2C0FAAFA0072303D /* TipsView.swift */,
 				AA7874572C0966D400A0DDC5 /* NewUserView.swift */,
 				FEE156242A1D5E0700398DCD /* DummyView.swift */,
+				AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -340,12 +352,12 @@
 			isa = PBXGroup;
 			children = (
 				FEE156302A1FB84B00398DCD /* SurveyDropdown.swift */,
-				FEE156322A1FB88800398DCD /* SurveyView.swift */,
 				FEE156352A1FB89000398DCD /* IconButtonInner.swift */,
 				FEE156342A1FB89000398DCD /* IconButtonStyle.swift */,
 				FEE1563C2A1FD7AE00398DCD /* SurveyInfoView.swift */,
 				FEE1563A2A1FC3E800398DCD /* SurveyDetailsView.swift */,
 				FE01C5792A2FAF6100850EFF /* SurveyManager.swift */,
+				AA2E19D62C0F89250072303D /* EMASurveyView.swift */,
 			);
 			path = Survey;
 			sourceTree = "<group>";
@@ -457,6 +469,7 @@
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
 				FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
+				AA2E19DB2C0FAAFA0072303D /* TipsView.swift in Sources */,
 				FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */,
 				FE01C57C2A325D5300850EFF /* FullscreenHighlightView.swift in Sources */,
 				FE5ED25A2A39113000C9E3D7 /* WebView.swift in Sources */,
@@ -486,9 +499,12 @@
 				FEE155EE2A155FA300398DCD /* RegisteredUser.swift in Sources */,
 				B9D051C0288B27A300AAC9D8 /* CrewView.swift in Sources */,
 				B9D051C2288B2D5F00AAC9D8 /* ResponseModel.swift in Sources */,
+				AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */,
 				FE01C57A2A2FAF6100850EFF /* SurveyManager.swift in Sources */,
 				FEE155F62A17C92100398DCD /* UserInfoLoader.swift in Sources */,
 				FEE156232A1D450600398DCD /* FatigueWarningLoader.swift in Sources */,
+				AA2E19D72C0F89250072303D /* EMASurveyView.swift in Sources */,
+				AA2E19D92C0F8F4C0072303D /* RectangleWrapper.swift in Sources */,
 				FEE1563D2A1FD7AE00398DCD /* SurveyInfoView.swift in Sources */,
 				B9D051B22888435800AAC9D8 /* LoginView.swift in Sources */,
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,

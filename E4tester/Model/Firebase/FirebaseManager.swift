@@ -38,7 +38,7 @@ class FirebaseManager {
         var ref: DocumentReference? = nil;
         let docName: String = deviceId ?? "error";
         
-        db.collection("users").document(docName).updateData([
+        db.collection("users").document(Auth.auth().currentUser!.uid).updateData([
             "device_uuid": deviceId,
             "age": age,
             "start_date": startDate.startOfDay.timeIntervalSince1970
@@ -80,7 +80,7 @@ class FirebaseManager {
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func loadUserInfo(loader: UserInfoLoader) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        let docRef = db.collection("users").document(deviceId ?? "error")
+        let docRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         loader.loading = true
         
         docRef.getDocument { (document, err) in
@@ -105,7 +105,7 @@ class FirebaseManager {
         var ref: DocumentReference? = nil;
         let docName: String = Utilities.timestampToDateString(timestamp);
         
-        db.collection("users").document(deviceId ?? "")
+        db.collection("users").document(Auth.auth().currentUser!.uid)
             .collection("fatigue_levels").document(docName).setData([
             "device_uuid": deviceId,
             "fatigue_level": fatigueLevel,
@@ -115,6 +115,7 @@ class FirebaseManager {
                 print("Error adding document: \(err)")
             } else {
                 print("Document \(docName) successfully written!")
+                print("⬆️ [Fatigue] Uploaded 1 integer.")
             }
         }
     }
@@ -123,8 +124,6 @@ class FirebaseManager {
     /// Called by `didReceiveIBI` in `ViewController`
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func uploadHeartRate(hrMap: [String: Int]) {
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        var ref: DocumentReference? = nil;
         let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
         
         db.collection("users").document(Auth.auth().currentUser!.uid)
@@ -135,6 +134,7 @@ class FirebaseManager {
                 print("Error adding document: \(err)")
             } else {
                 print("Document \(docName) successfully written!")
+                print("⬆️ [Heart Rates] Uploaded \(hrMap.count) string-integer pairs.")
             }
         }
     }
@@ -143,10 +143,9 @@ class FirebaseManager {
     /// Called by `ViewController`.
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func uploadSkinTemps(skinTempMap: [String: Float]) {
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString
         let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
         
-        db.collection("users").document(deviceId ?? "")
+        db.collection("users").document(Auth.auth().currentUser!.uid)
             .collection("skin_temperatures").document(docName).setData([
             "skin_temperatures": skinTempMap
         ]) { err in
@@ -154,6 +153,45 @@ class FirebaseManager {
                 print("Error adding document: \(err)")
             } else {
                 print("Document \(docName) successfully written!")
+                print("⬆️ [Skin Temps] Uploaded \(skinTempMap.count) string-float pairs.")
+            }
+        }
+    }
+    
+    /// Uploads GSR data to the Firestore database.
+    /// Called by `ViewController`.
+    /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
+    static func uploadGSRdata(GSRmap: [String: Float]) {
+        let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
+        
+        db.collection("users").document(Auth.auth().currentUser!.uid)
+            .collection("gsr_data").document(docName).setData([
+            "gsr_data": GSRmap
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document \(docName) successfully written!")
+                print("⬆️ [GSR] Uploaded \(GSRmap.count) string-float pairs.")
+            }
+        }
+    }
+    
+    /// Uploads BVP data to the Firestore database.
+    /// Called by `ViewController`.
+    /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
+    static func uploadBVPdata(BVPmap: [String: Float]) {
+        let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
+        
+        db.collection("users").document(Auth.auth().currentUser!.uid)
+            .collection("bvp_data").document(docName).setData([
+            "bvp_data": BVPmap
+        ]) { err in
+            if let err = err {
+                print("Error adding document: \(err)")
+            } else {
+                print("Document \(docName) successfully written!")
+                print("⬆️ [BVP] Uploaded \(BVPmap.count) string-float pairs.")
             }
         }
     }

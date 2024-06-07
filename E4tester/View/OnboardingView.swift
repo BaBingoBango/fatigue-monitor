@@ -15,6 +15,7 @@ struct OnboardingView: View {
     @State var enteredEmail = ""
     @State var enteredPassword = ""
     @State var signInOperation = Operation()
+    @State var isShowingForgotPasswordView = false
     
     @Binding var userOnboarded: Bool;
     
@@ -29,7 +30,23 @@ struct OnboardingView: View {
                 .padding(.bottom, 24)
             
             FloatingLabelInput(label: "Email Address", text: $enteredEmail, numberPad: false, isSecure: false)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            
             FloatingLabelInput(label: "Password", text: $enteredPassword, numberPad: false, isSecure: true)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            
+            Button(action: {
+                isShowingForgotPasswordView = true
+            }) {
+                Text("Forgot your password?")
+                    .foregroundStyle(.blue)
+                    .padding([.horizontal, .top])
+            }
+            .sheet(isPresented: $isShowingForgotPasswordView) {
+                ForgotPasswordView(enteredEmail: enteredEmail)
+            }
             
             // continue button
             if !enteredEmail.isEmpty && !enteredPassword.isEmpty {
@@ -41,6 +58,7 @@ struct OnboardingView: View {
                     Button(action: continueOnboarding) {
                         HStack {
                             Text("Continue")
+                            
                             Image(systemName: "arrow.right")
                                 .imageScale(.medium)
                         }

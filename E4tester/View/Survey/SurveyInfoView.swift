@@ -177,3 +177,10 @@ struct SurveyInfoView: View {
         } // NavigationView
     }
 }
+
+struct SurveyInfoView_Previews: PreviewProvider {
+    static var previews: some View {
+        SurveyInfoView(continueButtonEnabled: true, toggleToRefresh: false)
+            .environmentObject(ModelData())
+    }
+}
