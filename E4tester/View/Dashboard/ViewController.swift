@@ -6,6 +6,7 @@
 
 import UIKit
 import SwiftUI
+import UserNotifications
 
 class ViewController: UITableViewController {
     weak var delegate: ViewControllerDelegate?
@@ -376,6 +377,35 @@ extension ViewController: EmpaticaDeviceDelegate {
             print("[didUpdate] Connected \(device.serialNumber!).")
             self.lastUpdateTime = Date().timeIntervalSince1970 + 10
             print("init lastUpdateTime to \(self.lastUpdateTime).")
+            
+            // Schedule the EMA survey notifications!
+            let notificationCenter = UNUserNotificationCenter.current()
+            notificationCenter.requestAuthorization(options: [.alert, .sound]) { granted, error in
+                if granted {
+                    
+                    for i in 1...3 {
+                        let content = UNMutableNotificationContent()
+                        content.title = "Time to take a quick survey!"
+                        content.body = "Please tap here to complete the two-question survey."
+                        content.sound = UNNotificationSound.default
+                        content.categoryIdentifier = "EMA_SURVEY"
+                        
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(i * 3), repeats: false) // 2 hour interval in seconds (7,200)
+                        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                        
+                        notificationCenter.add(request) { error in
+                            if let error = error {
+                                print("Error scheduling notification: \(error.localizedDescription)")
+                            }
+                        }
+                    }
+                } else {
+                    if let error = error {
+                        print("Error requesting notifications permission: \(error.localizedDescription)")
+                    }
+                }
+            }
+            
             break
             
         case kDeviceStatusFailedToConnect:

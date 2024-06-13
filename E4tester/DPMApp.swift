@@ -18,6 +18,7 @@ struct DPMApp: App {
     @State var showOnboarding: Bool = true
     
     @State var isSignedIn: Bool? = nil
+    @State var isShowingEMASurvey = false
     
     // Firebase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -92,6 +93,14 @@ struct DPMApp: App {
                         isSignedIn = false
                     }
                 }
+                
+                // Listen for EMA notifications!
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("EMASurveyNotification"), object: nil, queue: .main) { [self] _ in
+                    self.isShowingEMASurvey = true
+                }
+            }
+            .sheet(isPresented: $isShowingEMASurvey) {
+                EMASurveyView()
             }
         }
         .onChange(of: scenePhase) { newScenePhase in

@@ -23,6 +23,10 @@
 		AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874532C09606C00A0DDC5 /* Operation.swift */; };
 		AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */; };
 		AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874572C0966D400A0DDC5 /* NewUserView.swift */; };
+		AA833FC02C17954000E2501E /* MetricsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA833FBF2C17954000E2501E /* MetricsDetailView.swift */; };
+		AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */; };
+		AA8EF47C2C14FF540065FD57 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF47B2C14FF540065FD57 /* Metric.swift */; };
+		AA8EF47E2C154F640065FD57 /* NewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF47D2C154F640065FD57 /* NewInfoView.swift */; };
 		AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */; };
 		B91491542911AFE400A51A62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B91491532911AFE400A51A62 /* Algorithms */; };
 		B914915C2911B19C00A51A62 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = B914915B2911B19C00A51A62 /* Charts */; };
@@ -116,6 +120,10 @@
 		AA7874532C09606C00A0DDC5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistenceChecker.swift; sourceTree = "<group>"; };
 		AA7874572C0966D400A0DDC5 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
+		AA833FBF2C17954000E2501E /* MetricsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsDetailView.swift; sourceTree = "<group>"; };
+		AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricDetailView.swift; sourceTree = "<group>"; };
+		AA8EF47B2C14FF540065FD57 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
+		AA8EF47D2C154F640065FD57 /* NewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInfoView.swift; sourceTree = "<group>"; };
 		AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineChartView.swift; sourceTree = "<group>"; };
 		B91AA78F286CA26E00B36E84 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
@@ -266,6 +274,7 @@
 			children = (
 				FE5ED25F2A40D74E00C9E3D7 /* Firebase */,
 				B91AA78F286CA26E00B36E84 /* ModelData.swift */,
+				AA8EF47B2C14FF540065FD57 /* Metric.swift */,
 				B91AA79B286D12E900B36E84 /* Config.swift */,
 				B9D051B9288B11B400AAC9D8 /* User.swift */,
 				AA7874532C09606C00A0DDC5 /* Operation.swift */,
@@ -284,8 +293,11 @@
 			isa = PBXGroup;
 			children = (
 				B91AA791286CA5B700B36E84 /* DashboardView.swift */,
+				AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */,
+				AA833FBF2C17954000E2501E /* MetricsDetailView.swift */,
 				55591B6A1F2884AC0084CF0C /* ViewController.swift */,
 				B91AA7A4287F352100B36E84 /* InfoView.swift */,
+				AA8EF47D2C154F640065FD57 /* NewInfoView.swift */,
 				FEE1561A2A1D075A00398DCD /* SimpleDropdown.swift */,
 				B9D051CF288B797000AAC9D8 /* MyCrew */,
 				FEE156202A1D375400398DCD /* HighlightView.swift */,
@@ -497,6 +509,7 @@
 				B9D051B628887D2B00AAC9D8 /* FloatingLabelInput.swift in Sources */,
 				FE620EBF2A14048F0073B8F0 /* FirebaseManager.swift in Sources */,
 				FEE155EE2A155FA300398DCD /* RegisteredUser.swift in Sources */,
+				AA833FC02C17954000E2501E /* MetricsDetailView.swift in Sources */,
 				B9D051C0288B27A300AAC9D8 /* CrewView.swift in Sources */,
 				B9D051C2288B2D5F00AAC9D8 /* ResponseModel.swift in Sources */,
 				AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */,
@@ -509,6 +522,7 @@
 				B9D051B22888435800AAC9D8 /* LoginView.swift in Sources */,
 				B9EC1D8928C9234A007EB285 /* Notification.swift in Sources */,
 				FEE155F42A17124700398DCD /* DeviceView.swift in Sources */,
+				AA8EF47C2C14FF540065FD57 /* Metric.swift in Sources */,
 				FEE1563B2A1FC3E800398DCD /* SurveyDetailsView.swift in Sources */,
 				AA7545422C0115F600D79A62 /* DynamicFont.swift in Sources */,
 				FE5ED25C2A3B7FFC00C9E3D7 /* NodeServer.swift in Sources */,
@@ -516,6 +530,8 @@
 				AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */,
+				AA8EF47E2C154F640065FD57 /* NewInfoView.swift in Sources */,
+				AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
 				AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */,
 				B93AB80C285D8EF10008DC59 /* ContentView.swift in Sources */,

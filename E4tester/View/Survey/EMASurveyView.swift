@@ -22,8 +22,13 @@ struct EMASurveyView: View {
     @State var question1Response: Bool? = nil
     /// The response for question 2 of the survey.
     @State var question2Response: Bool? = nil
+    /// The status of the survey check (has the user submitted yet today?).
+    @State var surveyCheckOperation = Operation(status: .inProgress)
+    /// Whether or not this is the user's first survey of the day,
+    @State var isFirstSurvey = false
     /// The status of the survey submission.
     @State var submitSurveyOperation = Operation()
+    /// Whether or not the Submit button should be disabled.
     var shouldDisableSubmitButton: Bool {
         question1Response == nil || question2Response == nil || submitSurveyOperation.status == .inProgress
     }
@@ -31,42 +36,78 @@ struct EMASurveyView: View {
     // MARK: View Body
     var body: some View {
         NavigationView {
-            VStack {
-                ScrollView {
-                    VStack {
-                        QuestionView(question: "Since the last survey, have you assisted your crew members to make sure they performed their work safely?",
-                                     response: $question1Response,
-                                     shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
-                        )
-                        .padding(.top)
+            Group {
+                if surveyCheckOperation.status == .inProgress {
+                    ProgressView()
+                        .controlSize(.large)
+                    
+                } else if surveyCheckOperation.status == .failure {
+                    VStack(spacing: 13) {
+                        Text("Couldn't Load Survey")
+                            .dynamicFont(.title2)
+                            .fontWeight(.bold)
                         
-                        QuestionView(question: "Since the last survey, have you taken action to protect your crew members from safety hazards or risky situations?",
-                                     response: $question2Response,
-                                     shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
-                        )
-                        .padding(.top)
-                    }
-                }
-                
-                Group {
-                    if submitSurveyOperation.status != .inProgress {
+                        Text(surveyCheckOperation.errorMessage)
+                            .multilineTextAlignment(.center)
+                        
                         Button(action: {
-                            submitSurvey()
+                            surveyCheckOperation.status = .inProgress
+                            checkForSurveys()
                         }) {
-                            Text("Submit Survey")
+                            Text("Try Again")
+                                .fontWeight(.bold)
                         }
-                    } else {
-                        ProgressView()
+                    }
+                    
+                } else {
+                    VStack {
+                        ScrollView {
+                            HStack {
+                                Text("\(isFirstSurvey ? "So far today:" : "Since the last survey:")")
+                                    .dynamicFont(.title3)
+                                    .fontWeight(.bold)
+                                
+                                Spacer()
+                            }
+                            .padding(.top, 5)
+                            
+                            VStack {
+                                QuestionView(question: "Have you assisted your crew members to make sure they performed their work safely?",
+                                             response: $question1Response,
+                                             shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
+                                )
+                                .padding(.top, 5)
+                                
+                                QuestionView(question: "Have you taken action to protect your crew members from safety hazards or risky situations?",
+                                             response: $question2Response,
+                                             shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
+                                )
+                                .padding(.top)
+                            }
+                        }
+                        
+                        Group {
+                            if submitSurveyOperation.status != .inProgress {
+                                Button(action: {
+                                    submitSurvey()
+                                }) {
+                                    Text("Submit Survey")
+                                }
+                            } else {
+                                ProgressView()
+                            }
+                        }
+                            .foregroundStyle(.white)
+                            .fontWeight(.bold)
+                            .modifier(RectangleWrapper(fixedHeight: 60, color: !shouldDisableSubmitButton ? .blue : .secondary))
+                            .opacity(!shouldDisableSubmitButton ? 1 : 0.75)
+                            .padding([.leading, .bottom, .trailing])
+                            .padding(.top, 5)
+                            .disabled(shouldDisableSubmitButton)
                     }
                 }
-                    .foregroundStyle(.white)
-                    .fontWeight(.bold)
-                    .modifier(RectangleWrapper(fixedHeight: 60, color: !shouldDisableSubmitButton ? .blue : .secondary))
-                    .opacity(!shouldDisableSubmitButton ? 1 : 0.75)
-                    .padding()
-                    .disabled(shouldDisableSubmitButton)
             }
-                .navigationTitle("EMA Survey")
+                .navigationTitle("Feedback Survey")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: {
                     ToolbarItem(placement: .cancellationAction) {
@@ -87,9 +128,45 @@ struct EMASurveyView: View {
                 })
         }
         .interactiveDismissDisabled()
+        .alert(isPresented: $submitSurveyOperation.isShowingErrorMessage) {
+            Alert(title: Text("Couldn't Submit Survey"),
+                  message: Text(submitSurveyOperation.errorMessage),
+                  dismissButton: .default(Text("Close"))
+            )
+        }
+        .onAppear {
+            checkForSurveys()
+        }
     }
     
     // MARK: View Functions
+    func checkForSurveys() {
+        guard Auth.auth().currentUser != nil else {
+            surveyCheckOperation.setError(message: "You are not signed in. Please sign in and try again.")
+            return
+        }
+        
+        let startOfDay = Calendar.current.startOfDay(for: Date())
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)
+        
+        let surveysRef = Firestore.firestore()
+            .collection("users")
+            .document(Auth.auth().currentUser!.uid)
+            .collection("ema_surveys")
+        
+        // Query for documents where the document name (a timestamp) falls within today's date
+        let query = surveysRef.whereField(FieldPath.documentID(), isGreaterThanOrEqualTo: Utilities.timestampToDateString(startOfDay.timeIntervalSince1970))
+            .whereField(FieldPath.documentID(), isLessThan: Utilities.timestampToDateString(endOfDay!.timeIntervalSince1970))
+        
+        query.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                surveyCheckOperation.setError(message: error.localizedDescription)
+            } else {
+                isFirstSurvey = !((querySnapshot?.documents.count ?? 0) > 0)
+                surveyCheckOperation.status = .success
+            }
+        }
+    }
     func submitSurvey() {
         submitSurveyOperation.status = .inProgress
         let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970)
@@ -130,7 +207,11 @@ struct QuestionView: View {
                 .foregroundStyle(.background)
             
             VStack {
-                Text(question)
+                HStack {
+                    Text(question)
+                    
+                    Spacer()
+                }
                     .padding()
                 
                 Divider()

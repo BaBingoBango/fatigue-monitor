@@ -12,11 +12,15 @@ import SwiftUI
 struct TipsView: View {
     
     // MARK: View Variables
-    // Variables go here! :)
+    @State var selectedMetric: MetricType = .fatigue
     
     // MARK: View Body
     var body: some View {
-        Text("hello, tips!")
+        Picker("", selection: $selectedMetric) {
+            Text("Fatigue").tag(MetricType.fatigue)
+            Text("Heat Strain").tag(MetricType.heatStrain)
+        }
+        .pickerStyle(SegmentedPickerStyle())
     }
     
     // MARK: View Functions

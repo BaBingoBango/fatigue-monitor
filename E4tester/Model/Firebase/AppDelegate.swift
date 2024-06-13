@@ -57,6 +57,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
+        
+        if response.notification.request.content.categoryIdentifier == "EMA_SURVEY" {
+            NotificationCenter.default.post(name: NSNotification.Name("EMASurveyNotification"), object: nil)
+        }
+        
         completionHandler()
     }
 
