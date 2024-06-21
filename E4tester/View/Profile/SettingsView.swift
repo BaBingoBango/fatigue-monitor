@@ -110,8 +110,10 @@ struct SettingsView: View {
                 }
             }
             
-            Button("Sign Out") {
-                try! Auth.auth().signOut()
+            Section(header: Text("Account")) {
+                Button("Sign Out") {
+                    try! Auth.auth().signOut()
+                }
             }
         }
         .navigationTitle(Text("Settings"))

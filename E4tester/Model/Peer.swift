@@ -18,7 +18,7 @@ class Peer : Identifiable, Hashable, ObservableObject {
     }
     
     var identifier: String {
-        return id
+        return id.uuidString
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -26,21 +26,30 @@ class Peer : Identifiable, Hashable, ObservableObject {
     }
     
     
-    var id: String = "" // user_id
+    var id: UUID = UUID()
     
     @Published var first_name: String = "Unknown"
     var fatigue_level = 0
     var last_update: Int = 0
     var observations: [Observation] = []
+    var heatObservations: [HeatStrainObservation] = []
     
-    struct Observation: Codable, Hashable {
+    struct Observation: Codable, Hashable, Identifiable {
+        var id = UUID()
         var hour_from_midnight: Int
         var fatigue_level_range: Range<Int>
         var avg_fatigue_level: Double
     }
     
+    struct HeatStrainObservation: Codable, Hashable, Identifiable {
+        var id = UUID()
+        var hourFromMidnight: Int
+        var heatStrainRange: Range<Int>
+        var averageHeatStrain: Double
+    }
+    
     init(id: String, firstName: String) {
-        self.id = id
+        self.id = UUID()
         self.first_name = firstName
     }
 }

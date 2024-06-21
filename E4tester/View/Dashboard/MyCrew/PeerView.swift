@@ -135,16 +135,16 @@ struct PeerView: View {
                 .font(.system(size: 12))
                 .foregroundColor(.secondary)
                 .transition(.moveAndFade)
-                .onAppear() {
-                    Task {
-                        await modelData.uploadActivity(peer_id: peer.id, if_open: true)
-                    }
-                }
-                .onDisappear() {
-                    Task {
-                        await modelData.uploadActivity(peer_id: peer.id, if_open: false)
-                    }
-                }
+//                .onAppear() {
+//                    Task {
+//                        await modelData.uploadActivity(peer_id: peer.id, if_open: true)
+//                    }
+//                }
+//                .onDisappear() {
+//                    Task {
+//                        await modelData.uploadActivity(peer_id: peer.id, if_open: false)
+//                    }
+//                }
             }
         }
     }

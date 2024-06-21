@@ -25,39 +25,39 @@ struct MetricDetailView: View {
                     switch metric {
                     case .fatigue(let value):
                         if value < 40 {
-                            MetricDisplayView(iconName: "battery.100percent", iconColor: .green, header: "Low Fatigue Risk", subtext: "You're doing great!")
+                            MetricDisplayView(iconName: "battery.100percent", iconColor: .green, header: "Low Level of Fatigue Risk", subtext: "You're doing great!")
                                 .padding(.top, 5)
                             
                         } else if value < 70 {
-                            MetricDisplayView(iconName: "battery.75percent", iconColor: .orange, header: "Moderate Fatigue Risk", subtext: "You need to be cautious.")
+                            MetricDisplayView(iconName: "battery.75percent", iconColor: .orange, header: "Moderate Level of Fatigue Risk", subtext: "You need to be cautious.")
                                 .padding(.top, 5)
                             
                         } else if value < 90 {
-                            MetricDisplayView(iconName: "battery.50percent", iconColor: .red, header: "High Fatigue Risk", subtext: "You need to recover now!")
+                            MetricDisplayView(iconName: "battery.50percent", iconColor: .red, header: "High Level of Fatigue Risk", subtext: "You need to recover now!")
                                 .padding(.top, 5)
                             
                             
                         } else {
-                            MetricDisplayView(iconName: "battery.25percent", iconColor: .red, header: "Critical Fatigue Risk", subtext: "You need to recover now!")
+                            MetricDisplayView(iconName: "battery.25percent", iconColor: .red, header: "Critical Level of Fatigue Risk", subtext: "You need to recover now!")
                                 .padding(.top, 5)
                             
                         }
                     case .heatStrain(let value):
                         if value < 1 {
-                            MetricDisplayView(iconName: "thermometer.low", iconColor: .green, header: "Low Heat Risk", subtext: "You're doing great!", extraPadding: 10)
+                            MetricDisplayView(iconName: "thermometer.low", iconColor: .green, header: "Low Level of Heat Risk", subtext: "You're doing great!", extraPadding: 10)
                                 .padding(.top, 5)
                             
                         } else if value < 2 {
-                            MetricDisplayView(iconName: "thermometer.medium", iconColor: .orange, header: "Moderate Heat Risk", subtext: "You need to be cautious.", extraPadding: 10)
+                            MetricDisplayView(iconName: "thermometer.medium", iconColor: .orange, header: "Moderate Level of Heat Risk", subtext: "You need to be cautious.", extraPadding: 10)
                                 .padding(.top, 5)
                             
                         } else if value < 3 {
-                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
+                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
                                 .padding(.top, 5)
                             
                             
                         } else {
-                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "Critical", subtext: "You need to cool down now!", extraPadding: 10)
+                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "Critical Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
                                 .padding(.top, 5)
                             
                         }
@@ -72,12 +72,12 @@ struct MetricDetailView: View {
                         Text({
                             switch metric {
                             case .fatigue(_):
-                                "Accumulated fatigue can harm you..."
+                                "Fatigue can harm you and your team members"
                             case .heatStrain(_):
-                                "Excessive heat strain can lead to..."
+                                "Excessive heat strain can lead your team to..."
                             }
                         }())
-                            .dynamicFont(.body)
+                            .dynamicFont(.body, lineLimit: 2)
                         
                         switch metric {
                         case .fatigue(_):
@@ -110,7 +110,8 @@ struct MetricDetailView: View {
                         switch metric {
                         case .fatigue(_):
                             IconRowView(imageName: "nap", header: "Take a short nap during break", subtext: "It can help you to recover fatigue!")
-                            IconRowView(imageName: "balance", header: "Balance your works", subtext: "Your workload need to be adjusted!")
+                            IconRowView(imageName: "balance", header: "Pace your work", subtext: "Your workload need to be adjusted!")
+                            IconRowView(imageName: "together", header: "Communicate with your foremen or co-workers", subtext: "Talk together to adjust the working environment")
                             IconRowView(imageName: "water", header: "Maintain hydration", subtext: "Fuel your body to recover!")
                             IconRowView(imageName: "adjust", header: "Adjust working environment", subtext: "It helps you to reduce fatigue!")
                             
@@ -119,7 +120,7 @@ struct MetricDetailView: View {
                             IconRowView(imageName: "rest", header: "Taking a rest in cool, shady places", subtext: "It helps you cool it down!")
                             IconRowView(imageName: "dress", header: "Get dressed in a cool way", subtext: "It prevents you from getting hot!")
                             IconRowView(imageName: "monitor", header: "Knowing the signs", subtext: "Tracking your conditions can help you!")
-                            IconRowView(imageName: "together", header: "Alter your schedule", subtext: "Try to schedule heavy work and hot jobs for cooler parts of the day")
+                            IconRowView(imageName: "together", header: "Communicate with your foremen or co-workers", subtext: "Try to schedule heavy work and hot jobs for cooler parts of the day")
                         }
                     }
                     .padding(.bottom)
@@ -234,7 +235,7 @@ struct MetricDisplayView: View {
                 VStack(alignment: .leading) {
                     Text(header)
                         .fontWeight(.bold)
-                        .dynamicFont(.title2, padding: 0)
+                        .dynamicFont(.title2, lineLimit: 2, padding: 0)
                     
                     Text(subtext)
                         .fontWeight(.regular)
@@ -269,7 +270,7 @@ struct IconRowView: View {
             
             VStack(alignment: .leading) {
                 Text(header)
-                    .dynamicFont(.headline, padding: 0)
+                    .dynamicFont(.headline, lineLimit: 2, padding: 0)
                 
                 Text(subtext)
                     .dynamicFont(.body, lineLimit: 2, padding: 0)

@@ -20,6 +20,7 @@ struct MetricsDetailView: View {
     var heatStrain: Int = 0
     /// ???
     @State var selectedMetric: MetricType = .fatigue
+    var soloMode = false
     
     // MARK: View Body
     var body: some View {
@@ -43,14 +44,16 @@ struct MetricsDetailView: View {
             }
             
             // MARK: Navigation Settings
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(soloMode ? "Tips" : "")
+            .navigationBarTitleDisplayMode(soloMode ? .large : .inline)
             .toolbar(content: {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Done")
+                    if !soloMode {
+                        Button(action: {
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            Text("Done")
+                        }
                     }
                 }
             })

@@ -12,6 +12,7 @@ struct CrewView: View {
     @EnvironmentObject var modelData: ModelData
     @State var dateSelection: Date = Date()
     @ObservedObject var groupMates = RegisteredUserArr()
+    @State var selectedMetricType: MetricType = .fatigue
     
     @State var toggleToRefresh: Bool = false
     
@@ -19,100 +20,26 @@ struct CrewView: View {
     @State var timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        VStack{
-            
-            let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
-                return lhs.first_name < rhs.first_name
+        VStack {
+            Picker("", selection: $selectedMetricType) {
+                Text("Fatigue").tag(MetricType.fatigue)
+                Text("Heat Strain").tag(MetricType.heatStrain)
             }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.bottom, 5)
             
-            // List of peers
-            let splittedArray = arraySplitter(sortedCrew: sortedCrew)
-            VStack(alignment: .center) {
-                
-                ForEach(Array(splittedArray.enumerated()), id: \.element) { index1, arr in
-                    HStack {
-                        Spacer()
-                        ForEach(Array(arr.enumerated()), id: \.element) { index, peer in
-                            
-                            HStack {
-                                Spacer()
-                                    .frame(maxWidth: 8)
-                                Circle()
-                                    .fill(Color.getColor(withIndex: (index1 * 3) + index))
-                                    .frame(width: 8, height: 8)
-                                Text(peer.first_name)
-                                Spacer()
-                                    .frame(maxWidth: 8)
-                            }
-                            
-                        }
-                        Spacer()
-                    }
-                    .font(.system(size: 16, weight: .medium))
-                    .transition(.moveAndFade)
-                    .frame(height: 15)
-                    .padding(.bottom, 5)
-                }
-            }
-
-//            HStack {
-//                Spacer()
-//                ForEach(Array(sortedCrew.enumerated()), id: \.element) { index, peer in
-//                    HStack {
-//                        Circle()
-//                            .fill(Color.getColor(withIndex: index))
-//                            .frame(width: 8, height: 8)
-//                        Text(peer.first_name)
-//                        Spacer()
-//                    }
-//
-//                }
-//            }
-//            .font(.system(size: 16, weight: .medium))
-//            .transition(.moveAndFade)
-//            .frame(height: 15)
-//            .padding(.bottom, 5)
-            
-            
-            
-            // Graph
             HStack {
-                Text("Average Fatigue Level")
-                    .rotationEffect(.degrees(270))
-                    .fixedSize()
-                    .frame(width: 10, height: 90)
-                    .font(.system(size: 16))
-                
-                // y-axis label
                 VStack {
-                    Text("100%")
-                    Spacer()
-                    Text("75%")
-                    Spacer()
-                    Text("50%")
-                    Spacer()
-                    Text("25%")
-                    Spacer()
-                    Text("0%")
-                    HStack{
-                        Text("")
+                    let sortedPreviewCrew = getPreviewPeers().sorted { (lhs: Peer, rhs: Peer) in
+                        return lhs.first_name < rhs.first_name
                     }
-                }
-                VStack {
                     let sortedCrew = modelData.crew.sorted { (lhs: Peer, rhs: Peer) in
                         return lhs.first_name < rhs.first_name
                     }
-                    MultiLineChartView(peers: sortedCrew)
-                        .frame(height: 280)
-                    HStack() {
-                        LabelView // x-axis label
-                    }
                     
+                    CrewChartView(peers: selectedMetricType == .fatigue ? sortedCrew : sortedPreviewCrew, metricType: selectedMetricType)
                 }
             }
-            .font(.system(size: 12))
-            .foregroundColor(.secondary)
-            .transition(.moveAndFade)
             .onAppear {
                 getGroupmateNames()
                 initCrew()
@@ -137,7 +64,7 @@ struct CrewView: View {
                 }
                 .padding(.leading, 8)
             }
-            .padding(.top, 8)
+            .padding(.top)
             .padding(.bottom, 16)
             .padding([.horizontal], 60)
         }
@@ -160,7 +87,7 @@ struct CrewView: View {
         }
     }
     
-    func arraySplitter(sortedCrew: [Peer], num: Int = 3) -> ([[Peer]]) {
+    public static func arraySplitter(sortedCrew: [Peer], num: Int = 3) -> ([[Peer]]) {
         var arr: [[Peer]] = []
         var temp: [Peer] = []
         var index: Int = 0

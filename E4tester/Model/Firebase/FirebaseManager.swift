@@ -35,7 +35,6 @@ class FirebaseManager {
     /// Must connect to Firebase by calling `FirestoreManager.connect()` before running.
     static func editUser(age: Int, startDate: Date) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        var ref: DocumentReference? = nil;
         let docName: String = deviceId ?? "error";
         
         db.collection("users").document(Auth.auth().currentUser!.uid).updateData([
@@ -52,34 +51,43 @@ class FirebaseManager {
     }
     
     @AppStorage("userGroupId") static var userGroupId: String = ""
+    @AppStorage("userFirstName") static var userFirstName: String = ""
+    @AppStorage("userAge") static var userAge: Int = 0
     /// Retrieves current user's group ID and saves it to app storage
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func getUserGroupId() {
-        db.collection("users")
-            .whereField("device_uuid", isEqualTo: UIDevice.current.identifierForVendor?.uuidString)
-            .order(by: "first_name")
-            .getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
+        // Check if we have a signed-in user!
+        guard let user = Auth.auth().currentUser else {
+            print("User is not signed in.")
+            return
+        }
+        
+        // Get the userID from the signed-in user!
+        let userID = user.uid
+        
+        // Access the UR from the Firestore collection!
+        db.collection("users").document(userID).getDocument { (document, error) in
+            if let error = error {
+                print("Error getting user record: \(error)")
+            } else if let document = document, document.exists {
+                let oldGroupId = userGroupId
+                userGroupId = document.get("group_id") as? String ?? "ERROR"
+                userAge = Int(document.get("age") as? Int ?? 0)
+                userFirstName = document.get("first_name") as? String ?? ""
+                
+                if userGroupId != oldGroupId {
+                    unsubscribeFromGroup(groupId: oldGroupId)
+                    subscribeToGroup(groupId: userGroupId)
                 }
-                else {
-                    for document in querySnapshot!.documents {
-                        let oldGroupId = userGroupId
-                        userGroupId = document.get("group_id") as? String ?? "ERROR"
-                        
-                        if userGroupId != oldGroupId {
-                            unsubscribeFromGroup(groupId: oldGroupId)
-                        }
-                        subscribeToGroup(groupId: userGroupId)
-                    }
-                }
+            } else {
+                print("Error: Document does not exist!")
             }
+        }
     }
     
     /// Loads user's heart information and writes it on the `loader` object.
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func loadUserInfo(loader: UserInfoLoader) {
-        let deviceId = UIDevice.current.identifierForVendor?.uuidString
         let docRef = db.collection("users").document(Auth.auth().currentUser!.uid)
         loader.loading = true
         
@@ -102,7 +110,6 @@ class FirebaseManager {
     /// Must connect to Firebase by calling `FirebaseManager.connect()` before running.
     static func uploadFatigueLevel(fatigueLevel: Int, timestamp: Double) {
         let deviceId = UIDevice.current.identifierForVendor?.uuidString
-        var ref: DocumentReference? = nil;
         let docName: String = Utilities.timestampToDateString(timestamp);
         
         db.collection("users").document(Auth.auth().currentUser!.uid)

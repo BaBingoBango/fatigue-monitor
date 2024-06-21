@@ -95,9 +95,14 @@ struct DPMApp: App {
                 }
                 
                 // Listen for EMA notifications!
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("EMASurveyNotification"), object: nil, queue: .main) { [self] _ in
+                NotificationCenter.default.addObserver(forName: NSNotification.Name("EMA_SURVEY"), object: nil, queue: .main) { [self] _ in
                     self.isShowingEMASurvey = true
                 }
+                
+//                if delegate.launchedFromNotification {
+//                    self.isShowingEMASurvey = true
+//                    delegate.launchedFromNotification = false
+//                }
             }
             .sheet(isPresented: $isShowingEMASurvey) {
                 EMASurveyView()
@@ -124,4 +129,40 @@ struct DPMApp: App {
             }
         }
     }
+}
+
+func getPreviewPeers() -> [Peer] {
+    var previewPeers: [Peer] = []
+    
+    let alex = Peer(id: "A", firstName: "Alex")
+    alex.observations = [
+        .init(hour_from_midnight: 8, fatigue_level_range: 30..<50, avg_fatigue_level: 40),
+        .init(hour_from_midnight: 9, fatigue_level_range: 50..<50, avg_fatigue_level: 50),
+        .init(hour_from_midnight: 10, fatigue_level_range: 10..<50, avg_fatigue_level: 30),
+        .init(hour_from_midnight: 11, fatigue_level_range: 0..<40, avg_fatigue_level: 20)
+    ]
+    alex.heatObservations = [
+        .init(hourFromMidnight: 8, heatStrainRange: 0..<2, averageHeatStrain: 1),
+        .init(hourFromMidnight: 9, heatStrainRange: 3..<5, averageHeatStrain: 4),
+        .init(hourFromMidnight: 10, heatStrainRange: 6..<6, averageHeatStrain: 6),
+        .init(hourFromMidnight: 11, heatStrainRange: 4..<10, averageHeatStrain: 7)
+    ]
+    previewPeers.append(alex)
+    
+    let brynn = Peer(id: "B", firstName: "Brynn")
+    brynn.observations = [
+        .init(hour_from_midnight: 8, fatigue_level_range: 30..<90, avg_fatigue_level: 84),
+        .init(hour_from_midnight: 9, fatigue_level_range: 80..<100, avg_fatigue_level: 92),
+        .init(hour_from_midnight: 10, fatigue_level_range: 24..<40, avg_fatigue_level: 29),
+        .init(hour_from_midnight: 11, fatigue_level_range: 15..<40, avg_fatigue_level: 35)
+    ]
+    brynn.heatObservations = [
+        .init(hourFromMidnight: 8, heatStrainRange: 5..<8, averageHeatStrain: 8),
+        .init(hourFromMidnight: 9, heatStrainRange: 1..<7, averageHeatStrain: 5),
+        .init(hourFromMidnight: 10, heatStrainRange: 6..<10, averageHeatStrain: 8),
+        .init(hourFromMidnight: 11, heatStrainRange: 4..<10, averageHeatStrain: 9)
+    ]
+    previewPeers.append(brynn)
+    
+    return previewPeers
 }

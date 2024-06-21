@@ -15,7 +15,6 @@
 		59CAB626207771C30052910F /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59CAB625207771C30052910F /* CoreBluetooth.framework */; };
 		AA2E19D72C0F89250072303D /* EMASurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19D62C0F89250072303D /* EMASurveyView.swift */; };
 		AA2E19D92C0F8F4C0072303D /* RectangleWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */; };
-		AA2E19DB2C0FAAFA0072303D /* TipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2E19DA2C0FAAFA0072303D /* TipsView.swift */; };
 		AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */; };
 		AA7545422C0115F600D79A62 /* DynamicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7545412C0115F600D79A62 /* DynamicFont.swift */; };
 		AA7874502C095EB500A0DDC5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AA78744F2C095EB500A0DDC5 /* FirebaseAuth */; };
@@ -24,12 +23,11 @@
 		AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */; };
 		AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874572C0966D400A0DDC5 /* NewUserView.swift */; };
 		AA833FC02C17954000E2501E /* MetricsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA833FBF2C17954000E2501E /* MetricsDetailView.swift */; };
+		AA86BE022C1CAAC700D5EE15 /* CrewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */; };
 		AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */; };
 		AA8EF47C2C14FF540065FD57 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF47B2C14FF540065FD57 /* Metric.swift */; };
-		AA8EF47E2C154F640065FD57 /* NewInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF47D2C154F640065FD57 /* NewInfoView.swift */; };
 		AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */; };
 		B91491542911AFE400A51A62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B91491532911AFE400A51A62 /* Algorithms */; };
-		B914915C2911B19C00A51A62 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = B914915B2911B19C00A51A62 /* Charts */; };
 		B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */; };
 		B91AA790286CA26E00B36E84 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91AA78F286CA26E00B36E84 /* ModelData.swift */; };
 		B91AA792286CA5B700B36E84 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91AA791286CA5B700B36E84 /* DashboardView.swift */; };
@@ -114,16 +112,15 @@
 		59CAB625207771C30052910F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		AA2E19D62C0F89250072303D /* EMASurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMASurveyView.swift; sourceTree = "<group>"; };
 		AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleWrapper.swift; sourceTree = "<group>"; };
-		AA2E19DA2C0FAAFA0072303D /* TipsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipsView.swift; sourceTree = "<group>"; };
 		AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatStrainLevel.swift; sourceTree = "<group>"; };
 		AA7545412C0115F600D79A62 /* DynamicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFont.swift; sourceTree = "<group>"; };
 		AA7874532C09606C00A0DDC5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistenceChecker.swift; sourceTree = "<group>"; };
 		AA7874572C0966D400A0DDC5 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
 		AA833FBF2C17954000E2501E /* MetricsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsDetailView.swift; sourceTree = "<group>"; };
+		AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewChartView.swift; sourceTree = "<group>"; };
 		AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricDetailView.swift; sourceTree = "<group>"; };
 		AA8EF47B2C14FF540065FD57 /* Metric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metric.swift; sourceTree = "<group>"; };
-		AA8EF47D2C154F640065FD57 /* NewInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewInfoView.swift; sourceTree = "<group>"; };
 		AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiLineChartView.swift; sourceTree = "<group>"; };
 		B91AA78F286CA26E00B36E84 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
@@ -193,7 +190,6 @@
 				FE14B9F12A2FA2AF004A1E30 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				FEE155F12A1569B600398DCD /* SkeletonUI in Frameworks */,
 				FE14B9E72A2FA2AF004A1E30 /* FirebaseDatabase in Frameworks */,
-				B914915C2911B19C00A51A62 /* Charts in Frameworks */,
 				FE14B9EF2A2FA2AF004A1E30 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				AA7874522C095EB500A0DDC5 /* FirebaseAuthCombine-Community in Frameworks */,
 			);
@@ -261,7 +257,6 @@
 				B91AA79A286D0D1900B36E84 /* Profile */,
 				FE620EC22A1408010073B8F0 /* OnboardingView.swift */,
 				AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */,
-				AA2E19DA2C0FAAFA0072303D /* TipsView.swift */,
 				AA7874572C0966D400A0DDC5 /* NewUserView.swift */,
 				FEE156242A1D5E0700398DCD /* DummyView.swift */,
 				AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */,
@@ -297,7 +292,6 @@
 				AA833FBF2C17954000E2501E /* MetricsDetailView.swift */,
 				55591B6A1F2884AC0084CF0C /* ViewController.swift */,
 				B91AA7A4287F352100B36E84 /* InfoView.swift */,
-				AA8EF47D2C154F640065FD57 /* NewInfoView.swift */,
 				FEE1561A2A1D075A00398DCD /* SimpleDropdown.swift */,
 				B9D051CF288B797000AAC9D8 /* MyCrew */,
 				FEE156202A1D375400398DCD /* HighlightView.swift */,
@@ -330,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				B9D051BF288B27A300AAC9D8 /* CrewView.swift */,
+				AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */,
 				B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */,
 				B9D051CD288B795B00AAC9D8 /* PeerView.swift */,
 				B9D051C7288B6CB400AAC9D8 /* FatigueLevelGraph.swift */,
@@ -393,7 +388,6 @@
 			name = E4tester;
 			packageProductDependencies = (
 				B91491532911AFE400A51A62 /* Algorithms */,
-				B914915B2911B19C00A51A62 /* Charts */,
 				FEE155F02A1569B600398DCD /* SkeletonUI */,
 				FE14B9E22A2FA2AF004A1E30 /* FirebaseAnalytics */,
 				FE14B9E42A2FA2AF004A1E30 /* FirebaseAnalyticsSwift */,
@@ -443,7 +437,6 @@
 			mainGroup = 55591B5C1F2884AC0084CF0C;
 			packageReferences = (
 				B91491522911AFE400A51A62 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
-				B914915A2911B19C00A51A62 /* XCRemoteSwiftPackageReference "Charts" */,
 				FEE155EF2A1569B600398DCD /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 				FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
@@ -481,10 +474,10 @@
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
 				FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
-				AA2E19DB2C0FAAFA0072303D /* TipsView.swift in Sources */,
 				FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */,
 				FE01C57C2A325D5300850EFF /* FullscreenHighlightView.swift in Sources */,
 				FE5ED25A2A39113000C9E3D7 /* WebView.swift in Sources */,
+				AA86BE022C1CAAC700D5EE15 /* CrewChartView.swift in Sources */,
 				B91AA796286CA62400B36E84 /* ProfileView.swift in Sources */,
 				B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */,
 				FEE156252A1D5E0700398DCD /* DummyView.swift in Sources */,
@@ -530,7 +523,6 @@
 				AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */,
 				B91AA7A5287F352100B36E84 /* InfoView.swift in Sources */,
 				FEE156472A263C0C00398DCD /* TimelineView.swift in Sources */,
-				AA8EF47E2C154F640065FD57 /* NewInfoView.swift in Sources */,
 				AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */,
 				B9D051D128908DD100AAC9D8 /* Utilities.swift in Sources */,
 				AA7545402C01141900D79A62 /* HeatStrainLevel.swift in Sources */,
@@ -789,14 +781,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		B914915A2911B19C00A51A62 /* XCRemoteSwiftPackageReference "Charts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danielgindi/Charts.git";
-			requirement = {
-				kind = exactVersion;
-				version = 4.1.0;
-			};
-		};
 		FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -830,11 +814,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B91491522911AFE400A51A62 /* XCRemoteSwiftPackageReference "swift-algorithms" */;
 			productName = Algorithms;
-		};
-		B914915B2911B19C00A51A62 /* Charts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B914915A2911B19C00A51A62 /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = Charts;
 		};
 		FE14B9E22A2FA2AF004A1E30 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import FirebaseAuth
 
 fileprivate var cancellables = [String : AnyCancellable] ()
 
@@ -63,10 +64,12 @@ class ModelData: ObservableObject {
         let todayMidnight = date.startOfDay.timeIntervalSince1970
         let endTime = todayMidnight + 86400; // + 1 day
         
-        FirebaseManager.getFatigueLevels(deviceId: user_id,
-                                         startTime: todayMidnight,
-                                         endTime: endTime,
-                                         modelData: self)
+        if Auth.auth().currentUser != nil {
+            FirebaseManager.getFatigueLevels(deviceId: user_id,
+                                             startTime: todayMidnight,
+                                             endTime: endTime,
+                                             modelData: self)
+        }
     }
     
     // GET crew information, triggered by DashboardView

@@ -38,12 +38,8 @@ struct DashboardView: View {
                             .font(.system(size: 20, weight: .semibold))
                             .padding([.horizontal], 20)
                             
-//                            InfoView()
-//                                .background(DarkMode.isDarkMode() ? Color.black : Color.white)
-//                                .padding(.top, 7)
-//                                .padding(.bottom, 15)
-//                                .padding(.horizontal, 5)
-                            NewInfoView()
+                            InfoView()
+                                .padding(.horizontal)
                             
                             // Highlights
                             VStack {
@@ -86,6 +82,7 @@ struct DashboardView: View {
                                 }
                                 .font(.system(size: 20, weight: .semibold))
                                 .padding([.horizontal], 20)
+                                .padding(.bottom, 5)
                                 
                                 // graph
                                 CrewView()

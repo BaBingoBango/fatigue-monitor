@@ -44,7 +44,7 @@ struct ContentView: View {
                     }
                     .tag(Tab.survey)
                 
-                TipsView()
+                MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.fatigueLevel, selectedMetric: .fatigue, soloMode: true)
                     .tabItem {
                         Label("Tips", systemImage: "lightbulb.fill")
                     }

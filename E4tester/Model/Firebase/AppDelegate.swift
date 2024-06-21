@@ -18,6 +18,8 @@ import FirebaseMessaging
 ///
 class AppDelegate: NSObject, UIApplicationDelegate {
     
+    var launchedFromNotification = false
+    
     /// Called on app launch
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -58,9 +60,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         
-        if response.notification.request.content.categoryIdentifier == "EMA_SURVEY" {
-            NotificationCenter.default.post(name: NSNotification.Name("EMASurveyNotification"), object: nil)
-        }
+//        if response.notification.request.content.categoryIdentifier == "EMA_SURVEY" {
+//            launchedFromNotification = true
+//        }
         
         completionHandler()
     }

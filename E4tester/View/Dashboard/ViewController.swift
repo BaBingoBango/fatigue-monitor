@@ -309,18 +309,20 @@ extension ViewController: EmpaticaDeviceDelegate {
     /// Called when the app receives IBI data from the wristband.
     func didReceiveIBI(_ ibi: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
         // calculate HR
-        print("❤️‍🔥 IBI identified! \(ibi)")
         
         // unrealistic heart rate?
-        if Int(ibi) == 0 {
+        if ibi == 0 {
+            print("❤️ An IBI of \(ibi) was identified.")
             return
         }
-        let heartRate = Int(60 / ibi)
+        let heartRate = Int(60.0 / ibi)
+        print("❤️‍🔥 OK IBI identified! \(ibi) -> HR: \(Int(60.0 / ibi)) [MHR: \(max_heart_rate)]")
         if (heartRate > max_heart_rate) {
             return
         }
         
         let avgHR = getAverageHeartRate()
+        print(" ❤️ Avg. HR = \(avgHR)")
         if (avgHR == 0 || (avgHR != 0 && abs(heartRate - avgHR) < 30)) {
             print("❤️ Heart rate identified! \(heartRate)")
             heartRates.append(heartRate)
@@ -344,7 +346,7 @@ extension ViewController: EmpaticaDeviceDelegate {
     
     /// Called when the app receives BVP data from the wristband.
     func didReceiveBVP(_ bvp: Float, withTimestamp timestamp: Double, fromDevice device: EmpaticaDeviceManager!) {
-        print("🛜 Received BVP data of \(bvp) from the wristband!")
+        print("🛜 Received BVP data of \(bvp) from the wristband! - #\(BVPmap.count + 1)")
         BVPmap[Utilities.timestampToDateString(timestamp)] = bvp
     }
     
@@ -390,7 +392,7 @@ extension ViewController: EmpaticaDeviceDelegate {
                         content.sound = UNNotificationSound.default
                         content.categoryIdentifier = "EMA_SURVEY"
                         
-                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(i * 3), repeats: false) // 2 hour interval in seconds (7,200)
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(i * 5), repeats: false) // 2 hour interval in seconds (7,200)
                         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
                         
                         notificationCenter.add(request) { error in

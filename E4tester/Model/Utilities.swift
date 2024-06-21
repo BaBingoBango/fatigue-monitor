@@ -53,14 +53,14 @@ class Utilities {
     /// Retrieves the timestamp as a sorting- and human-friendly string.
     ///
     /// ### Format
-    /// `yyyyMMdd-HHmmss`
-    /// Example: `20230115-233405
+    /// `yyyyMMdd-HHmmssSSS`
+    /// Example: `20230115-233405999`
     ///
     static func timestampToDateString(_ timestamp: Double) -> String {
         let date = Date(timeIntervalSince1970: timestamp)
         let dateFormatter = DateFormatter()
         
-        dateFormatter.dateFormat = "yyyyMMdd-HHmmss"
+        dateFormatter.dateFormat = "yyyyMMdd-HHmmssSSSS"
         return dateFormatter.string(from: date)
     }
     
