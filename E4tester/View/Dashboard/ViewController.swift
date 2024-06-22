@@ -390,9 +390,9 @@ extension ViewController: EmpaticaDeviceDelegate {
                         content.title = "Time to take a quick survey!"
                         content.body = "Please tap here to complete the two-question survey."
                         content.sound = UNNotificationSound.default
-                        content.categoryIdentifier = "EMA_SURVEY"
+                        content.categoryIdentifier = "EMA_SURVEY_\(UUID().uuidString)"
                         
-                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(i * 5), repeats: false) // 2 hour interval in seconds (7,200)
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(i * 7200), repeats: false)
                         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
                         
                         notificationCenter.add(request) { error in

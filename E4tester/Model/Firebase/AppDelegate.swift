@@ -16,9 +16,9 @@ import FirebaseMessaging
 /// Provided by Firebase, as of May 16, 2023.
 /// Modified by Seung-Gu Lee on Jun 6, 2023
 ///
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-    var launchedFromNotification = false
+    @Published var launchedFromNotification = false
     
     /// Called on app launch
     func application(_ application: UIApplication,
@@ -37,12 +37,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         )
         application.registerForRemoteNotifications()
         
+        // Set an observer for foreground notifications!
+        UNUserNotificationCenter.current().delegate = self
+        
         return true
     }
     
-}
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
     /// Called on notification received
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -59,10 +59,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        
-//        if response.notification.request.content.categoryIdentifier == "EMA_SURVEY" {
-//            launchedFromNotification = true
-//        }
+        print("DIDRECEIVE")
+        if response.notification.request.content.categoryIdentifier.contains("EMA_SURVEY") {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .init("ShowEMASurveyNotification"), object: nil)
+            }
+        }
         
         completionHandler()
     }
@@ -73,7 +75,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     ) {
         Messaging.messaging().apnsToken = deviceToken
     }
-
+    
 }
 
 

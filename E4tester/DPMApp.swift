@@ -93,19 +93,23 @@ struct DPMApp: App {
                         isSignedIn = false
                     }
                 }
-                
-                // Listen for EMA notifications!
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("EMA_SURVEY"), object: nil, queue: .main) { [self] _ in
+                NotificationCenter.default.addObserver(
+                    forName: .init("ShowEMASurveyNotification"),
+                    object: nil,
+                    queue: .main
+                ) { [self] _ in
                     self.isShowingEMASurvey = true
                 }
-                
-//                if delegate.launchedFromNotification {
-//                    self.isShowingEMASurvey = true
-//                    delegate.launchedFromNotification = false
-//                }
             }
             .sheet(isPresented: $isShowingEMASurvey) {
                 EMASurveyView()
+            }
+            .onChange(of: delegate.launchedFromNotification) { newValue in
+                print("DIDR - changed to \(newValue)")
+                if newValue {
+                    isShowingEMASurvey = true
+                    delegate.launchedFromNotification = false
+                }
             }
         }
         .onChange(of: scenePhase) { newScenePhase in
@@ -114,6 +118,19 @@ struct DPMApp: App {
                 print("App is active")
                 EmpaticaAPI.prepareForResume()
                 resetFatigueLevel()
+                
+                // Register notification categories and actions!
+                let action = UNNotificationAction(identifier: "SURVEY_ACTION",
+                                                      title: "Take Survey",
+                                                      options: UNNotificationActionOptions.foreground)
+
+                let category = UNNotificationCategory(identifier: "EMA_SURVEY",
+                                                      actions: [action],
+                                                      intentIdentifiers: [],
+                                                      options: [])
+
+                UNUserNotificationCenter.current().setNotificationCategories([category])
+                
             case .inactive:
                 print("App is inactive")
                 ModelData.save(user: modelData.user) { result in
