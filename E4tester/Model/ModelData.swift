@@ -39,6 +39,9 @@ class ModelData: ObservableObject {
     @Published(key: "lastPeerNotification") var lastPeerNotification: Double = 0
     @Published(key: "lastResetDay") var lastResetDay: Int = 0
     
+    /// Whether or not the fatigue and heat strain UI views show live fatigue and heat strain data. If this is enabled, live views will display "Disabled" or similar.
+    @Published var shouldDisableMetricDisplays = false
+    
     var user: User = User()
     var inputs: Inputs = Inputs()
 //    @Published var crew = Peers()

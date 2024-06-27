@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct ContentView: View {
     @StateObject var userChecker: UserExistenceChecker
@@ -26,7 +27,7 @@ struct ContentView: View {
         switch userChecker.userExists {
         case .exists:
             TabView(selection: $selection) {
-                DashboardView(tabSelection: $selection)
+                DashboardView(tabSelection: $selection).environmentObject(modelData)
                     .tabItem {
                         Label("Dashboard", systemImage: "heart.text.square")
                     }
@@ -59,6 +60,25 @@ struct ContentView: View {
             .onAppear {
                 FirebaseManager.connect()
                 FirebaseManager.getUserGroupId()
+                
+                // Listen for the UI variables in /system!
+                let docRef = Firestore.firestore().collection("system").document("UIsettings")
+                
+                docRef.addSnapshotListener { documentSnapshot, error in
+                    guard let document = documentSnapshot else {
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+
+                    guard let data = document.data() else {
+                        print("Document data was empty.")
+                        return
+                    }
+
+                    if let shouldDisable = data["shouldDisableMetricDisplays"] as? Bool {
+                        modelData.shouldDisableMetricDisplays = shouldDisable
+                    }
+                }
             }
         case .doesNotExist:
             NewUserView()

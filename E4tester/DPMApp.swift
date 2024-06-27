@@ -183,3 +183,21 @@ func getPreviewPeers() -> [Peer] {
     
     return previewPeers
 }
+
+func generateTestData() -> (hr: [Int], temp: [Float], gsr: [Float], bvp: [Float]) {
+    let numberOfDataPoints = 100  // Adjust the number of data points as needed
+    
+    var hr: [Int] = []
+    var temp: [Float] = []
+    var gsr: [Float] = []
+    var bvp: [Float] = []
+    
+    for _ in 0..<numberOfDataPoints {
+        hr.append(Int.random(in: 60...100))  // Random heart rate between 60 and 100 bpm
+        temp.append(Float.random(in: 36.5...37.5))  // Random temperature between 36.5 and 37.5 °C
+        gsr.append(Float.random(in: 0.0...10.0))  // Random GSR between 0 and 10 µS
+        bvp.append(Float.random(in: -1.0...1.0))  // Random BVP between -1 and 1 (arbitrary units)
+    }
+    
+    return (hr, temp, gsr, bvp)
+}

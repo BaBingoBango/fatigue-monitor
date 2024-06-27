@@ -32,6 +32,8 @@ class ViewController: UITableViewController {
     private var awc_exp: Int = 0
     private var userInfoLoader = UserInfoLoader()
     
+    var modelData: ModelData?
+    
     /// OBSOLETE
     /// Replaced by `userInfoLoader`
     //    private var rest_heart_rate: Int = 60
@@ -195,6 +197,85 @@ extension ViewController {
         }
     }
     
+    /// Calculates predicted heat strain by pre-processing collected data and using the Core ML model.
+    func assessHeatStrain() {
+//        print("""
+//        🔥 Assessing heat strain based on
+//            · \(heartRateMap.count) HR measurements
+//            · \(skinTempMap.count) temperature measurements
+//            · \(GSRmap.count) GSR measurements
+//            · \(BVPmap.count) BVP measurements
+//        """)
+//        
+//        let urlString = "https://process-data-7bul3hscwq-uc.a.run.app"
+//        guard let url = URL(string: urlString) else { return }
+//
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//
+//        var json: [String: Any] = [:]
+//        
+//        json["BVP"] = Array(BVPmap.values)
+//        json["BVP_sampling_rate"] = 64
+//        
+//        json["EDA"] = Array(GSRmap.values)
+//        json["EDA_sampling_rate"] = 4
+//        
+//        json["TEMP"] = Array(skinTempMap.values)
+//
+//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+//
+//        request.httpBody = jsonData
+//
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("🔥 AHS Error!")
+//                print(error.localizedDescription)
+//                return
+//            }
+//
+//            guard let data = data else {
+//                print("🔥 AHS Error!")
+//                print("No data received.")
+//                return
+//            }
+//            
+//            if let jsonString = String(data: data, encoding: .utf8) {
+//                print("🔥 Received JSON string: \(jsonString)")
+//            }
+//
+//            do {
+//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                    print("🔥 AHS - All right!")
+//                    
+//                    if let cleanedBVP = json["BVP_cleaned"] as? [Double] {
+//                        // Handle the cleaned BVP data array
+//                    }
+//
+//                    if let cleanedEDA = json["EDA_cleaned"] as? [String: Any],
+//                       let tonic = cleanedEDA["tonic"] as? [Double],
+//                       let phasic = cleanedEDA["phasic"] as? [Double] {
+//                        // Handle the cleaned EDA data arrays
+//                    }
+//
+//                    if let cleanedTemps = json["Temp_cleaned"] as? [Double] {
+//                        // Handle the cleaned TEMP data array
+//                    }
+//                    
+//                    // TODO: Predict!
+//                    
+//                } else {
+//                    print("🔥 AHS - Invalid JSON format.")
+//                }
+//            } catch {
+//                print("🔥 AHS Error!")
+//                print(error.localizedDescription)
+//            }
+//        }
+//        task.resume()
+    }
+    
     /// Assesses fatigue, updates the UI, and uploads the data on the database.
     func assessFatigue() {
         print("\(Date().timeIntervalSince1970) start assessing \(self.heartRates.count) heart rate data")
@@ -256,7 +337,9 @@ extension ViewController {
         
         let firstName = UserDefaults.standard.string(forKey: "userFirstName") ?? "ERROR"
         let groupId = UserDefaults.standard.string(forKey: "userGroupId") ?? "ERROR"
-        NodeServer.sendFatigueWarning(firstName: firstName, fatigueLevel: fatigueLevel, groupId: groupId)
+        if modelData != nil && !(modelData!).shouldDisableMetricDisplays {
+            NodeServer.sendFatigueWarning(firstName: firstName, fatigueLevel: fatigueLevel, groupId: groupId)
+        }
         FirebaseManager.uploadFatigueWarning(fatigueLevel)
     }
 }
@@ -327,12 +410,13 @@ extension ViewController: EmpaticaDeviceDelegate {
             print("❤️ Heart rate identified! \(heartRate)")
             heartRates.append(heartRate)
             heartRateMap[Utilities.timestampToDateString(timestamp)] = heartRate
-            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
         }
         
         // check time interval
         print("⏰ checking time since last update - timestamp: \(timestamp), LUT: \(self.lastUpdateTime), subtraction: \(timestamp - self.lastUpdateTime)")
         if (timestamp - self.lastUpdateTime > 60) {
+            delegate?.updateHeartRate(self, heartRate: heartRate) // UI
+            assessHeatStrain()
             assessFatigue()
         }
         print("\(device.serialNumber!) \(timestamp) IBI { \(ibi) }")

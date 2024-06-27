@@ -120,6 +120,8 @@ struct SwiftUIViewController: UIViewControllerRepresentable {
 //                                            awc_tot: modelData.user.awc_tot,
 //                                            k_value: modelData.user.k_value
         )
+        
+        viewController.modelData = modelData
         return viewController
     }
     

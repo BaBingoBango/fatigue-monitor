@@ -17,49 +17,53 @@ struct MetricDetailView: View {
     /// Whether or not this view is presented.
     @Environment(\.presentationMode) var presentationMode
     
+    @EnvironmentObject var modelData: ModelData
+    
     // MARK: View Body
     var body: some View {
 //        NavigationView {
 //            ScrollView {
                 VStack(alignment: .leading) {
-                    switch metric {
-                    case .fatigue(let value):
-                        if value < 40 {
-                            MetricDisplayView(iconName: "battery.100percent", iconColor: .green, header: "Low Level of Fatigue Risk", subtext: "You're doing great!")
-                                .padding(.top, 5)
-                            
-                        } else if value < 70 {
-                            MetricDisplayView(iconName: "battery.75percent", iconColor: .orange, header: "Moderate Level of Fatigue Risk", subtext: "You need to be cautious.")
-                                .padding(.top, 5)
-                            
-                        } else if value < 90 {
-                            MetricDisplayView(iconName: "battery.50percent", iconColor: .red, header: "High Level of Fatigue Risk", subtext: "You need to recover now!")
-                                .padding(.top, 5)
-                            
-                            
-                        } else {
-                            MetricDisplayView(iconName: "battery.25percent", iconColor: .red, header: "Critical Level of Fatigue Risk", subtext: "You need to recover now!")
-                                .padding(.top, 5)
-                            
-                        }
-                    case .heatStrain(let value):
-                        if value < 1 {
-                            MetricDisplayView(iconName: "thermometer.low", iconColor: .green, header: "Low Level of Heat Risk", subtext: "You're doing great!", extraPadding: 10)
-                                .padding(.top, 5)
-                            
-                        } else if value < 2 {
-                            MetricDisplayView(iconName: "thermometer.medium", iconColor: .orange, header: "Moderate Level of Heat Risk", subtext: "You need to be cautious.", extraPadding: 10)
-                                .padding(.top, 5)
-                            
-                        } else if value < 3 {
-                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
-                                .padding(.top, 5)
-                            
-                            
-                        } else {
-                            MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "Critical Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
-                                .padding(.top, 5)
-                            
+                    if !modelData.shouldDisableMetricDisplays {
+                        switch metric {
+                        case .fatigue(let value):
+                            if value < 40 {
+                                MetricDisplayView(iconName: "battery.100percent", iconColor: .green, header: "Low Level of Fatigue Risk", subtext: "You're doing great!")
+                                    .padding(.top, 5)
+                                
+                            } else if value < 70 {
+                                MetricDisplayView(iconName: "battery.75percent", iconColor: .orange, header: "Moderate Level of Fatigue Risk", subtext: "You need to be cautious.")
+                                    .padding(.top, 5)
+                                
+                            } else if value < 90 {
+                                MetricDisplayView(iconName: "battery.50percent", iconColor: .red, header: "High Level of Fatigue Risk", subtext: "You need to recover now!")
+                                    .padding(.top, 5)
+                                
+                                
+                            } else {
+                                MetricDisplayView(iconName: "battery.25percent", iconColor: .red, header: "Critical Level of Fatigue Risk", subtext: "You need to recover now!")
+                                    .padding(.top, 5)
+                                
+                            }
+                        case .heatStrain(let value):
+                            if value < 1 {
+                                MetricDisplayView(iconName: "thermometer.low", iconColor: .green, header: "Low Level of Heat Risk", subtext: "You're doing great!", extraPadding: 10)
+                                    .padding(.top, 5)
+                                
+                            } else if value < 2 {
+                                MetricDisplayView(iconName: "thermometer.medium", iconColor: .orange, header: "Moderate Level of Heat Risk", subtext: "You need to be cautious.", extraPadding: 10)
+                                    .padding(.top, 5)
+                                
+                            } else if value < 3 {
+                                MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
+                                    .padding(.top, 5)
+                                
+                                
+                            } else {
+                                MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "Critical Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
+                                    .padding(.top, 5)
+                                
+                            }
                         }
                     }
                     

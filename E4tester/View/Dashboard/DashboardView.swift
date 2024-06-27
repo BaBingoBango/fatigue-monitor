@@ -16,6 +16,7 @@ struct DashboardView: View {
     @AppStorage("userAge") var userAge: Int = 0
     @AppStorage("userGroupId") var userGroupId: String = ""
     @ObservedObject var groupMates = RegisteredUserArr()
+    @EnvironmentObject var modelData: ModelData
     
     @State var toggleToRefresh: Bool = false
     

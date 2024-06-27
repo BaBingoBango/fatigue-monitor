@@ -182,6 +182,7 @@ struct InfoView_Previews: PreviewProvider {
 struct MetricWidgetView: View {
     
     // View Variables
+    @EnvironmentObject var modelData: ModelData
     var title: String
     var numberString: String
     var unitString: String
@@ -196,25 +197,33 @@ struct MetricWidgetView: View {
                     .fontWeight(.bold)
                     .dynamicFont(.title3, padding: 0)
                 
-                HStack(alignment: .bottom, spacing: 3) {
-                    Text(numberString)
-                        .fontWeight(.bold)
-                        .dynamicFont(.system(size: 50), fontDesign: .rounded, padding: 0)
-                        .foregroundStyle(color)
-                    
-                    Text(unitString)
-                        .fontWeight(.bold)
-                        .dynamicFont(.title, fontDesign: .rounded, padding: 0)
-                        .foregroundStyle(color)
-                        .offset(y: -7)
+                if !modelData.shouldDisableMetricDisplays {
+                    HStack(alignment: .bottom, spacing: 3) {
+                        Text(numberString)
+                            .fontWeight(.bold)
+                            .dynamicFont(.system(size: 50), fontDesign: .rounded, padding: 0)
+                            .foregroundStyle(color)
+                        
+                        Text(unitString)
+                            .fontWeight(.bold)
+                            .dynamicFont(.title, fontDesign: .rounded, padding: 0)
+                            .foregroundStyle(color)
+                            .offset(y: -7)
+                    }
                 }
                 
-                Text(severity)
+                if modelData.shouldDisableMetricDisplays {
+                    Spacer()
+                }
+                
+                Text(!modelData.shouldDisableMetricDisplays ? severity : "Not Active")
                     .fontWeight(.bold)
                     .dynamicFont(.title2, padding: 0)
                     .foregroundColor(.primary)
                 
-                Spacer()
+                if !modelData.shouldDisableMetricDisplays {
+                    Spacer()
+                }
             }
             
             Spacer()
@@ -228,7 +237,7 @@ struct MetricWidgetView: View {
             .aspectRatio(1, contentMode: .fit)
         }
         .padding()
-        .modifier(RectangleWrapper(color: color.opacity(0.10)))
+        .modifier(RectangleWrapper(color: (!modelData.shouldDisableMetricDisplays ? color : .secondary).opacity(0.10)))
         .aspectRatio(1.2, contentMode: .fit)
     }
 }

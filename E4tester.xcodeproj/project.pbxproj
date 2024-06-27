@@ -22,6 +22,8 @@
 		AA7874542C09606C00A0DDC5 /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874532C09606C00A0DDC5 /* Operation.swift */; };
 		AA7874562C09637F00A0DDC5 /* UserExistenceChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */; };
 		AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7874572C0966D400A0DDC5 /* NewUserView.swift */; };
+		AA7B1B8D2C2E0494000B0C4F /* DPM Heat Strain Model.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AA7B1B8C2C2E0494000B0C4F /* DPM Heat Strain Model.mlmodel */; };
+		AA7B1B8F2C2E0518000B0C4F /* PredictionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7B1B8E2C2E0518000B0C4F /* PredictionServices.swift */; };
 		AA833FC02C17954000E2501E /* MetricsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA833FBF2C17954000E2501E /* MetricsDetailView.swift */; };
 		AA86BE022C1CAAC700D5EE15 /* CrewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */; };
 		AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */; };
@@ -117,6 +119,8 @@
 		AA7874532C09606C00A0DDC5 /* Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		AA7874552C09637F00A0DDC5 /* UserExistenceChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExistenceChecker.swift; sourceTree = "<group>"; };
 		AA7874572C0966D400A0DDC5 /* NewUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewUserView.swift; sourceTree = "<group>"; };
+		AA7B1B8C2C2E0494000B0C4F /* DPM Heat Strain Model.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "DPM Heat Strain Model.mlmodel"; sourceTree = "<group>"; };
+		AA7B1B8E2C2E0518000B0C4F /* PredictionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionServices.swift; sourceTree = "<group>"; };
 		AA833FBF2C17954000E2501E /* MetricsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsDetailView.swift; sourceTree = "<group>"; };
 		AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewChartView.swift; sourceTree = "<group>"; };
 		AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricDetailView.swift; sourceTree = "<group>"; };
@@ -218,6 +222,7 @@
 		55591B671F2884AC0084CF0C /* E4tester */ = {
 			isa = PBXGroup;
 			children = (
+				AA7B1B8C2C2E0494000B0C4F /* DPM Heat Strain Model.mlmodel */,
 				FE14B9E02A2F9318004A1E30 /* E4tester.entitlements */,
 				FEE156482A26466E00398DCD /* GoogleService-Info.plist */,
 				B93AB809285D8E6E0008DC59 /* DPMApp.swift */,
@@ -280,6 +285,7 @@
 				B9D051D028908DD100AAC9D8 /* Utilities.swift */,
 				B9EC1D8828C9234A007EB285 /* Notification.swift */,
 				FE5ED25B2A3B7FFC00C9E3D7 /* NodeServer.swift */,
+				AA7B1B8E2C2E0518000B0C4F /* PredictionServices.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -470,12 +476,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEE156212A1D375400398DCD /* HighlightView.swift in Sources */,
+				AA7B1B8D2C2E0494000B0C4F /* DPM Heat Strain Model.mlmodel in Sources */,
 				AA7874582C0966D400A0DDC5 /* NewUserView.swift in Sources */,
 				B9D051BC288B21B500AAC9D8 /* Input.swift in Sources */,
 				FEE156372A1FB89000398DCD /* IconButtonInner.swift in Sources */,
 				B9D051BE288B21EA00AAC9D8 /* Peer.swift in Sources */,
 				FEE1561B2A1D075A00398DCD /* SimpleDropdown.swift in Sources */,
 				FE01C57C2A325D5300850EFF /* FullscreenHighlightView.swift in Sources */,
+				AA7B1B8F2C2E0518000B0C4F /* PredictionServices.swift in Sources */,
 				FE5ED25A2A39113000C9E3D7 /* WebView.swift in Sources */,
 				AA86BE022C1CAAC700D5EE15 /* CrewChartView.swift in Sources */,
 				B91AA796286CA62400B36E84 /* ProfileView.swift in Sources */,
@@ -676,7 +684,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GUDZ7ALN9J;
+				DEVELOPMENT_TEAM = SZGWRN6R94;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -696,7 +704,7 @@
 				);
 				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor.ethan;
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
@@ -718,7 +726,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GUDZ7ALN9J;
+				DEVELOPMENT_TEAM = SZGWRN6R94;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -738,7 +746,7 @@
 				);
 				MARKETING_VERSION = 0.0.3;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor.ethan;
+				PRODUCT_BUNDLE_IDENTIFIER = umich.dpm.fatiguemonitor;
 				PRODUCT_NAME = "DPM SafeConnect";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "E4tester/E4tester-Bridging-Header.h";
