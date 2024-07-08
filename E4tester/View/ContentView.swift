@@ -76,8 +76,7 @@ struct ContentView: View {
                     }
 
                     if let shouldDisable = data["shouldDisableMetricDisplays"] as? Bool {
-//                        modelData.shouldDisableMetricDisplays = shouldDisable
-                        modelData.shouldDisableMetricDisplays = false
+                        modelData.shouldDisableMetricDisplays = shouldDisable
                     }
                 }
             }
