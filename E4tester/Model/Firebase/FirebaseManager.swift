@@ -249,6 +249,7 @@ class FirebaseManager {
         let groupFirstNames =  UserDefaults.standard.object(forKey: "groupFirstNames") as? [String: String]
         
         modelData.crew.removeAll()
+        
         db.collection("users").document(Auth.auth().currentUser!.uid).collection("fatigue_levels")
             .whereField("timestamp", isGreaterThanOrEqualTo: startTime)
             .whereField("timestamp", isLessThanOrEqualTo: endTime)
@@ -297,7 +298,7 @@ class FirebaseManager {
                     }
                     
                     if upperBound >= lowerBound {
-                        for hr in lowerBound..<upperBound { // CHANGE ME to adjust x-range
+                        for hr in 8..<19 { // CHANGE ME to adjust x-range
                             let (curSum, curCount) = avg[hr] ?? (-1, -1)
                             let (curMin, curMax) = range[hr] ?? (-1, -1)
                             if curSum >= 0 {
@@ -307,6 +308,89 @@ class FirebaseManager {
                             else {
                                 let obs = Peer.Observation(hour_from_midnight: hr, fatigue_level_range: 0..<0, avg_fatigue_level: 0)
                                 peer.observations.append(obs)
+                            }
+                        }
+                    }
+                    
+                    modelData.crew.append(peer)
+                }
+            }
+        
+        db.collection("users").document(Auth.auth().currentUser!.uid).collection("heat_strain_levels")
+            .whereField("timestamp", isGreaterThanOrEqualTo: startTime)
+            .whereField("timestamp", isLessThanOrEqualTo: endTime)
+            .order(by: "timestamp")
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                }
+                else {
+                    var peer = Peer(id: deviceId,
+                                    firstName: (groupFirstNames ?? [:])[deviceId] ?? "Unknown")
+                    var range: [Int: (Double, Double)] = [:] // hr : (min, max)
+                    var avg: [Int: (Double, Int)] = [:] // hr: (sum, count)
+                    
+                    // For fatigue levels in range
+                    for document in querySnapshot!.documents {
+                        let timestamp = document.get("timestamp") as? Double
+                        let hourOfDay = Calendar.current.component(.hour, from: Date(timeIntervalSince1970: timestamp ?? 0))
+                        let fatigueLevel = document.get("heat_strain_level") as? Double
+                        print("document found for heat! -> \(fatigueLevel)")
+                        
+                        if range[hourOfDay] == nil { // first entry of hour
+                            range[hourOfDay] = (fatigueLevel ?? -1, fatigueLevel ?? -1)
+                            avg[hourOfDay] = (fatigueLevel ?? -1, 1)
+                        }
+                        else {
+                            let (curMin, curMax) = range[hourOfDay] ?? (-1, -1)
+                            range[hourOfDay] = (min(curMin, fatigueLevel ?? -1), max(curMax, fatigueLevel ?? -1))
+                            let (curSum, curCount) = avg[hourOfDay] ?? (-1, -1)
+                            avg[hourOfDay] = (curSum + min((fatigueLevel ?? 100), 100), curCount + 1)
+                        }
+                    }
+                    
+                    print("range: \(range)")
+                    print("avg: \(avg)")
+                    
+                    // observations
+                    let hourOfDayNow = Calendar.current.component(.hour, from: Date())
+                    let upperBound: Int
+                    let lowerBound = UserDefaults.standard.integer(forKey: "xAxisStartHour")
+                    
+                    if startTime > Date().timeIntervalSince1970 { // future
+                        upperBound = lowerBound
+                    }
+                    else if endTime > Date().timeIntervalSince1970 { // data from today
+                        upperBound = min(lowerBound+9, hourOfDayNow+1)
+                    }
+                    else { // past
+                        upperBound = lowerBound+9
+                    }
+                    
+                    print("upper bound: \(upperBound)")
+                    print("lower bound: \(lowerBound)")
+                    
+                    if upperBound >= lowerBound {
+                        for hr in 8..<19 { // CHANGE ME to adjust x-range
+                            
+                            print("range: \(range)")
+                            print("avg: \(avg)")
+                            
+                            let (curSum, curCount) = avg[hr] ?? (-1, -1)
+                            let (curMin, curMax) = range[hr] ?? (-1, -1)
+                            
+                            print("curSum: \(curSum)")
+                            print("curMin: \(curMin)")
+                            
+                            if curSum >= 0 {
+                                 let obs = Peer.HeatStrainObservation(hourFromMidnight: hr, heatStrainRange: curMin..<curMax, averageHeatStrain: Double(curSum / Double(curCount)))
+                                peer.heatObservations.append(obs)
+                                print("🔬\(obs)")
+                            }
+                            else {
+                                let obs = Peer.HeatStrainObservation(hourFromMidnight: hr, heatStrainRange: 0..<0, averageHeatStrain: 0)
+                                peer.heatObservations.append(obs)
+                                print("🔬\(obs)")
                             }
                         }
                     }

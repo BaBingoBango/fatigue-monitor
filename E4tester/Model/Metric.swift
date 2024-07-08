@@ -10,7 +10,7 @@ import Foundation
 
 enum Metric {
     case fatigue(value: Int)
-    case heatStrain(value: Int)
+    case heatStrain(value: Double)
 }
 
 enum MetricType {

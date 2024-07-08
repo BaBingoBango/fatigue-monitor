@@ -42,6 +42,11 @@ class ModelData: ObservableObject {
     /// Whether or not the fatigue and heat strain UI views show live fatigue and heat strain data. If this is enabled, live views will display "Disabled" or similar.
     @Published var shouldDisableMetricDisplays = false
     
+    /// The heat strain level of the user in PSI.
+    ///
+    /// It is represented as a `Double`. The default value is `-1.0` to mirror fatigue. This value is inorganic and should be treated as a placeholder for `nil`.
+    @Published(key: "heatStrain") var heatStrain: Double = -1.0
+    
     var user: User = User()
     var inputs: Inputs = Inputs()
 //    @Published var crew = Peers()
@@ -72,6 +77,8 @@ class ModelData: ObservableObject {
                                              startTime: todayMidnight,
                                              endTime: endTime,
                                              modelData: self)
+            // TODO: confirm fatigue levels and crew update is done by user ID and not devide ID
+            // TODO: get heat strain levels as well as fatigue levels
         }
     }
     

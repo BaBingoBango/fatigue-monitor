@@ -46,21 +46,17 @@ struct MetricDetailView: View {
                                 
                             }
                         case .heatStrain(let value):
-                            if value < 1 {
+                            if value < 4 {
                                 MetricDisplayView(iconName: "thermometer.low", iconColor: .green, header: "Low Level of Heat Risk", subtext: "You're doing great!", extraPadding: 10)
                                     .padding(.top, 5)
                                 
-                            } else if value < 2 {
+                            } else if value < 6 {
                                 MetricDisplayView(iconName: "thermometer.medium", iconColor: .orange, header: "Moderate Level of Heat Risk", subtext: "You need to be cautious.", extraPadding: 10)
-                                    .padding(.top, 5)
-                                
-                            } else if value < 3 {
-                                MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
                                     .padding(.top, 5)
                                 
                                 
                             } else {
-                                MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "Critical Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
+                                MetricDisplayView(iconName: "thermometer.high", iconColor: .red, header: "High Level of Heat Risk", subtext: "You need to cool down now!", extraPadding: 10)
                                     .padding(.top, 5)
                                 
                             }
@@ -113,7 +109,7 @@ struct MetricDetailView: View {
                         
                         switch metric {
                         case .fatigue(_):
-                            IconRowView(imageName: "nap", header: "Take a short nap during break", subtext: "It can help you to recover fatigue!")
+                            IconRowView(imageName: "nap", header: "Take a short break", subtext: "It can help you to recover fatigue!")
                             IconRowView(imageName: "balance", header: "Pace your work", subtext: "Your workload need to be adjusted!")
                             IconRowView(imageName: "together", header: "Communicate with your foremen or co-workers", subtext: "Talk together to adjust the working environment")
                             IconRowView(imageName: "water", header: "Maintain hydration", subtext: "Fuel your body to recover!")
@@ -141,12 +137,10 @@ struct MetricDetailView: View {
                                 return .red.opacity(0.10)
                             }
                         case .heatStrain(let value):
-                            if value < 1 {
+                            if value < 4 {
                                 return .secondary.opacity(0.10)
-                            } else if value < 2 {
+                            } else if value < 6 {
                                 return .orange.opacity(0.10)
-                            } else if value < 3 {
-                                return .red.opacity(0.10)
                             } else {
                                 return .red.opacity(0.10)
                             }

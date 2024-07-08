@@ -8,6 +8,7 @@ import UserNotifications
 import FirebaseCore
 import FirebaseMessaging
 import FirebaseAuth
+import FirebaseFirestore
 
 @main
 struct DPMApp: App {

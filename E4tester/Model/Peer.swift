@@ -44,7 +44,7 @@ class Peer : Identifiable, Hashable, ObservableObject {
     struct HeatStrainObservation: Codable, Hashable, Identifiable {
         var id = UUID()
         var hourFromMidnight: Int
-        var heatStrainRange: Range<Int>
+        var heatStrainRange: Range<Double>
         var averageHeatStrain: Double
     }
     

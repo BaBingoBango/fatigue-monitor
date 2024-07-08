@@ -7,6 +7,8 @@
 import UIKit
 import SwiftUI
 import UserNotifications
+import FirebaseAuth
+import FirebaseFirestore
 
 class ViewController: UITableViewController {
     weak var delegate: ViewControllerDelegate?
@@ -199,81 +201,93 @@ extension ViewController {
     
     /// Calculates predicted heat strain by pre-processing collected data and using the Core ML model.
     func assessHeatStrain() {
-//        print("""
-//        🔥 Assessing heat strain based on
-//            · \(heartRateMap.count) HR measurements
-//            · \(skinTempMap.count) temperature measurements
-//            · \(GSRmap.count) GSR measurements
-//            · \(BVPmap.count) BVP measurements
-//        """)
-//        
-//        let urlString = "https://process-data-7bul3hscwq-uc.a.run.app"
-//        guard let url = URL(string: urlString) else { return }
-//
-//        var request = URLRequest(url: url)
-//        request.httpMethod = "POST"
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-//
-//        var json: [String: Any] = [:]
-//        
-//        json["BVP"] = Array(BVPmap.values)
-//        json["BVP_sampling_rate"] = 64
-//        
-//        json["EDA"] = Array(GSRmap.values)
-//        json["EDA_sampling_rate"] = 4
-//        
-//        json["TEMP"] = Array(skinTempMap.values)
-//
-//        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-//
-//        request.httpBody = jsonData
-//
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                print("🔥 AHS Error!")
-//                print(error.localizedDescription)
-//                return
-//            }
-//
-//            guard let data = data else {
-//                print("🔥 AHS Error!")
-//                print("No data received.")
-//                return
-//            }
-//            
-//            if let jsonString = String(data: data, encoding: .utf8) {
-//                print("🔥 Received JSON string: \(jsonString)")
-//            }
-//
-//            do {
-//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-//                    print("🔥 AHS - All right!")
-//                    
-//                    if let cleanedBVP = json["BVP_cleaned"] as? [Double] {
-//                        // Handle the cleaned BVP data array
-//                    }
-//
-//                    if let cleanedEDA = json["EDA_cleaned"] as? [String: Any],
-//                       let tonic = cleanedEDA["tonic"] as? [Double],
-//                       let phasic = cleanedEDA["phasic"] as? [Double] {
-//                        // Handle the cleaned EDA data arrays
-//                    }
-//
-//                    if let cleanedTemps = json["Temp_cleaned"] as? [Double] {
-//                        // Handle the cleaned TEMP data array
-//                    }
-//                    
-//                    // TODO: Predict!
-//                    
-//                } else {
-//                    print("🔥 AHS - Invalid JSON format.")
-//                }
-//            } catch {
-//                print("🔥 AHS Error!")
-//                print(error.localizedDescription)
-//            }
-//        }
-//        task.resume()
+        print("""
+        🔥 Assessing heat strain based on
+            · \(heartRateMap.count) HR measurements
+            · \(skinTempMap.count) temperature measurements
+            · \(GSRmap.count) GSR measurements
+            · \(BVPmap.count) BVP measurements
+        """)
+        
+        let urlString = "https://process-data-7bul3hscwq-uc.a.run.app"
+        guard let url = URL(string: urlString) else { return }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        var json: [String: Any] = [:]
+        
+        json["BVP"] = Array(BVPmap.values)
+        json["BVP_sampling_rate"] = 64
+        
+        json["EDA"] = Array(GSRmap.values)
+        json["EDA_sampling_rate"] = 4
+        
+        json["TEMP"] = Array(skinTempMap.values)
+        
+        json["ECG"] = Array(heartRateMap.values)
+
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+
+        request.httpBody = jsonData
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("🔥 AHS Error!")
+                print(error.localizedDescription)
+                return
+            }
+
+            guard let data = data else {
+                print("🔥 AHS Error!")
+                print("No data received.")
+                return
+            }
+            
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("🔥 Received JSON string: \(jsonString)")
+            }
+
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                    print("🔥 AHS - All right!")
+                    if let prediction = PredictionServices.predictHeatStrain(inputFeatures: json) {
+                        if self.modelData != nil {
+                            // Update the local prediction
+                            DispatchQueue.main.async {
+                                self.modelData!.heatStrain = prediction
+                            }
+                            
+                            // Upload this prediction!
+                            let deviceId = UIDevice.current.identifierForVendor?.uuidString
+                            let docName: String = Utilities.timestampToDateString(Date().timeIntervalSince1970);
+                            
+                            Firestore.firestore().collection("users").document(Auth.auth().currentUser!.uid)
+                                .collection("heat_strain_levels").document(docName).setData([
+                                    "device_uuid": deviceId ?? "Not Avaliable",
+                                    "heat_strain_level": prediction,
+                                    "timestamp": Date().timeIntervalSince1970
+                                ]) { err in
+                                    if let err = err {
+                                        print("Error adding document: \(err)")
+                                    } else {
+                                        print("Document \(docName) successfully written!")
+                                        print("⬆️ [Heat Straun] Uploaded 1 Double.")
+                                    }
+                                }
+                        }
+                    }
+                    
+                } else {
+                    print("🔥 AHS - Invalid JSON format.")
+                }
+            } catch {
+                print("🔥 AHS Error!")
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
     }
     
     /// Assesses fatigue, updates the UI, and uploads the data on the database.

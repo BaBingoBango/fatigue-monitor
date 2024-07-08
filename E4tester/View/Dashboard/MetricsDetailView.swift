@@ -17,7 +17,7 @@ struct MetricsDetailView: View {
     /// ???
     var fatigue: Int = 60
     /// ???
-    var heatStrain: Int = 0
+    var heatStrain: Double = 0.0
     /// ???
     @State var selectedMetric: MetricType = .fatigue
     var soloMode = false

@@ -37,7 +37,7 @@ struct CrewView: View {
                         return lhs.first_name < rhs.first_name
                     }
                     
-                    CrewChartView(peers: selectedMetricType == .fatigue ? sortedCrew : sortedPreviewCrew, metricType: selectedMetricType)
+                    CrewChartView(peers: sortedCrew, metricType: selectedMetricType)
                 }
             }
             .onAppear {

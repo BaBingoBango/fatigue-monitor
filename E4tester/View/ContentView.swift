@@ -45,7 +45,7 @@ struct ContentView: View {
                     }
                     .tag(Tab.survey)
                 
-                MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.fatigueLevel, selectedMetric: .fatigue, soloMode: true)
+                MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.heatStrain, selectedMetric: .fatigue, soloMode: true)
                     .tabItem {
                         Label("Tips", systemImage: "lightbulb.fill")
                     }
@@ -76,7 +76,8 @@ struct ContentView: View {
                     }
 
                     if let shouldDisable = data["shouldDisableMetricDisplays"] as? Bool {
-                        modelData.shouldDisableMetricDisplays = shouldDisable
+//                        modelData.shouldDisableMetricDisplays = shouldDisable
+                        modelData.shouldDisableMetricDisplays = false
                     }
                 }
             }

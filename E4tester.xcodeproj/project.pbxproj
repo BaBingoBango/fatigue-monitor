@@ -28,6 +28,8 @@
 		AA86BE022C1CAAC700D5EE15 /* CrewChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86BE012C1CAAC700D5EE15 /* CrewChartView.swift */; };
 		AA8EF47A2C13A6780065FD57 /* MetricDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF4792C13A6780065FD57 /* MetricDetailView.swift */; };
 		AA8EF47C2C14FF540065FD57 /* Metric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8EF47B2C14FF540065FD57 /* Metric.swift */; };
+		AAB6839D2C3A10D70064F010 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = AAB6839C2C3A10D70064F010 /* FirebaseFunctions */; };
+		AAB6839F2C3A10D70064F010 /* FirebaseFunctionsCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = AAB6839E2C3A10D70064F010 /* FirebaseFunctionsCombine-Community */; };
 		AAE049092C0BB9F60059D44E /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE049082C0BB9F60059D44E /* ForgotPasswordView.swift */; };
 		B91491542911AFE400A51A62 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = B91491532911AFE400A51A62 /* Algorithms */; };
 		B914915E2911C1FC00A51A62 /* MultiLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B914915D2911C1FC00A51A62 /* MultiLineChartView.swift */; };
@@ -112,6 +114,10 @@
 		59CAB61D207770890052910F /* E4link.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = E4link.framework; path = Libs/E4link.framework; sourceTree = "<group>"; };
 		59CAB6222077716E0052910F /* E4tester-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "E4tester-Bridging-Header.h"; sourceTree = "<group>"; };
 		59CAB625207771C30052910F /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AA149F102C38749100AAE594 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AA149F112C38749100AAE594 /* .python-version */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".python-version"; sourceTree = "<group>"; };
+		AA149F122C38749100AAE594 /* main.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = main.py; sourceTree = "<group>"; };
+		AA149F132C38749100AAE594 /* requirements.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = requirements.txt; sourceTree = "<group>"; };
 		AA2E19D62C0F89250072303D /* EMASurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMASurveyView.swift; sourceTree = "<group>"; };
 		AA2E19D82C0F8F4C0072303D /* RectangleWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleWrapper.swift; sourceTree = "<group>"; };
 		AA75453F2C01141900D79A62 /* HeatStrainLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatStrainLevel.swift; sourceTree = "<group>"; };
@@ -182,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59CAB626207771C30052910F /* CoreBluetooth.framework in Frameworks */,
+				AAB6839F2C3A10D70064F010 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				AA7874502C095EB500A0DDC5 /* FirebaseAuth in Frameworks */,
 				59CAB61E207770890052910F /* E4link.framework in Frameworks */,
 				FE14B9F32A2FA2AF004A1E30 /* FirebaseMessaging in Frameworks */,
@@ -192,6 +199,7 @@
 				FE14B9E52A2FA2AF004A1E30 /* FirebaseAnalyticsSwift in Frameworks */,
 				FE14B9E92A2FA2AF004A1E30 /* FirebaseFirestore in Frameworks */,
 				FE14B9F12A2FA2AF004A1E30 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
+				AAB6839D2C3A10D70064F010 /* FirebaseFunctions in Frameworks */,
 				FEE155F12A1569B600398DCD /* SkeletonUI in Frameworks */,
 				FE14B9E72A2FA2AF004A1E30 /* FirebaseDatabase in Frameworks */,
 				FE14B9EF2A2FA2AF004A1E30 /* FirebaseInAppMessaging-Beta in Frameworks */,
@@ -205,6 +213,7 @@
 		55591B5C1F2884AC0084CF0C = {
 			isa = PBXGroup;
 			children = (
+				AA149F142C38749100AAE594 /* functions */,
 				55591B671F2884AC0084CF0C /* E4tester */,
 				55591B961F2887C90084CF0C /* Frameworks */,
 				55591B661F2884AC0084CF0C /* Products */,
@@ -244,6 +253,17 @@
 				59CAB61D207770890052910F /* E4link.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA149F142C38749100AAE594 /* functions */ = {
+			isa = PBXGroup;
+			children = (
+				AA149F102C38749100AAE594 /* .gitignore */,
+				AA149F112C38749100AAE594 /* .python-version */,
+				AA149F122C38749100AAE594 /* main.py */,
+				AA149F132C38749100AAE594 /* requirements.txt */,
+			);
+			path = functions;
 			sourceTree = "<group>";
 		};
 		B91AA797286D0C8400B36E84 /* View */ = {
@@ -406,6 +426,8 @@
 				FE14B9F22A2FA2AF004A1E30 /* FirebaseMessaging */,
 				AA78744F2C095EB500A0DDC5 /* FirebaseAuth */,
 				AA7874512C095EB500A0DDC5 /* FirebaseAuthCombine-Community */,
+				AAB6839C2C3A10D70064F010 /* FirebaseFunctions */,
+				AAB6839E2C3A10D70064F010 /* FirebaseFunctionsCombine-Community */,
 			);
 			productName = E4Tests;
 			productReference = 55591B651F2884AC0084CF0C /* DPM SafeConnect.app */;
@@ -817,6 +839,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseAuthCombine-Community";
+		};
+		AAB6839C2C3A10D70064F010 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		AAB6839E2C3A10D70064F010 /* FirebaseFunctionsCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE14B9E12A2FA2AF004A1E30 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = "FirebaseFunctionsCombine-Community";
 		};
 		B91491532911AFE400A51A62 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;

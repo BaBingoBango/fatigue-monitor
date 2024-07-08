@@ -49,28 +49,28 @@ struct SettingsView: View {
             }
             
             // Graph
-            Section(header: Text("Graph")) {
-                Picker("X-axis Range", selection: $xAxisStartHour) {
-                    Group {
-                        Text("2am - 10am").tag(2)
-                        Text("3am - 11am").tag(3)
-                        Text("4am - 12pm").tag(4)
-                        Text("5am - 1pm").tag(5)
-                        Text("6am - 2pm").tag(6)
-                        Text("7am - 3pm").tag(7)
-                    }
-                    Group {
-                        Text("8am - 4pm").tag(8)
-                        Text("9am - 5pm").tag(9)
-                        Text("10am - 6pm").tag(10)
-                        Text("11am - 7pm").tag(11)
-                        Text("12pm - 8pm").tag(12)
-                        Text("1pm - 9pm").tag(13)
-                        Text("2pm - 10pm").tag(14)
-                        Text("3pm - 11pm").tag(15)
-                    }
-                }
-            }
+//            Section(header: Text("Graph")) {
+//                Picker("X-axis Range", selection: $xAxisStartHour) {
+//                    Group {
+//                        Text("2am - 10am").tag(2)
+//                        Text("3am - 11am").tag(3)
+//                        Text("4am - 12pm").tag(4)
+//                        Text("5am - 1pm").tag(5)
+//                        Text("6am - 2pm").tag(6)
+//                        Text("7am - 3pm").tag(7)
+//                    }
+//                    Group {
+//                        Text("8am - 4pm").tag(8)
+//                        Text("9am - 5pm").tag(9)
+//                        Text("10am - 6pm").tag(10)
+//                        Text("11am - 7pm").tag(11)
+//                        Text("12pm - 8pm").tag(12)
+//                        Text("1pm - 9pm").tag(13)
+//                        Text("2pm - 10pm").tag(14)
+//                        Text("3pm - 11pm").tag(15)
+//                    }
+//                }
+//            }
             
             // App Info
             let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String

@@ -63,7 +63,7 @@ struct InfoView: View {
                     )
                 }
                 .sheet(isPresented: $isShowingFatigueDetail) {
-                    MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.fatigueLevel, selectedMetric: .fatigue)
+                    MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.heatStrain, selectedMetric: .fatigue)
                 }
                 
                 Button(action: {
@@ -71,38 +71,34 @@ struct InfoView: View {
                 }) {
                     MetricWidgetView(
                         title: "Heat Strain",
-                        numberString: modelData.fatigueLevel >= 0 ? String(modelData.fatigueLevel) : "--",
-                        unitString: modelData.fatigueLevel >= 0 ? "PSI" : "",
+                        numberString: modelData.heatStrain >= 0 ? formatDouble(modelData.heatStrain) : "--",
+                        unitString: modelData.heatStrain >= 0 ? "PSI" : "",
                         severity: {
-                            if modelData.fatigueLevel < 0 {
+                            if modelData.heatStrain < 0 {
                                 return ""
-                            } else if modelData.fatigueLevel < 40 {
+                            } else if modelData.heatStrain < 4 {
                                 return "Low Risk"
-                            } else if modelData.fatigueLevel < 70 {
+                            } else if modelData.heatStrain < 6 {
                                 return "Moderate Risk"
-                            } else if modelData.fatigueLevel < 90 {
-                                return "High Risk"
                             } else {
-                                return "Critical Risk"
+                                return "High Risk"
                             }
                         }(),
                         color: {
-                            if modelData.fatigueLevel < 0 {
+                            if modelData.heatStrain < 0 {
                                 return .secondary
-                            } else if modelData.fatigueLevel < 40 {
+                            } else if modelData.heatStrain < 4 {
                                 return .green
-                            } else if modelData.fatigueLevel < 70 {
+                            } else if modelData.heatStrain < 6 {
                                 return .orange
-                            } else if modelData.fatigueLevel < 90 {
-                                return .red
-                            } else {
+                            } else  {
                                 return .red
                             }
                         }()
                     )
                 }
                 .sheet(isPresented: $isShowingHeatStrainDetail) {
-                    MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.fatigueLevel, selectedMetric: .heatStrain)
+                    MetricsDetailView(fatigue: modelData.fatigueLevel, heatStrain: modelData.heatStrain, selectedMetric: .heatStrain)
                 }
             }
             
@@ -169,6 +165,13 @@ struct InfoView: View {
             return "100"
         }
         return String(fatigueLevel)
+    }
+    func formatDouble(_ value: Double) -> String {
+        if value.truncatingRemainder(dividingBy: 1) == 0 {
+            return String(format: "%.0f", value)
+        } else {
+            return String(format: "%.1f", value)
+        }
     }
 }
 
