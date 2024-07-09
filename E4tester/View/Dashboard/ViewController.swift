@@ -305,7 +305,15 @@ extension ViewController {
         print("HRR = \(HRR)")
         
         // assess fatigue
+        
+        if (HRR - userInfoLoader.hr_reserve_cp > 0) {
         self.awc_exp = max(self.awc_exp + userInfoLoader.k_value * (HRR - userInfoLoader.hr_reserve_cp), 0)
+        }
+
+        else {
+        self.awc_exp = max(self.awc_exp + 2.4 * userInfoLoader.k_value * (HRR - userInfoLoader.hr_reserve_cp), 0)
+        }
+        
         let fatigue = Int(Double(self.awc_exp) / Double(userInfoLoader.total_awc) * 100)
         print("fatigue = \(fatigue)")
         
