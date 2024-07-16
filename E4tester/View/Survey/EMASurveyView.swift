@@ -22,6 +22,8 @@ struct EMASurveyView: View {
     @State var question1Response: Bool? = nil
     /// The response for question 2 of the survey.
     @State var question2Response: Bool? = nil
+    /// The response for question 3 of the survey.
+    @State var question3Response: Bool? = nil
     /// The status of the survey check (has the user submitted yet today?).
     @State var surveyCheckOperation = Operation(status: .inProgress)
     /// Whether or not this is the user's first survey of the day,
@@ -30,7 +32,7 @@ struct EMASurveyView: View {
     @State var submitSurveyOperation = Operation()
     /// Whether or not the Submit button should be disabled.
     var shouldDisableSubmitButton: Bool {
-        question1Response == nil || question2Response == nil || submitSurveyOperation.status == .inProgress
+        question1Response == nil || question2Response == nil || question3Response == nil || submitSurveyOperation.status == .inProgress
     }
     
     // MARK: View Body
@@ -80,6 +82,12 @@ struct EMASurveyView: View {
                                 
                                 QuestionView(question: "Have you taken action to protect your crew members from safety hazards or risky situations?",
                                              response: $question2Response,
+                                             shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
+                                )
+                                .padding(.top, 5)
+                                
+                                QuestionView(question: "Have you made safety-related recommendations about work activities",
+                                             response: $question3Response,
                                              shouldDisableQuestionControls: submitSurveyOperation.status == .inProgress
                                 )
                                 .padding(.top)
@@ -174,7 +182,8 @@ struct EMASurveyView: View {
         Firestore.firestore().collection("users").document(Auth.auth().currentUser!.uid)
             .collection("ema_surveys").document(docName).setData([
                 "question1_response": question1Response!,
-                "question2_response": question2Response!
+                "question2_response": question2Response!,
+                "question3_response": question3Response!
         ]) { error in
             if let error = error {
                 submitSurveyOperation.setError(message: error.localizedDescription)

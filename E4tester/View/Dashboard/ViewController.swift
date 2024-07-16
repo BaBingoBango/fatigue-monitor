@@ -31,7 +31,7 @@ class ViewController: UITableViewController {
     
 
     private var max_heart_rate: Int = 180
-    private var awc_exp: Int = 0
+    private var awc_exp: Double = 0
     private var userInfoLoader = UserInfoLoader()
     
     var modelData: ModelData?
@@ -307,11 +307,11 @@ extension ViewController {
         // assess fatigue
         
         if (HRR - userInfoLoader.hr_reserve_cp > 0) {
-        self.awc_exp = max(self.awc_exp + userInfoLoader.k_value * (HRR - userInfoLoader.hr_reserve_cp), 0)
+        self.awc_exp = max(self.awc_exp + Double(userInfoLoader.k_value) * (Double(HRR) - Double(userInfoLoader.hr_reserve_cp)), 0)
         }
 
         else {
-        self.awc_exp = max(self.awc_exp + 2.4 * userInfoLoader.k_value * (HRR - userInfoLoader.hr_reserve_cp), 0)
+        self.awc_exp = max(self.awc_exp + 2.4 * Double(userInfoLoader.k_value) * (Double(HRR) - Double(userInfoLoader.hr_reserve_cp)), 0)
         }
         
         let fatigue = Int(Double(self.awc_exp) / Double(userInfoLoader.total_awc) * 100)
